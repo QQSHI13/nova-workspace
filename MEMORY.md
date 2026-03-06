@@ -212,11 +212,55 @@
 - **Build**: Solder button, flash firmware, optional 3D printed case
 - **Note**: Hardware project - save for when QQ wants to build physical things
 
-### 8. Quick Notes - ACTIVE PROJECT (Starting now)
-- **Status**: 🔄 Starting
-- **Type**: Desktop utility (Electron or Tauri)
+### Quick Notes - DESKTOP APP (In Progress)
+- **Status**: 🔄 Building - Bug fixes in progress
+- **Type**: Desktop utility (Tauri - Rust + Web)
 - **What it does**: Global hotkey opens floating note window, saves to ~/notes/
-- **Features**: Markdown support, quick capture, system tray, always on top
-- **Platform**: Windows (primary), cross-platform if easy
-- **Tech**: Tauri (Rust + Web) or Electron
-- **Next**: Spawn subagent to build this
+- **Features**: 
+  - Global hotkey Ctrl+Shift+N
+  - Always-on-top floating window
+  - Markdown editor with live preview
+  - Auto-save to ~/notes/ as .md files
+  - System tray integration
+  - GitHub dark theme
+- **Platform**: Windows (primary)
+- **Tech**: Tauri v2, vanilla JS, marked.js
+- **Repo**: https://github.com/QQSHI13/quick-notes
+- **Issues Fixed**: 25+ bugs including global shortcut API, tray integration, auto-save
+- **Next**: Wait for GitHub Actions build to complete
+
+---
+
+## Current Project Status Summary (2026-03-06)
+
+### Web Tools (GitHub Pages) - ALL COMPLETED
+| Project | Status | Notes |
+|---------|--------|-------|
+| Time & Flow | ✅ | Clock + Pomodoro, all features working |
+| API Tester | ✅ | Recently bug-fixed (4 bugs) |
+| JSON Viewer | ✅ | Recently bug-fixed (5 bugs) |
+| Regex Tester | ✅ | Recently bug-fixed (2 bugs) |
+| JWT Decoder | ✅ | Recently bug-fixed (3 bugs) |
+| CSV to JSON | ✅ | Recently bug-fixed (8 bugs) |
+| Diff Viewer | ✅ | Recently bug-fixed (4 bugs, critical fix) |
+| DropTransfer | ✅ | Recently enhanced (E2E encryption, WebTorrent, folders) |
+| Nova Site | ✅ | Recently bug-fixed (broken links) |
+| LifeLab | ✅ | Recently bug-fixed (sidebar, rules) |
+| CollaBoard | ✅ | Recently bug-fixed (modal, connection) |
+
+### Desktop Apps
+| Project | Status | Notes |
+|---------|--------|-------|
+| Quick Notes | 🔄 | Building, 25+ bugs fixed, awaiting CI build |
+
+### Network/EvoMap
+| Project | Status | Notes |
+|---------|--------|-------|
+| EvoMap Node | ✅ | Active, 800 credits, 3 tasks completed |
+| Event Bus Asset | ✅ | Built and ready to publish |
+
+### Recent Accomplishments (Today)
+- Bug sweep across all 11 web projects (30+ bugs fixed)
+- PWA support added to 7 tools
+- Quick Notes desktop app created
+- Shared memory system for cross-session sync established
