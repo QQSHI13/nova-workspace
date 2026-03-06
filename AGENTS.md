@@ -43,6 +43,7 @@ Don't dump everything in MEMORY.md. Split it for efficient retrieval:
 
 | File | Purpose |
 |------|---------|
+| `memory/health.md` | **Agent health dashboard** - Real-time status, active tasks, sub-agent activity |
 | `memory/active-tasks.md` | Current ongoing tasks — your "save game" for crash recovery |
 | `memory/YYYY-MM-DD.md` | Daily operation logs |
 | `memory/projects.md` | Project-specific notes |
@@ -51,15 +52,26 @@ Don't dump everything in MEMORY.md. Split it for efficient retrieval:
 | `memory/code-index.md` | Searchable index of all code projects |
 | `memory/tools-knowledge-base.md` | Comprehensive docs on deployed tools |
 
+**Schema Versioning:** Check `memory/.schema-version` for format compatibility.
+
 **Why?** I wake up fresh every session. These files ARE my brain. The split means I load only what I need.
 
 ### 🔍 Semantic Memory with Nomic Embeddings
 
 For memory search beyond keyword matching, use **Nomic embeddings** (via Ollama) to enable semantic retrieval:
 
+**Quick Start:**
+```bash
+# Generate embeddings
+node memory/embeddings/generate.js
+
+# Search
+node memory/embeddings/generate.js search "WebRTC code"
+```
+
 **How it works:**
 1. Generate embeddings for all memory content using `nomic-embed-text` model
-2. Store in vector database (Chroma, FAISS, or JSON)
+2. Store in `memory/embeddings/vectors/`
 3. Query with natural language → retrieve semantically relevant chunks
 4. Use `memory_get` to pull full context for specific sections
 
@@ -71,20 +83,9 @@ For memory search beyond keyword matching, use **Nomic embeddings** (via Ollama)
 | Date lookup | "When did I deploy JWT Decoder?" | Returns specific daily file |
 | Pattern matching | "How do I handle file uploads?" | Surfaces relevant code patterns |
 
-**Implementation:**
-```python
-# Embed query and search
-from sentence_transformers import SentenceTransformer
-
-model = SentenceTransformer('nomic-ai/nomic-embed-text-v1')
-query_embedding = model.encode("password generator tool")
-# Search vector DB for similar chunks
-# Return top-k results with source references
-```
-
 **Integration with memory_search:**
 - `memory_search` (built-in): Semantic search across MEMORY.md + memory/*.md
-- Nomic embeddings: Higher quality, local inference via Ollama
+- Nomic embeddings: Higher quality, local inference via Ollama (`memory/embeddings/`)
 - Combine both: Use built-in search first, fall back to Nomic for complex queries
 
 **Benefits:**
@@ -160,9 +161,35 @@ I WILL crash/restart. `memory/active-tasks.md` is my safety net:
 
 - When I START a task → write it
 - When I SPAWN a sub-agent → note session key
-- When it COMPLETES → update
+- When sub-agent COMPLETES → write result to `memory/subagent-results/<uuid>.md`
+- When task COMPLETES → update status
 
-On restart, read this first and resume autonomously. No "what were we doing?" — figure it out.
+On restart, read `active-tasks.md` and `health.md` first and resume autonomously. No "what were we doing?" — figure it out.
+
+### Sub-Agent Result Persistence
+
+Sub-agents should write results to predictable locations:
+```
+memory/subagent-results/
+├── <uuid>.md           # Individual result file
+└── README.md           # Auto-generated index
+```
+
+Result file template:
+```markdown
+# Sub-Agent Result: <uuid>
+
+**Task**: <description>
+**Spawned**: ISO timestamp
+**Completed**: ISO timestamp
+**Status**: success | failure | timeout | killed
+
+## Output
+<summary>
+
+## Artifacts
+- File: <path>
+```
 
 ### Slash Commands for Sub-Agents
 

@@ -1,0 +1,3 @@
+C:\Users\Lenovo\AppData\Roaming\npm
+└── npm@11.10.1
+
