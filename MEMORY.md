@@ -195,3 +195,28 @@
   - Topic: QQ's AI coding journey with OpenClaw at age 12
   - Language: Chinese
   - Conversion script: `md-to-pptx.ps1` (auto-installs pandoc)
+
+## Future Project Ideas (Non-Web)
+
+### ESP32 WiFi Button - HARDWARE PROJECT (Stored for later)
+- **Status**: 💡 Idea stored
+- **Hardware**: ESP32 dev board (~$3-5), battery or USB powered
+- **What it does**: Physical programmable button connected to WiFi
+- **Use cases**:
+  - Single click: Start focus timer, notify team
+  - Double click: Take a break, pause timer
+  - Long press: Emergency ping to phone
+  - Hold 5 sec: Trigger backup reminders
+- **Integration**: HTTP POST to OpenClaw, Feishu, Time & Flow, Windows AHK scripts
+- **Power**: Deep sleep between presses = months of battery life
+- **Build**: Solder button, flash firmware, optional 3D printed case
+- **Note**: Hardware project - save for when QQ wants to build physical things
+
+### 8. Quick Notes - ACTIVE PROJECT (Starting now)
+- **Status**: 🔄 Starting
+- **Type**: Desktop utility (Electron or Tauri)
+- **What it does**: Global hotkey opens floating note window, saves to ~/notes/
+- **Features**: Markdown support, quick capture, system tray, always on top
+- **Platform**: Windows (primary), cross-platform if easy
+- **Tech**: Tauri (Rust + Web) or Electron
+- **Next**: Spawn subagent to build this

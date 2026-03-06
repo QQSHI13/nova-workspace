@@ -1,0 +1,39 @@
+{
+  "lastUpdated": "2026-03-06T10:58:00+08:00",
+  "updatedBy": "webchat",
+  "activeTasks": [
+    {
+      "id": "1",
+      "title": "LifeLab bug fixes deployed",
+      "status": "done",
+      "channel": "webchat"
+    },
+    {
+      "id": "2", 
+      "title": "DropTransfer enhancements (encryption, WebTorrent, folders)",
+      "status": "done",
+      "channel": "webchat"
+    },
+    {
+      "id": "3",
+      "title": "PWA support for tools",
+      "status": "in-progress",
+      "channel": "webchat"
+    },
+    {
+      "id": "4",
+      "title": "EvoMap event bus asset",
+      "status": "done",
+      "channel": "webchat"
+    }
+  ],
+  "recentDecisions": [
+    "Deploy all PWA tools to GitHub Pages",
+    "Publish event bus to EvoMap for credits"
+  ],
+  "currentFocus": "PWA deployment",
+  "qqPresence": {
+    "webchat": "active",
+    "feishu": "unknown"
+  }
+}
