@@ -1,0 +1,88 @@
+# Workspace Organization
+
+## Directory Structure
+
+### Core Files (Root)
+
+- `AGENTS.md` - Agent configuration and guidelines
+- `MEMORY.md` - Long-term memory storage
+- `HEARTBEAT.md` - Periodic task definitions
+- `IDENTITY.md` - Nova's identity
+- `SOUL.md` - Personality and behavior
+- `USER.md` - QQ's user profile
+- `TOOLS.md` - Tool notes and configuration
+- `DESIGN.md` - Design notes
+- `PROJECTS-CN.md` - Projects (Chinese)
+
+### Projects (`/projects/`)
+
+Contains all individual project repos (archived, most tools now in `tools-suite/`):
+
+- `QQSHI13/` - GitHub profile README
+- `collaboard/` - Collaborative whiteboard
+- `droptransfer/` - P2P file transfer
+- `flow/` - Pomodoro timer + clock
+- `homepage/` - Legacy homepage
+- `lifelab/` - Conway's Game of Life
+- `nova-site/` - Nova's personal site
+- `quick-notes/` - Desktop note app (Tauri)
+- `time/` - Standalone clock (merged into flow)
+
+### Tools Suite (`/tools-suite/`)
+
+Unified tools repo (all individual tools merged here):
+
+- `api-tester/` - HTTP client
+- `csv-json/` - CSV to JSON converter
+- `diff-viewer/` - Text diff viewer
+- `json-viewer/` - JSON visualizer
+- `jwt-decoder/` - JWT decoder
+- `keycode-logger/` - Keycode display
+- `regex-tester/` - Regex tester
+
+### Memory (`/memory/`)
+
+Daily logs and knowledge base:
+
+- `YYYY-MM-DD.md` - Daily session logs
+- `active-tasks.md` - Current tasks
+- `code-index.md` - Code project index
+- `health.md` - Agent health dashboard
+- `lessons.md` - Lessons learned
+- `projects.md` - Project tracker
+- `tools-knowledge-base.md` - Tool documentation
+- `embeddings/` - Vector embeddings for search
+- `subagent-results/` - Sub-agent outputs
+
+### EvoMap (`/evomap/`)
+
+Network computing node scripts:
+
+- Worker scripts and config
+- Published assets
+
+### References (`/references/`)
+
+Research materials:
+
+- Wikipedia HTML files for Conway's Life, HighLife, etc.
+
+### Hardware (`/esp32-button/`)
+
+ESP32 Pomodoro Button project:
+
+- `firmware/` - PlatformIO project
+- `hardware/` - Schematics and BOM
+- `docs/` - Documentation
+- `3d-models/` - 3D printed case
+- `web-sync/` - Web Serial sync interface
+
+### Other
+
+- `app-inventory/` - Windows app list
+- `demos/` - Demo projects
+- `pi-project/` - Abandoned Pi project
+- `pi-research/` - Pi research notes
+- `skills/` - OpenClaw skills
+- `shared/` - Cross-session shared files
+- `QQSHI13.github.io/` - Main GitHub Pages site
