@@ -1,39 +1,34 @@
 {
-  "lastUpdated": "2026-03-06T10:58:00+08:00",
-  "updatedBy": "webchat",
+  "lastUpdated": "2026-03-07T18:17:00+08:00",
+  "updatedBy": "feishu",
   "activeTasks": [
     {
       "id": "1",
-      "title": "LifeLab bug fixes deployed",
+      "title": "All web tools bug-fixed and deployed",
       "status": "done",
       "channel": "webchat"
     },
     {
-      "id": "2", 
-      "title": "DropTransfer enhancements (encryption, WebTorrent, folders)",
+      "id": "2",
+      "title": "ESP32 Pomodoro Button design complete",
       "status": "done",
       "channel": "webchat"
     },
     {
       "id": "3",
-      "title": "PWA support for tools",
-      "status": "in-progress",
-      "channel": "webchat"
-    },
-    {
-      "id": "4",
-      "title": "EvoMap event bus asset",
+      "title": "Quick Notes desktop app (Tauri)",
       "status": "done",
       "channel": "webchat"
     }
   ],
   "recentDecisions": [
-    "Deploy all PWA tools to GitHub Pages",
-    "Publish event bus to EvoMap for credits"
+    "Wait for Windows Insider release before reset",
+    "Use AtomS3 Lite for ESP32 button (native USB HID)",
+    "All 11 web tools now have PWA support"
   ],
-  "currentFocus": "PWA deployment",
+  "currentFocus": "Cross-session sync test",
   "qqPresence": {
-    "webchat": "active",
-    "feishu": "unknown"
+    "webchat": "unknown",
+    "feishu": "active"
   }
 }

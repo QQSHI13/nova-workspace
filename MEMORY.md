@@ -32,7 +32,7 @@
 
 ## Time & Flow Project (GitHub Pages) - COMPLETED
 - **Merged**: QQ's original time.html clock + Pomodoro timer
-- **Live at**: https://qqshi13.github.io/flow/time-flow.html
+- **Live at**: https://qqshi13.github.io/flow/
 - **Final Features**:
   - Digital clock view
   - Pomodoro timer (25min work / 5min break) with progress ring
@@ -184,6 +184,7 @@
 ## Communication Preferences
 - **Don't ask for confirmation** - QQ prefers I just do it and report back
 - Deploy immediately after making changes unless told otherwise
+- **"Hey" signal** - When QQ says "hey", it means they think I've stopped working or there's a system problem. I should respond immediately to confirm I'm active.
 
 ## Language Preference
 - **Chinese (中文)** for presentations/speech content when audience is Chinese
@@ -198,22 +199,27 @@
 
 ## Future Project Ideas (Non-Web)
 
-### ESP32 WiFi Button - HARDWARE PROJECT (Stored for later)
-- **Status**: 💡 Idea stored
-- **Hardware**: ESP32 dev board (~$3-5), battery or USB powered
-- **What it does**: Physical programmable button connected to WiFi
-- **Use cases**:
-  - Single click: Start focus timer, notify team
-  - Double click: Take a break, pause timer
-  - Long press: Emergency ping to phone
-  - Hold 5 sec: Trigger backup reminders
-- **Integration**: HTTP POST to OpenClaw, Feishu, Time & Flow, Windows AHK scripts
-- **Power**: Deep sleep between presses = months of battery life
-- **Build**: Solder button, flash firmware, optional 3D printed case
-- **Note**: Hardware project - save for when QQ wants to build physical things
+### ESP32 Pomodoro Button - HARDWARE PROJECT (In Progress)
+- **Status**: 🔄 Design complete - Simple backpack style
+- **Location**: `/home/qq/.openclaw/workspace/esp32-button/`
+- **Hardware**: M5Stack Atom Lite + backpack extension board
+- **Cost**: ~¥149-189 per unit
+- **Mounting**: Single M2 screw through center hole
+- **What it does**: Standalone Pomodoro timer with serial settings sync
+- **Features**:
+  - **Single click**: Reset timer / Switch mode
+  - **Long press**: Enter serial sync mode
+  - **LED**: Red (work), Green (short break), Blue (long break)
+  - **Buzzer**: End-of-timer alarm
+  - **Long break**: After N work sessions
+- **Power**: 3.7V 500mAh LiPo, 3-6 month battery life
+- **Charging**: USB-C via TP4056
+- **Connection**: GROVE 4P cable between boards
+- **Case**: Simple 3D printed backpack (no lid)
+- **Firmware**: PlatformIO, serial sync over USB
 
 ### Quick Notes - DESKTOP APP (In Progress)
-- **Status**: 🔄 Building - Bug fixes in progress
+- **Status**: ✅ Builds working - Major bug fixes completed (2026-03-08)
 - **Type**: Desktop utility (Tauri - Rust + Web)
 - **What it does**: Global hotkey opens floating note window, saves to ~/notes/
 - **Features**: 
@@ -223,11 +229,20 @@
   - Auto-save to ~/notes/ as .md files
   - System tray integration
   - GitHub dark theme
-- **Platform**: Windows (primary)
+  - Settings panel with auto-save interval
+  - Notes list sidebar
+- **Platform**: Windows, macOS, Linux
 - **Tech**: Tauri v2, vanilla JS, marked.js
 - **Repo**: https://github.com/QQSHI13/quick-notes
-- **Issues Fixed**: 25+ bugs including global shortcut API, tray integration, auto-save
-- **Next**: Wait for GitHub Actions build to complete
+- **Issues Fixed**: 30+ bugs including:
+  - Orphaned code causing build failures (Rust)
+  - Missing setupEventListeners() function (JS)
+  - autoSave function override causing stack overflow
+  - Key detection issues (Shift+C/Q)
+  - Preview toggle button broken
+  - Sidebar state mismatch
+- **Builds Available**: All platforms (Windows .msi/.exe, Linux .deb/.AppImage/.rpm, macOS .dmg)
+- **Location**: `~/.openclaw/workspace/projects/quick-notes/builds/`
 
 ---
 
@@ -251,7 +266,7 @@
 ### Desktop Apps
 | Project | Status | Notes |
 |---------|--------|-------|
-| Quick Notes | 🔄 | Building, 25+ bugs fixed, awaiting CI build |
+| Quick Notes | ✅ | Builds working! 30+ bugs fixed, all platforms ready |
 
 ### Network/EvoMap
 | Project | Status | Notes |
@@ -259,8 +274,12 @@
 | EvoMap Node | ✅ | Active, 800 credits, 3 tasks completed |
 | Event Bus Asset | ✅ | Built and ready to publish |
 
-### Recent Accomplishments (Today)
-- Bug sweep across all 11 web projects (30+ bugs fixed)
-- PWA support added to 7 tools
-- Quick Notes desktop app created
-- Shared memory system for cross-session sync established
+### Recent Accomplishments (2026-03-08)
+- Quick Notes desktop app: Fixed 10+ critical bugs causing initialization failures
+- Fixed orphaned code in Rust (lib.rs) causing build errors
+- Fixed missing setupEventListeners() function in JavaScript
+- All CI builds now passing (Windows, macOS, Linux)
+- Created auto-monitor script for fetching builds from GitHub Actions
+- All installers saved to workspace: `projects/quick-notes/builds/`
+- UI fixes: code button display, responsive toolbar, code block icon
+- Added step-by-step debug status to trace initialization hang

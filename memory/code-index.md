@@ -9,6 +9,7 @@
 
 | Project | Type | Tech Stack | URL |
 |---------|------|------------|-----|
+| esp32-button | Hardware | ESP32, PlatformIO, M5Atom | `/workspace/esp32-button/` |
 | droptransfer | WebRTC P2P Tool | PeerJS, Vanilla JS | https://qqshi13.github.io/droptransfer/ |
 | api-tester | HTTP Client | Vanilla JS, localStorage | https://qqshi13.github.io/api-tester/ |
 | json-viewer | JSON Visualizer | Vanilla JS, CSS Variables | https://qqshi13.github.io/json-viewer/ |
@@ -696,6 +697,86 @@ All projects use inline SVG data URIs for favicons:
 | **Audio** | Web Audio API for Flow timer |
 | **Files** | FileReader API for CSV upload |
 | **PWA** | Service Worker + Manifest for Flow |
+
+---
+
+## 🔧 ESP32 Pomodoro Button - Hardware Project
+
+### Project Info
+- **Type**: Embedded Hardware (ESP32)
+- **Location**: `/home/qq/.openclaw/workspace/esp32-button/`
+- **Cost**: ~¥149-189 per unit
+- **Status**: Design complete, ready for fabrication
+
+### Hardware Stack
+- **MCU**: M5Stack Atom Lite (ESP32-PICO-D4)
+- **Power**: TP4056 charger + XC6206 LDO + 3.7V 500mAh LiPo
+- **Connection**: GROVE 4P (HY2.0-4P) cable
+- **Mounting**: Backpack style (single M2 center screw)
+
+### Firmware Stack
+- **Framework**: Arduino (via PlatformIO)
+- **Libraries**: M5Atom, FastLED
+- **Storage**: EEPROM for settings persistence
+- **Sync**: Serial over USB (115200 baud)
+
+### Key Features
+- Standalone Pomodoro timer (no PC required)
+- Three modes: Work, Short Break, Long Break
+- Session tracking (long break after N work sessions)
+- RGB LED status: 🔴 Work, 🟢 Short break, 🔵 Long break
+- Active buzzer for timer complete alarm
+- Settings sync via serial commands
+
+### File Structure
+```
+esp32-button/
+├── hardware/
+│   ├── schematic.md         # Circuit design (backpack mounting)
+│   ├── BOM.md              # Component list (~¥149-189)
+│   └── EasyEDA-Guide.md    # PCB design steps
+├── 3d-models/
+│   └── backpack.scad       # Simple backpack case (no lid)
+├── firmware/
+│   ├── platformio.ini      # PlatformIO config
+│   └── src/
+│       ├── config.h        # Pin definitions
+│       ├── main.cpp        # Main state machine
+│       ├── PomodoroButton  # Click detection (single/long press)
+│       ├── Timer           # Pomodoro logic with long break
+│       ├── LED             # RGB animations
+│       ├── Buzzer          # Alarm sounds
+│       ├── Storage         # EEPROM settings
+│       └── USBHID          # Serial sync protocol
+├── web-sync/
+│   └── index.html          # Web Serial API interface
+└── docs/
+    ├── Assembly-Guide.md   # Build instructions
+    └── 3D-Case-Spec.md     # Backpack case spec
+```
+
+### Pin Mapping (GROVE 4P)
+| Pin | Color | Function |
+|-----|-------|----------|
+| 1 | Black | GND |
+| 2 | Red | 5V (3.3V from LDO) |
+| 3 | Yellow | G26 → Buzzer |
+| 4 | White | G32 (spare) |
+
+### Settings Protocol
+```
+Command: SET:work=25,break=5,longBreak=15,sessions=4,sound=1
+Response: OK
+```
+
+### Build Steps
+1. Order Atom Lite (¥55)
+2. Design PCB in EasyEDA (24x24mm, center M2 hole)
+3. Order PCB from JLCPCB (~¥40-50/5pcs)
+4. Order components from LCSC (~¥14)
+5. Order battery 503040 500mAh (~¥20)
+6. 3D print backpack (~¥20-40)
+7. Assemble: Screw Atom Lite + Extension + Backpack together
 
 ---
 

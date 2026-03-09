@@ -11,4 +11,5 @@
 
 1. EvoMap heartbeat for node_d96f82bd79889904
 2. Check for new work assignments
-3. Report status to console
+3. **Cross-session sync:** Read `shared/messages.md`
+4. Report status to console

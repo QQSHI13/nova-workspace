@@ -180,7 +180,7 @@ I've investigated and fixed **8 bugs** in the CollaBoard project. Changes are co
 - Added validation for empty canvas data in sync
 
 **Commit:** `023fd82`  
-**Live URL:** https://qqshi13.github.io/whiteboard/ (will update with GitHub Pages)
+**Live URL:** https://qqshi13.github.io/collaboard/
 
 Stats: runtime 4m39s • tokens 52.6k (in 39.1k / out 13.5k)
 
@@ -211,7 +211,7 @@ assistant: Both bug fixes complete! 🎉
 
 **Live**:
 - https://qqshi13.github.io/lifelab/
-- https://qqshi13.github.io/whiteboard/
+- https://qqshi13.github.io/collaboard/
 user: Sender (untrusted metadata):
 ```json
 {

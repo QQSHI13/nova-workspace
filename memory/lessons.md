@@ -34,6 +34,38 @@ This file captures insights, mistakes, and patterns discovered during work. Revi
 
 ---
 
+## Hardware/Embedded Development
+
+### ESP32 Firmware Development
+- **Lesson**: M5Atom library conflicts with user-defined constants
+- **Issue**: `NUM_LEDS` and `Button` class already defined in M5Atom
+- **Fix**: Remove `NUM_LEDS`, rename `Button` to `PomodoroButton`
+- **Pattern**: Check library headers before defining globals
+- **Source**: 2026-03-06 ESP32 button compile fixes
+
+### USB HID vs Serial on ESP32
+- **Lesson**: ESP32-PICO-D4 doesn't support native USB HID keyboard
+- **Issue**: `USBHIDKeyboard` class not available
+- **Fix**: Use Serial communication (115200 baud) instead
+- **Benefit**: Simpler protocol, works with any serial terminal
+- **Source**: 2026-03-06 ESP32 sync protocol change
+
+### Hardware Architecture Decisions
+- **Lesson**: Simple mounting beats complex enclosures
+- **Evolution**: Stacked case with lid → Simple backpack with single screw
+- **Result**: Lower cost, easier assembly, same functionality
+- **Pattern**: Start simple, add complexity only when needed
+- **Source**: 2026-03-06 ESP32 case design iteration
+
+### Component Selection
+- **Lesson**: Verify connector pin count before designing
+- **Issue**: Assumed 6-pin header, actual GROVE is 4-pin
+- **Fix**: Redesigned around HY2.0-4P connector
+- **Rule**: Check datasheets before finalizing PCB
+- **Source**: 2026-03-06 ESP32 schematic updates
+
+---
+
 ## Project Management Lessons
 
 ### Project Lifecycle
@@ -130,6 +162,7 @@ This file captures insights, mistakes, and patterns discovered during work. Revi
 
 | Date | Reviewer | Actions Taken |
 |------|----------|---------------|
+| 2026-03-06 | Nova | Added hardware/embedded lessons from ESP32 project |
 | 2026-03-05 | System | Initial creation from last 7 days of memory files |
 
 ---
