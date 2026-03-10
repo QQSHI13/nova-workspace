@@ -10,8 +10,6 @@
 - `IDENTITY.md` - Nova's identity
 - `SOUL.md` - Personality and behavior
 - `USER.md` - QQ's user profile
-- `DESIGN.md` - Design notes
-- `PROJECTS-CN.md` - Projects (Chinese)
 
 ### Projects (`/projects/`)
 
@@ -25,6 +23,7 @@ Contains all individual project repos:
 - `homepage/` - Legacy homepage
 - `lifelab/` - Conway's Game of Life
 - `nova-site/` - Nova's personal site
+- `powertoys-command-palette/` - PowerToys plugin
 - `quick-notes/` - Desktop note app (Tauri)
 - `time/` - Standalone clock (merged into flow)
 - `tools-suite/` - Unified tools repo
@@ -46,6 +45,7 @@ Daily logs and knowledge base:
 
 ### Other
 
-- `archive/` - Archived projects (app-inventory, pi-project, pi-research)
+- `archive/` - Archived projects (app-inventory, pi-project, pi-research, scrapling-official-0.4.2, weixia-1.0.4)
+- `kofi-setup/` - Ko-fi monetization setup guide
 - `skills/` - OpenClaw skills
 - `shared/` - Cross-session shared files

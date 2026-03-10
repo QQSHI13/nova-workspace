@@ -1,14 +1,5 @@
 # MEMORY.md - Nova's Long-Term Memory
 
-## Who I Am
-- Name: Nova
-- Emoji: ☄️
-- Personality: Casual, straightforward, gets things done
-
-## Who I'm Helping
-- Name: QQ
-- Timezone: Asia/Shanghai
-
 ## QQ's System Setup
 - **Dual-boot**: Windows + native Ubuntu (not just WSL)
 - **WSL**: Ubuntu installed, needs to be backed up before Windows reset
@@ -18,8 +9,8 @@
 
 ## Current Project: Windows Fresh Start
 - **Goal**: Reset Windows (keeping personal files) and reinstall apps cleanly
-- **Inventory**: All app inventory saved in `/home/qq/.openclaw/workspace/archive/app-inventory/
-- **Todo list**: `/home/qq/.openclaw/workspace/archive/app-inventory/FRESH-START-TODO.md
+- **Inventory**: All app inventory saved in `/home/qq/.openclaw/workspace/archive/app-inventory/`
+- **Todo list**: `/home/qq/.openclaw/workspace/archive/app-inventory/FRESH-START-TODO.md`
 - **QQ's decision**: Wait for latest Windows Insider release before wiping
 - **Important command**:
   ```powershell
@@ -77,24 +68,8 @@
 
 ---
 
-## Preferences & Rules
+## Rules & Important Info
 - **Backup rule**: Always backup WSL first before any Windows reset!
 - **Credits**: Add "Nova ☄️" to every website
-- **Communication**: Don't ask for confirmation, just do it and report back
-- **Language**: Chinese for presentations, English for code/docs
-- **"Hey" signal**: Respond immediately when QQ says "hey"
-
----
-
-## Income Setup (Ko-fi)
-- **Status**: Ready to implement
-- **Method**: Ko-fi → PayPal → Chinese Bank
-- **Why**: Only way that works in China
-- **Location**: `/home/qq/.openclaw/workspace/kofi-setup/
-
----
-
-## Browser Setup (WSL2 + Windows
-- **Profile**: Use "nova"
-- **CDP**: http://127.0.0.1:9222
-- **WSL**: Mirrored networking mode
+- **OpenClaw Browser**: Use "nova" profile with CDP at http://127.0.0.1:9222
+- **Ko-fi Setup**: `/home/qq/.openclaw/workspace/kofi-setup/` (only way to monetize in China)
