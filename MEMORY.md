@@ -2,12 +2,12 @@
 
 ## QQ's System Setup
 - **Dual-boot**: Windows + native Ubuntu (not just WSL)
-- **WSL**: Ubuntu installed, needs to be backed up before Windows reset
 - **Browser plan**: Thorium + 夸克 (Quark) only (NO Chrome/Firefox!)
 
 ---
 
-## Current Project: Windows Fresh Start
+## ~~Current Project: Windows Fresh Start~~ - ABANDONED
+- **Status**: ❌ Project cancelled (2026-03-10)
 - **Goal**: Reset Windows (keeping personal files) and reinstall apps cleanly
 - **Inventory**: All app inventory saved in `/home/qq/.openclaw/workspace/archive/app-inventory/`
 - **Todo list**: `/home/qq/.openclaw/workspace/archive/app-inventory/FRESH-START-TODO.md`
@@ -69,7 +69,6 @@
 ---
 
 ## Rules & Important Info
-- **Backup rule**: Always backup WSL first before any Windows reset!
 - **Credits**: Add "Nova ☄️" to every website
 - **OpenClaw Browser**: Use "nova" profile with CDP at http://127.0.0.1:9222
 - **Ko-fi Setup**: `/home/qq/.openclaw/workspace/kofi-setup/` (only way to monetize in China)
