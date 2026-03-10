@@ -181,6 +181,52 @@
 - QQ keeps personal files during reset, but still backup WSL/Ubuntu!
 - **Credits Rule**: Add "Nova ☄️" to credits in every website I build
 
+## Income Generation / Monetization
+
+### Ko-fi Setup (Primary Method for China)
+**Status:** Ready to implement
+**Payment Method:** Ko-fi → PayPal → Chinese Bank
+**Why:** Only solution that works in China (GitHub Sponsors, Patreon, Stripe don't support China)
+
+**Steps:**
+1. Create PayPal account (https://paypal.com/c2)
+2. Sign up at Ko-fi (https://ko-fi.com)
+3. Username: qqshi13 or qqtools
+4. Connect PayPal to Ko-fi
+5. Set up page with projects showcase
+6. Add Ko-fi link to all projects
+
+**Expected Earnings:**
+- Month 1-3: ¥200-1000/month
+- Month 3-6: ¥1000-3000/month
+- Month 6+: ¥3000-5000+/month
+
+**Files Created:**
+- `/home/qq/.openclaw/workspace/kofi-setup/README.md` - Complete setup guide
+- `/home/qq/.openclaw/workspace/github-sponsors-setup/` - Alternative (not for China)
+
+### Other Methods (Not for China)
+- ~~GitHub Sponsors~~ - Not available in China
+- ~~Patreon~~ - Not available in China  
+- ~~Stripe~~ - Not available in China
+- ~~Open Collective~~ - Not available in China
+
+## OpenClaw Browser Setup (WSL2 + Windows)
+**Working Method (DO NOT USE OLD METHOD):**
+- Uses **raw remote CDP** profile pointing to Windows Chrome
+- **Config**: `browser.defaultProfile: "nova"` ← USE THIS PROFILE
+- **Profile**: `browser.profiles.nova.cdpUrl: "http://127.0.0.1:9222"`
+- **Requirements**:
+  1. WSL2 in mirrored networking mode (in `.wslconfig`: `networkingMode=mirrored`)
+  2. Chrome/Thorium launched with `--remote-debugging-port=9222`
+  3. OpenClaw config with nova profile (attachOnly: true)
+- **Old methods to AVOID**: 
+  - Chrome extension relay (`chrome` profile) - doesn't work well in WSL2 split-host
+  - `remote` profile (use `nova` instead)
+
+## New Skills Installed
+- **Scrapling v0.4.2** (2026-03-10) - Web scraping framework with anti-bot bypass, stealth browsing, spiders, and JS rendering. Activated via `/home/qq/.venv/bin/activate`
+
 ## Communication Preferences
 - **Don't ask for confirmation** - QQ prefers I just do it and report back
 - Deploy immediately after making changes unless told otherwise
@@ -242,11 +288,12 @@
   - Preview toggle button broken
   - Sidebar state mismatch
 - **Builds Available**: All platforms (Windows .msi/.exe, Linux .deb/.AppImage/.rpm, macOS .dmg)
-- **Location**: `~/.openclaw/workspace/projects/quick-notes/builds/`
+- **Location**: `~/.openclaw/workspace/projects/quick-notes/builds/releases/v1.0.12/` (cleaned up old platform folders)
+- **Latest Update**: 2026-03-10 - Cleaned up old build artifacts, organized to releases/v1.0.12/
 
 ---
 
-## Current Project Status Summary (2026-03-06)
+## Current Project Status Summary (2026-03-10)
 
 ### Web Tools (GitHub Pages) - ALL COMPLETED
 | Project | Status | Notes |
