@@ -1,5 +1,5 @@
 // ESP32 Pomodoro Button - Simple Backpack Enclosure
-// Atom Lite on top, expansion board on bottom, connected by M2 screw + GROVE
+// Atom Lite on top, expansion board on bottom: snap-fit + magnet mount
 
 // === Parameters ===
 $fn = 50;
@@ -15,13 +15,15 @@ pcb_thickness = 1.6;
 // Component height on PCB
 component_height = 4;  // TP4056, USB-C, etc.
 
-// M2 mounting
-m2_hole = 2.2;
-m2_head_dia = 4;
-m2_nut_dia = 4.5;
-m2_screw_length = 10;  // M2x10mm
+// Magnet mount (6x3mm neodymium magnet, common size)
+magnet_dia = 6;
+magnet_height = 3;
 
-// GROVE connector grove_height = 4;
+// Snap-fit on GROVE side (top edge)
+snap_gap = 0.2;  // Tight clearance for snap
+snap_depth = 1.5;
+snap_height = 3;
+
 // Battery dimensions
 battery_width = 30;
 battery_length = 40;
@@ -55,23 +57,21 @@ module backpack() {
                 cube([2, 10, 4]);
         }
         
-        // PCB mounting posts (4 corners, match Atom Lite hole pattern)
-        // Actually Atom Lite only has ONE center M2 hole
-        // So we use the center hole for mounting
+        // Snap-fit on GROVE side (top edge - where GROVE connector is)
+        // Add small lip on top edge to hold PCB in place
+        translate([0, 0, wall_height - snap_height])
+            linear_extrude(height = snap_height)
+                difference() {
+                    square([pcb_size + 2, snap_depth + 1]);
+                    translate([1 + snap_gap, 1])
+                        square([pcb_size - snap_gap*2, snap_depth]);
+                };
         
-        // Center M2 post (main mounting point)
-        post_height = wall_height - 1;
-        difference() {
-            translate([(pcb_size + 2)/2, (pcb_size + 2)/2, 0])
-                cylinder(d=8, h=post_height);
-            translate([(pcb_size + 2)/2, (pcb_size + 2)/2, -0.5])
-                cylinder(d=m2_hole, h=post_height + 1);
-            // Nut trap at bottom
-            translate([(pcb_size + 2)/2, (pcb_size + 2)/2, -0.5])
-                cylinder(d=m2_nut_dia, h=3, $fn=6);
-        }
+        // Center magnet cavity (replace M2 screw)
+        translate([(pcb_size + 2)/2, (pcb_size + 2)/2, wall_height - magnet_height - 0.5])
+            cylinder(d=magnet_dia + 0.2, h=magnet_height + 1);  // Press-fit cavity
         
-        // Small alignment pins (optional, for stability)
+        // Small alignment pins (for stability, 4 corners)
         pin_positions = [
             [3, 3],
             [pcb_size + 2 - 3, 3],
@@ -122,10 +122,10 @@ module assembly() {
         color("blue", 0.5)
         cube([30, 40, 5]);
     
-    // M2 screw (visual)
-    translate([(pcb_size + 2)/2, (pcb_size + 2)/2, 0])
+    // Magnet (visual)
+    translate([(pcb_size + 2)/2, (pcb_size + 2)/2, wall_height - magnet_height - 0.5])
         color("silver")
-        cylinder(d=2, h=20);
+        cylinder(d=magnet_dia, h=magnet_height);
     
     // Atom Lite (visual, on top)
     translate([1, 1, 15])

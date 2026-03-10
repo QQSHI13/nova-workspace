@@ -38,9 +38,7 @@
 
 | Part | Value | Package | Qty | Unit Price (CNY) | Source | Notes |
 |------|-------|---------|-----|------------------|--------|-------|
-| M2x10mm screw | - | - | 1 | ¥0.15 | Hardware store | Stack mounting |
-| M2 nut | - | - | 1 | ¥0.07 | Hardware store | Stack mounting |
-| M2 washer | - | - | 2 | ¥0.07 | Hardware store | Stack mounting |
+| Neodymium magnet | 6x3mm | - | 1 | ¥0.50 | Taobao/Hardware store | Press-fit into backpack, attracts M2 socket on AtomS3 Lite |
 
 ### Battery (External)
 

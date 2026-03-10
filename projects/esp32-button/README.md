@@ -50,19 +50,23 @@ A standalone Pomodoro timer based on **M5Stack AtomS3 Lite** with USB serial set
 
 ## Hardware
 
-Simple **backpack** design:
+Simple **backpack** design with snap-fit + magnet:
 
 ```
     AtomS3 Lite (top)   ← Button + USB-C + RGB LED
-         │ M2 screw
-    Extension Board     ← Components face down
+         │ Snap-fit on GROVE side + Magnet in center
+    Extension Board     ← Components face down, metal socket for magnet
          │ GROVE cable
-    3D Backpack         ← Battery holder
+    3D Backpack         ← Battery holder, snap-fit lip, magnet cavity
          │
     LiPo Battery
 ```
 
-**Mounting:** Single M2 screw through center hole  
+**Mounting:**
+- Snap-fit lip on the GROVE connector side (top edge) to hold PCB in place
+- 6x3mm neodymium magnet in center cavity, attracting the M2 socket on the AtomS3 Lite
+- No screws needed!
+
 **Connection:** GROVE 4P cable
 
 ### GROVE 4P Pinout (AtomS3 Lite)
