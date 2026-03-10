@@ -29,6 +29,7 @@ Contains all individual project repos:
 - `quick-notes/` - Desktop note app (Tauri)
 - `time/` - Standalone clock (merged into flow)
 - `tools-suite/` - Unified tools repo
+- `esp32-button/` - ESP32 Pomodoro Button project
 
 ### Memory (`/memory/`)
 
@@ -51,22 +52,8 @@ Network computing node scripts:
 - Worker scripts and config
 - Published assets
 
-### Hardware (`/esp32-button/`)
-
-ESP32 Pomodoro Button project:
-
-- `firmware/` - PlatformIO project
-- `hardware/` - Schematics and BOM
-- `docs/` - Documentation
-- `3d-models/` - 3D printed case
-- `web-sync/` - Web Serial sync interface
-
 ### Other
 
-- `app-inventory/` - Windows app list
-- `demos/` - Demo projects
-- `pi-project/` - Abandoned Pi project
-- `pi-research/` - Pi research notes
+- `archive/` - Archived projects (app-inventory, pi-project, pi-research)
 - `skills/` - OpenClaw skills
 - `shared/` - Cross-session shared files
-- `QQSHI13.github.io/` - Main GitHub Pages site
