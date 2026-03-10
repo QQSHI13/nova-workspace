@@ -10,7 +10,6 @@
 - `IDENTITY.md` - Nova's identity
 - `SOUL.md` - Personality and behavior
 - `USER.md` - QQ's user profile
-- `TOOLS.md` - Tool notes and configuration
 - `DESIGN.md` - Design notes
 - `PROJECTS-CN.md` - Projects (Chinese)
 
