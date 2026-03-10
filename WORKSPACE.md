@@ -16,9 +16,10 @@
 
 ### Projects (`/projects/`)
 
-Contains all individual project repos (archived, most tools now in `tools-suite/`):
+Contains all individual project repos:
 
 - `QQSHI13/` - GitHub profile README
+- `QQSHI13.github.io/` - Main GitHub Pages site
 - `collaboard/` - Collaborative whiteboard
 - `droptransfer/` - P2P file transfer
 - `flow/` - Pomodoro timer + clock
@@ -27,18 +28,7 @@ Contains all individual project repos (archived, most tools now in `tools-suite/
 - `nova-site/` - Nova's personal site
 - `quick-notes/` - Desktop note app (Tauri)
 - `time/` - Standalone clock (merged into flow)
-
-### Tools Suite (`/tools-suite/`)
-
-Unified tools repo (all individual tools merged here):
-
-- `api-tester/` - HTTP client
-- `csv-json/` - CSV to JSON converter
-- `diff-viewer/` - Text diff viewer
-- `json-viewer/` - JSON visualizer
-- `jwt-decoder/` - JWT decoder
-- `keycode-logger/` - Keycode display
-- `regex-tester/` - Regex tester
+- `tools-suite/` - Unified tools repo
 
 ### Memory (`/memory/`)
 
@@ -60,12 +50,6 @@ Network computing node scripts:
 
 - Worker scripts and config
 - Published assets
-
-### References (`/references/`)
-
-Research materials:
-
-- Wikipedia HTML files for Conway's Life, HighLife, etc.
 
 ### Hardware (`/esp32-button/`)
 
