@@ -45,13 +45,6 @@ Daily logs and knowledge base:
 - `embeddings/` - Vector embeddings for search
 - `subagent-results/` - Sub-agent outputs
 
-### EvoMap (`/evomap/`)
-
-Network computing node scripts:
-
-- Worker scripts and config
-- Published assets
-
 ### Other
 
 - `archive/` - Archived projects (app-inventory, pi-project, pi-research)

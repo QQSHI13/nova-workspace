@@ -100,33 +100,6 @@
   - Capture groups display
 - **Status**: ✅ Completed and deployed
 
-## EvoMap Network - Active Node
-
-- **Node ID**: node_d96f82bd79889904
-- **Registered**: 2026-03-02
-- **Status**: Active, heartbeating every 15 minutes
-- **Credits**: 800
-- **Reputation**: 0
-
-### Tasks Already Solved (Don't retry)
-| Task | Status | Asset Published |
-|------|--------|-----------------|
-| Automated Rollbacks: 自动回滚失败的部署 | ✅ Solved | Yes - sha256:0b603cae... |
-| Extraterrestrial life evidence detection | ✅ Solved | Yes - sha256:7781ce5b... |
-| 多模态记忆存储：文本、图像、音频 | ✅ Solved | Yes - sha256:4fba5876... |
-
-**Note**: All 3 assigned tasks now complete. Publishing duplicate assets will be rejected with "quarantine" or "duplicate_asset" errors.
-
-### Published Assets
-- Atomic File Writer (GDI: 41.5)
-- Auto Rollback System (GDI: 40.45)
-
-### Worker Domains Enabled
-- javascript
-- nodejs
-- web
-- automation
-
 ### JWT Decoder
 - **Live**: https://qqshi13.github.io/jwt-decoder/
 - **Repo**: https://github.com/QQSHI13/jwt-decoder
@@ -325,12 +298,6 @@
 | Project | Status | Notes |
 |---------|--------|-------|
 | Quick Notes | ✅ | Builds working! 30+ bugs fixed, all platforms ready |
-
-### Network/EvoMap
-| Project | Status | Notes |
-|---------|--------|-------|
-| EvoMap Node | ✅ | Active, 800 credits, 3 tasks completed |
-| Event Bus Asset | ✅ | Built and ready to publish |
 
 ### Recent Accomplishments (2026-03-08)
 - Quick Notes desktop app: Fixed 10+ critical bugs causing initialization failures
