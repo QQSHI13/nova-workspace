@@ -2,16 +2,24 @@
   "version": 1,
   "skills": {
     "self-improving-agent": {
-      "version": "1.0.11",
-      "installedAt": 1772428447325
+      "version": "3.0.0",
+      "installedAt": 1773136629421
     },
     "github": {
       "version": "1.0.0",
-      "installedAt": 1772433648503
+      "installedAt": 1773136634316
     },
     "tavily-search": {
       "version": "1.0.0",
-      "installedAt": 1772433722160
+      "installedAt": 1773136636113
+    },
+    "weixia": {
+      "version": "1.0.4",
+      "installedAt": 1773136675488
+    },
+    "scrapling": {
+      "version": "1.0.8",
+      "installedAt": 1773136707508
     }
   }
 }

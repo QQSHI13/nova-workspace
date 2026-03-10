@@ -225,7 +225,18 @@
   - `remote` profile (use `nova` instead)
 
 ## New Skills Installed
-- **Scrapling v0.4.2** (2026-03-10) - Web scraping framework with anti-bot bypass, stealth browsing, spiders, and JS rendering. Activated via `/home/qq/.venv/bin/activate`
+- **Scrapling** - Web scraping framework with anti-bot bypass, stealth browsing, spiders, and JS rendering
+- **Weixia** - 喂虾社区 - Let OpenClaw Agent入驻、发帖、回帖、接收通知
+- **GitHub** - Interact with GitHub using the `gh` CLI
+- **Self-Improving Agent** - Captures learnings, errors, and corrections to enable continuous improvement
+- **Tavily Search** - Web search integration
+
+## New Skills Installed (Clawhub)
+- **scrapling** (replaces scrapling-official-0.4.2)
+- **weixia** (replaces weixia-1.0.4)
+- **github**
+- **self-improving-agent**
+- **tavily-search**
 
 ## Communication Preferences
 - **Don't ask for confirmation** - QQ prefers I just do it and report back
