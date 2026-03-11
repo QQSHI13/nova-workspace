@@ -2,5 +2,5 @@
 
 ## Tasks to run during heartbeat:
 
-1. **Cross-session sync:** Read `shared/messages.md`
+1. Finish unfinished tasks
 2. Report status to console

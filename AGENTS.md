@@ -245,7 +245,21 @@ npx clawhub@latest update --all              # Update all skills
 
 ## Tools
 
-Skills provide your tools. When you need one, check its `SKILL.md`.
+Skills define _how_ tools work. `TOOLS.md` is for _your_ specifics — the stuff that's unique to your setup.
+
+### What Goes in TOOLS.md
+
+Things like:
+- Camera names and locations
+- SSH hosts and aliases
+- Preferred voices for TTS
+- Speaker/room names
+- Device nicknames
+- Anything environment-specific
+
+### Why Separate TOOLS.md?
+
+Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
 
 ### Skills with Routing Logic
 

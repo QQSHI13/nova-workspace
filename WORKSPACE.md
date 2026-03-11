@@ -48,4 +48,3 @@ Daily logs and knowledge base:
 - `archive/` - Archived projects (app-inventory, pi-project, pi-research, scrapling-official-0.4.2, weixia-1.0.4)
 - `kofi-setup/` - Ko-fi monetization setup guide
 - `skills/` - OpenClaw skills
-- `shared/` - Cross-session shared files
