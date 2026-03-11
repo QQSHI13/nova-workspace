@@ -38,13 +38,25 @@
 
 ### Desktop Apps
 | Project | Status | Notes |
-|---------|--------|
-| Quick Notes | ✅ | Builds working! 30+ bugs fixed, all platforms ready |
+|---------|--------|-------|
+| Quick Notes Command Palette Extension | ✅ | Finished! |
+| ~~Quick Notes (Tauri desktop app)~~ | ❌ | Abandoned |
+
+### Desktop Pets
+- **Pocket Bird**: 🐦 In use! (non-intrusive, tiny desktop pet)
+  - https://github.com/IdreesInc/Pocket-Bird
+  - https://idreesinc.itch.io/pocket-bird
 
 ### Abandoned Projects
 | Project | Status |
 |---------|--------|
 | Raspberry Pi 5 Home Server | ❌ Cancelled (2026-03-05) |
+
+---
+
+## Upcoming Events
+- **Saturday**: GESP 7th level exam (Coding exam!) - currently doing practice papers
+- **Sunday**: Hackathon presentation
 
 ---
 
@@ -56,6 +68,8 @@
 - **Hardware**: M5Stack AtomS3 Lite
 - **Mounting**: Snap-fit on GROVE side + 6x3mm magnet (no screws!)
 - **Firmware**: Ready to upload!
+- **ETA**: Hardware arrives tomorrow (Wednesday)!
+- **Hackathon presentation**: Sunday!
 
 ---
 

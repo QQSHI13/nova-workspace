@@ -12,10 +12,12 @@ public:
     TimerSettings getSettings();
     void sendAck(bool success);
     void sendHello();
+    void setCurrentSettings(const TimerSettings& s) { settings = s; }
     
 private:
     bool newSettings = false;
-    TimerSettings pendingSettings;
+    TimerSettings settings;        // Current active settings for GET command
+    TimerSettings pendingSettings; // New settings received via SET command
     String inputBuffer;
     
     void processCommand(const String& cmd);

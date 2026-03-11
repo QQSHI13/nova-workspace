@@ -9,6 +9,7 @@
 - [ ] Multimeter
 - [ ] M2 screwdriver
 - [ ] Hot glue gun (optional, for battery)
+- [ ] USB-C cable (for firmware upload and sync)
 
 ## Component Checklist
 
@@ -25,7 +26,6 @@
 - [ ] JST-PH 2P connector x1
 - [ ] HY2.0-4P (GROVE) connector x1
 - [ ] Slide switch (SS12D00) x1
-- [ ] Buzzer (3V active) x1
 - [ ] M2x10mm screw and nut x1
 
 ### Other
@@ -107,18 +107,17 @@ Pinout (top view):
      - Pin 1 (Black): GND
      - Pin 2 (Red): 3.3V (from LDO)
      - Pin 3 (Yellow): G2 (spare)
-     - Pin 4 (White): G1 → Buzzer
+     - Pin 4 (White): G1 (spare)
 
 4. **Slide switch**
    - 3 pins: center is common
    - Wire: Battery+ → Switch → TP4056 BAT
 
-### Step 5: Buzzer
+### Step 5: Final Checks
 
-- Active buzzer (has built-in oscillator)
-- Positive → G1 (through 100Ω resistor)
-- Negative → GND
-- Remove resistor if too quiet
+- Verify all solder joints with multimeter
+- Check for shorts between power rails
+- Ensure no cold solder joints on connectors
 
 ## Testing (Before Connecting AtomS3 Lite)
 
@@ -145,19 +144,18 @@ Pinout (top view):
 
 ## Firmware Upload (First Time)
 
-1. **Connect USB** to computer
-2. **Install driver** if needed
-   - Windows may need FTDI VCP driver
-3. **Open PlatformIO**
-4. **Compile and upload**
+1. **Connect USB-C** from AtomS3 Lite to computer
+2. **Open PlatformIO** (or Arduino IDE)
+3. **Compile and upload**
    ```bash
    pio run --target upload
    ```
-5. **Open serial monitor**
+   Note: ESP32-S3 uses native USB, no additional drivers needed on most systems.
+4. **Open serial monitor**
    ```bash
    pio device monitor
    ```
-6. Should see boot message:
+5. Should see boot message:
    ```
    === Pomodoro Button v1.0 ===
    Settings: work=25min, break=5min...
@@ -205,7 +203,7 @@ No lid needed - AtomS3 Lite sits exposed on top.
 | Single click | Press button | Start/pause timer |
 | Long press | Hold 3 seconds | Enter sync mode (blue spin) |
 | Charging | Plug in side USB-C | Red LED lights |
-| Buzzer | Wait for timer end | Alarm sounds |
+| Timer complete | Wait for timer end | LED rainbow spin |
 
 ## Troubleshooting
 
@@ -220,10 +218,10 @@ No lid needed - AtomS3 Lite sits exposed on top.
 - Check TP4056 wiring
 - Measure TP4056 BAT pin voltage
 
-### Buzzer silent
-- Check buzzer polarity
-- Check G1 connection
-- Enable sound in firmware
+### LED not working
+- Check AtomS3 Lite seating
+- Verify GROVE cable connection
+- Check for power on LED pin (GPIO35)
 
 ### Sync fails
 - Ensure long press enters sync mode (blue spin)

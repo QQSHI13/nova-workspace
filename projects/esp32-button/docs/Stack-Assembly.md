@@ -130,7 +130,7 @@ Isometric:
         │  │   (components    │  │
         │  │     facing down) │  │
         │  │                  │  │
-        │  │ [USB-C]  [Buzzer]│  │
+        │  │ [USB-C]          │  │
         │  │ [Switch] [GROVE] │  │
         │  ├──────────────────┤  │
         │  │   HAT Backpack   │  │

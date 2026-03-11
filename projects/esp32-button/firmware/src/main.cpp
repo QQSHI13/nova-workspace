@@ -6,6 +6,7 @@
 #include "usb_hid.h"
 #include "power.h"
 #include "battery.h"
+#include <esp_task_wdt.h>
 
 // Global objects - Note: Buzzer removed in minimal hardware
 PomodoroButton button;
@@ -22,8 +23,11 @@ TimerSettings settings;
 unsigned long syncStartTime = 0;
 static constexpr unsigned long SYNC_TIMEOUT = 60000; // 60 seconds
 
-// Track if timer completion was already signaled
+// Track if timer completion was already signaled (loaded from storage)
 bool completionSignaled = false;
+
+// Watchdog timeout in seconds
+static constexpr uint32_t WDT_TIMEOUT_SECONDS = 30;
 
 // Function declarations
 void handleTimerMode();
@@ -37,6 +41,10 @@ void handleLowBattery();
 void checkSleep();
 
 void setup() {
+    // Initialize watchdog early to catch startup issues
+    esp_task_wdt_init(WDT_TIMEOUT_SECONDS, true);
+    esp_task_wdt_add(NULL); // Add current task
+    
     // Check wake cause first
     bool fromDeepSleep = PowerManager::wokeFromDeepSleep();
     
@@ -53,6 +61,9 @@ void setup() {
     powerManager.begin();
     battery.begin();
     
+    // Feed watchdog after initialization
+    esp_task_wdt_reset();
+    
     if (fromDeepSleep) {
         // Quick wake from deep sleep - reinitialize
         powerManager.wakeInit();
@@ -65,6 +76,13 @@ void setup() {
     
     // Load settings
     settings = storage.load();
+    
+    // Load completionSignaled flag from storage (persisted across deep sleep)
+    completionSignaled = storage.loadCompletionFlag();
+    
+    // Update USB HID with current settings for GET command
+    usbHid.setCurrentSettings(settings);
+    
     Serial.printf("Settings: work=%dmin, break=%dmin, longBreak=%dmin, sessions=%d, sound=%s\n",
                   settings.workMinutes, settings.breakMinutes, 
                   settings.longBreakMinutes, settings.workSessionsBeforeLongBreak,
@@ -99,6 +117,9 @@ void setup() {
 }
 
 void loop() {
+    // Reset watchdog timer
+    esp_task_wdt_reset();
+    
     M5.update();  // Update M5AtomS3 state
     
     // Update hardware
@@ -207,8 +228,8 @@ void enterManualSleep() {
     // Using a very long sleep duration since we only want button wake
     powerManager.enterDeepSleep(86400000); // 24 hours (max practical)
     
-    // Device resets here after wake
-    powerManager.wakeInit();
+    // Device resets here after wake - code below is unreachable
+    // powerManager.wakeInit(); // REMOVED: Unreachable code after deep sleep
 }
 
 void updateTimerLED() {
@@ -310,6 +331,7 @@ void handleSyncMode() {
         storage.save(newSettings);
         settings = newSettings;
         timer.updateSettings(settings);
+        usbHid.setCurrentSettings(settings);  // Update USB HID with new settings
         
         usbHid.sendAck(true);
         
@@ -333,6 +355,9 @@ void exitSyncMode() {
 
 void handleLowBattery() {
     Serial.println("CRITICAL: Battery too low!");
+    
+    // Persist completionSignaled flag before sleeping
+    storage.saveCompletionFlag(completionSignaled);
     
     // LED warning pattern: rapid red flashing (no buzzer in minimal hardware)
     for (int i = 0; i < 10; i++) {
@@ -360,6 +385,9 @@ void checkSleep() {
     uint32_t sleepMs = powerManager.calculateSleepDuration(remainingMs, timer.getState());
     
     if (sleepMs >= 1000) {  // Only sleep if at least 1 second
+        // Persist completionSignaled flag before sleeping
+        storage.saveCompletionFlag(completionSignaled);
+        
         // Prepare for sleep
         powerManager.prepareForSleep();
         
@@ -368,6 +396,6 @@ void checkSleep() {
         
         // Note: If we get here, deep sleep didn't happen (for testing)
         // In real operation, device resets after deep sleep
-        powerManager.wakeInit();
+        // powerManager.wakeInit(); // Only called if deep sleep fails
     }
 }

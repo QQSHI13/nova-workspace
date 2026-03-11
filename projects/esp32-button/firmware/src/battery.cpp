@@ -58,6 +58,9 @@ BatteryMonitor::Status BatteryMonitor::getStatus() const {
 }
 
 float BatteryMonitor::readRawVoltage() {
+    // Wait for ADC to stabilize before reading (ESP32-S3 ADC needs time after startup)
+    delay(10);
+    
     // Read ADC and convert to voltage
     int raw = analogRead(BATTERY_PIN);
     float adcVoltage = (float)raw / ADC_RESOLUTION * ADC_REF_VOLTAGE;

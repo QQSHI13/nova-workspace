@@ -5,6 +5,9 @@
 // Use USB CDC for reliable serial communication on ESP32-S3
 static USBCDC USBSerial;
 
+// Maximum command length to prevent buffer overflow
+static constexpr size_t MAX_COMMAND_LENGTH = 128;
+
 void USBHID::begin() {
     // Initialize USB with CDC
     USBSerial.begin();
@@ -84,18 +87,27 @@ void USBHID::update() {
 }
 
 void USBHID::processCommand(const String& cmd) {
+    // Validate command length to prevent buffer overflow
+    if (cmd.length() > MAX_COMMAND_LENGTH) {
+        Serial.println("ERR:command too long");
+        if (isConnected()) {
+            USBSerial.println("ERR:command too long");
+        }
+        return;
+    }
+    
     Serial.printf("Received: %s\n", cmd.c_str());
     
     if (cmd.startsWith("SET:")) {
         pendingSettings = parseSettings(cmd.substring(4));
         newSettings = true;
     } else if (cmd == "GET") {
-        // Return current settings
-        String response = "SETTINGS:work=" + String(pendingSettings.workMinutes) +
-                         ",break=" + String(pendingSettings.breakMinutes) +
-                         ",longBreak=" + String(pendingSettings.longBreakMinutes) +
-                         ",sessions=" + String(pendingSettings.workSessionsBeforeLongBreak) +
-                         ",sound=" + String(pendingSettings.soundEnabled ? 1 : 0);
+        // Return actual current settings, not pending settings
+        String response = "SETTINGS:work=" + String(settings.workMinutes) +
+                         ",break=" + String(settings.breakMinutes) +
+                         ",longBreak=" + String(settings.longBreakMinutes) +
+                         ",sessions=" + String(settings.workSessionsBeforeLongBreak) +
+                         ",sound=" + String(settings.soundEnabled ? 1 : 0);
         if (isConnected()) {
             USBSerial.println(response);
         }
@@ -131,15 +143,38 @@ TimerSettings USBHID::parseSettings(const String& data) {
     int sessions = getValue("sessions");
     int sound = getValue("sound");
     
+    // Validation with strict bounds checking
     auto clamp = [](int val, int min, int max) -> int {
         return val < min ? min : (val > max ? max : val);
     };
     
-    if (work > 0) settings.workMinutes = clamp(work, 1, 60);
-    if (brk >= 0) settings.breakMinutes = clamp(brk, 1, 30);
-    if (longBrk >= 0) settings.longBreakMinutes = clamp(longBrk, 1, 60);
-    if (sessions > 0) settings.workSessionsBeforeLongBreak = clamp(sessions, 2, 10);
-    if (sound >= 0) settings.soundEnabled = (sound != 0);
+    // Validate work minutes: 1-60 minutes
+    if (work > 0) {
+        settings.workMinutes = clamp(work, 1, 60);
+    }
+    
+    // Validate break minutes: 1-30 minutes
+    if (brk >= 0) {
+        settings.breakMinutes = clamp(brk, 1, 30);
+    }
+    
+    // Validate long break minutes: 1-60 minutes
+    if (longBrk >= 0) {
+        settings.longBreakMinutes = clamp(longBrk, 1, 60);
+    }
+    
+    // Validate work sessions before long break: 1-10 (enforced minimum 1)
+    if (sessions > 0) {
+        settings.workSessionsBeforeLongBreak = clamp(sessions, 1, 10);
+    }
+    
+    // Validate sound setting: 0 or 1
+    if (sound >= 0) {
+        settings.soundEnabled = (sound != 0);
+    }
+    
+    // Additional sanity check: ensure long break is actually longer than short break
+    // If not, keep the received value (user might have specific preferences)
     
     return settings;
 }

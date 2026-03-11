@@ -235,7 +235,7 @@
         async function connect() {
             try {
                 port = await navigator.serial.requestPort({
-                    filters: [{ usbVendorId: 0x239A }] // Adafruit, adjust as needed
+                    filters: [{ usbVendorId: 0x303A }] // ESP32-S3 native USB VID
                 });
                 
                 await port.open({ baudRate: 115200 });

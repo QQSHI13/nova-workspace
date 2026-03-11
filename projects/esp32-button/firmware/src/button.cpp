@@ -38,18 +38,22 @@ ButtonEvent PomodoroButton::update() {
                     clickCount = 1;
                 }
                 lastClickTime = now;
+                singleClickPending = false;  // Reset pending flag on new press
                 
                 // If this is the second click in quick succession, it's a double click
                 if (clickCount == 2) {
                     event = ButtonEvent::DOUBLE_CLICK;
                     clickCount = 0;  // Reset count
+                    doubleClickDetected = true;  // Mark that we handled this sequence
                 }
             } else {
                 // Button released
                 if (!longPressTriggered && (now - buttonDownTime) < LONG_PRESS_DURATION) {
-                    // Short release - check if it's part of a double click
-                    // Single click is only confirmed if double click window expires
-                    // For now, we delay single click to next update if clickCount == 1
+                    // Short release - mark single click as pending
+                    // It will be confirmed if no second click arrives within timeout
+                    if (clickCount == 1 && !doubleClickDetected) {
+                        singleClickPending = true;
+                    }
                 }
             }
         }
@@ -60,15 +64,34 @@ ButtonEvent PomodoroButton::update() {
                 longPressTriggered = true;
                 event = ButtonEvent::LONG_PRESS;
                 clickCount = 0;  // Reset click count on long press
+                singleClickPending = false;  // Cancel any pending single click
+                doubleClickDetected = false;
             }
         }
         
-        // Check for single click confirmation (double click window expired)
-        if (!buttonState && clickCount == 1 && (now - lastClickTime) >= CLICK_TIMEOUT) {
-            if (!longPressTriggered) {
-                event = ButtonEvent::SINGLE_CLICK;
+        // Check for single click confirmation (double click window expired and button is released)
+        if (!buttonState && singleClickPending && clickCount == 1) {
+            if ((now - lastClickTime) >= CLICK_TIMEOUT) {
+                if (!longPressTriggered) {
+                    event = ButtonEvent::SINGLE_CLICK;
+                }
+                clickCount = 0;
+                singleClickPending = false;
+                doubleClickDetected = false;
             }
+        }
+        
+        // Reset doubleClickDetected flag when click window expires
+        if (doubleClickDetected && (now - lastClickTime) >= CLICK_TIMEOUT) {
+            doubleClickDetected = false;
             clickCount = 0;
+        }
+        
+        // Safety: reset click count if it gets too high (prevents overflow/bugs)
+        if (clickCount > 2) {
+            clickCount = 0;
+            singleClickPending = false;
+            doubleClickDetected = false;
         }
     }
     

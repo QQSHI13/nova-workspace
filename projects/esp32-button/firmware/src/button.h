@@ -20,4 +20,6 @@ private:
     unsigned long lastClickTime = 0;
     int clickCount = 0;
     bool longPressTriggered = false;
+    bool singleClickPending = false;   // Single click waiting for double-click window
+    bool doubleClickDetected = false;  // Tracks if we already handled a double-click
 };
