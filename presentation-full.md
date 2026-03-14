@@ -7,7 +7,7 @@
 
 **[举起 M5Timer，按一下按钮]**
 
-"这是我做的实体番茄钟。它不只是个计时器 —— 它能和我的网页版 Flow 完全同步，记录我的专注时间，甚至在我完成一个番茄后震动提醒我。"
+"这是我做的实体番茄钟。它不只是个计时器 —— 它可以通过 USB 和网页配置同步，LED 颜色显示当前状态。"
 
 **[展示 LED 颜色变化]**
 
@@ -35,8 +35,9 @@
 
 ### 软件
 - **固件**：PlatformIO + Arduino
-- **通信**：USB Serial 同步
+- **通信**：USB Serial 配置同步（LED 亮度、提示音音量、番茄时长）
 - **网页端**：https://qqshi13.github.io/tools-suite/web-sync.html
+- **离线运行**：配置完成后无需连接电脑
 
 ### AI 怎么帮我
 "整个开发过程中，OpenClaw 的 Agent（Nova）帮我：
@@ -147,4 +148,3 @@ A: 是的，GPL-3.0，在 GitHub/QQSHI13/M5Timer。
 - [ ] 网页 https://qqshi13.github.io/tools-suite/web-sync.html 能打开
 - [ ] 演示：调整 LED 亮度设置并同步到硬件
 - [ ] 演示：拔掉 USB 后硬件继续运行
-�如果现场没网，展示离线功能
