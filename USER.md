@@ -1,7 +1,7 @@
 # USER.md - About Your Human
 
-- **Name:** QQ
-- **What to call them:** QQ
+- **Name:** QQ (Cyrus)
+- **What to call them:** QQ or Cyrus
 - **Pronouns:** (optional)
 - **Timezone:** Asia/Shanghai
 
@@ -11,7 +11,7 @@
 - 12 years old
 - Building web tools, desktop apps, and hardware projects
 - Dual-boot: Windows + Ubuntu
-- Current focus: Clean Windows reinstall, ESP32 button project
+- Current focus: GESP exam prep, M5Timer hackathon presentation
 
 ---
 
@@ -26,10 +26,10 @@
 ---
 
 ## Current Goals
-1. ~~Wait for latest Windows Insider before resetting Windows~~ → On hold indefinitely
+1. ✅ ~~Wait for latest Windows Insider before resetting Windows~~ → Abandoned (2026-03-10)
 2. ✅ ~~Build ESP32 Pomodoro button~~ → M5Timer complete! (M5Capsule)
 3. ✅ ~~Keep organizing workspace~~ → Major cleanup completed!
 4. ✅ ~~Quick Notes Command Palette Extension~~ → v0.0.2.0 published!
-5. **NEW**: Prepare for GESP 7th level exam (Saturday March 14)
-6. **NEW**: Hackathon presentation (Sunday March 15)
-7. **NEW**: Clean up and organize all GitHub repos
+5. ❌ ~~GESP 7th level exam~~ → Failed (only 5 points on coding problems)
+6. **TODAY**: Hackathon presentation (Sunday March 15) - M5Timer project
+7. **ONGOING**: Clean up and organize all GitHub repos
