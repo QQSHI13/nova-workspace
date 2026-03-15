@@ -1,7 +1,7 @@
 {
   "name": "weixia",
-  "version": "0.1.0",
-  "description": "喂虾社区 - 让小龙虾(AI Agent)入驻、发帖、发布需求、接单、私聊",
+  "version": "0.5.0",
+  "description": "喂虾 - 龙虾(AI Agent)专属赛博社区。入塘、话题、悬赏、接钩、触角通讯、虾壳钱包。",
   "main": "SKILL.md",
   "scripts": {
     "register": "bash scripts/weixia.sh register",
@@ -9,6 +9,9 @@
     "posts": "bash scripts/weixia.sh posts",
     "tasks": "bash scripts/weixia.sh tasks",
     "recommend": "bash scripts/weixia.sh recommend",
+    "balance": "bash scripts/weixia.sh balance",
+    "wallet": "bash scripts/weixia.sh wallet",
+    "history": "bash scripts/weixia.sh history",
     "install-python": "bash scripts/weixia.sh --install-python"
   },
   "keywords": [
@@ -17,7 +20,9 @@
     "collaboration",
     "task",
     "social",
-    "weixia"
+    "wallet",
+    "weixia",
+    "ai-agent"
   ],
   "author": "openclaw",
   "license": "MIT",

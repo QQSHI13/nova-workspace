@@ -186,8 +186,8 @@ const notifications = {
         
         try {
             new Notification(title, {
-                icon: '/flow/public/icon-192.png',
-                badge: '/flow/public/icon-192.png',
+                icon: 'public/icon-192.png',
+                badge: 'public/icon-192.png',
                 requireInteraction: true,
                 ...options
             });
@@ -412,6 +412,9 @@ const timer = {
         } else {
             state.mode = 'work';
             state.timeLeft = state.customWorkMinutes * 60;
+            // Auto-start work after break
+            this.start();
+            return;
         }
         
         this.pause();
@@ -469,6 +472,10 @@ const timer = {
     resumeFromLoadedState() {
         if (state.isRunning) {
             // Recalculate based on elapsed time since save
+            const now = Date.now();
+            const elapsed = Math.floor((now - state.startTime) / 1000);
+            state.timeLeft = Math.max(0, state.remainingAtStart - elapsed);
+            if (state.timeLeft <= 0) { this.onComplete(); return; }
             wakeLockManager.request();
             state.timerInterval = setInterval(() => this.tick(), CONFIG.TIMER_TICK_INTERVAL);
             persistence.saveState();
@@ -488,6 +495,12 @@ const timer = {
 // STATS TRACKING
 // ============================================
 const stats = {
+    // Calculate data size using Blob for accurate byte count
+    getDataSize(data) {
+        const jsonString = JSON.stringify(data);
+        return new Blob([jsonString]).size;
+    },
+    
     recordSession(minutes) {
         const today = utils.getTodayKey();
         const data = storage.get('stats') || {};
@@ -864,6 +877,7 @@ const settings = {
         
         // Close on Escape key
         document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
             if (e.key === 'Escape' && elements.settingsModal?.classList.contains('active')) {
                 this.close();
             }
@@ -1022,6 +1036,9 @@ const keyboard = {
                     break;
                     
                 case '?':
+                    settings.open();
+                    break;
+                    
                 case '/':
                     if (e.shiftKey) {
                         settings.open();

@@ -372,3 +372,61 @@ if __name__ == "__main__":
         print(e.response.text)
     except Exception as e:
         print(f"错误: {e}")
+
+# ============ 钱包相关 ============
+
+def wallet_balance():
+    """获取钱包余额"""
+    response = httpx.get(f"{API_BASE}/api/wallet/balance", headers=_headers(), timeout=30)
+    response.raise_for_status()
+    return response.json()
+
+
+def wallet_info():
+    """获取钱包详情"""
+    response = httpx.get(f"{API_BASE}/api/wallet/info", headers=_headers(), timeout=30)
+    response.raise_for_status()
+    return response.json()
+
+
+def bind_wallet_address(sol_address=None, evm_address=None):
+    """绑定链上地址"""
+    data = {}
+    if sol_address:
+        data["sol_address"] = sol_address
+    if evm_address:
+        data["evm_address"] = evm_address
+    
+    response = httpx.post(f"{API_BASE}/api/wallet/bind-address", json=data, headers=_headers(), timeout=30)
+    response.raise_for_status()
+    return response.json()
+
+
+def wallet_transfer(to_agent_id, amount, remark=None):
+    """转账"""
+    data = {"to_agent_id": to_agent_id, "amount": amount}
+    if remark:
+        data["remark"] = remark
+    
+    response = httpx.post(f"{API_BASE}/api/wallet/transfer", json=data, headers=_headers(), timeout=30)
+    response.raise_for_status()
+    return response.json()
+
+
+def wallet_withdraw(amount, chain="solana"):
+    """申请提现"""
+    data = {"amount": amount, "chain": chain}
+    response = httpx.post(f"{API_BASE}/api/wallet/withdraw", json=data, headers=_headers(), timeout=30)
+    response.raise_for_status()
+    return response.json()
+
+
+def wallet_history(limit=20, tx_type=None):
+    """获取交易历史"""
+    params = {"limit": limit}
+    if tx_type:
+        params["tx_type"] = tx_type
+    
+    response = httpx.get(f"{API_BASE}/api/wallet/history", params=params, headers=_headers(), timeout=30)
+    response.raise_for_status()
+    return response.json()

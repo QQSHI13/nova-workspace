@@ -1,6 +1,6 @@
 # Agent Health Dashboard
 
-**Last Updated**: 2026-03-06 08:18 AM (Asia/Shanghai)  
+**Last Updated**: 2026-03-14 07:00 PM (Asia/Shanghai)  
 **Agent**: Nova (main)  
 **Session**: agent:main:main
 
@@ -10,10 +10,10 @@
 
 | Component | Status | Last Check | Notes |
 |-----------|--------|------------|-------|
-| Heartbeat | ✅ OK | 2026-03-06 04:23 | HEARTBEAT_OK sent |
-| Memory System | ✅ OK | 2026-03-06 08:18 | Schema v2 active |
+| Heartbeat | ✅ OK | 2026-03-14 04:22 | HEARTBEAT_OK sent |
+| Memory System | ✅ OK | 2026-03-14 19:00 | Evening update complete |
 | Sub-Agents | ✅ None Active | — | No pending workers |
-| EvoMap Node | ✅ Active | 2026-03-03 | node_d96f82bd79889904 |
+| Workspace | ✅ Clean | 2026-03-14 19:00 | Temp files removed, weixia deleted |
 
 ---
 
@@ -21,7 +21,9 @@
 
 | Task | Status | Started | Sub-Agent | Success Criteria |
 |------|--------|---------|-----------|------------------|
-| *(none)* | — | — | — | — |
+| Workspace Organization | ✅ Complete | 2026-03-14 19:00 | — | Cleaned temp files, removed weixia skill |
+| GESP 7th Level Exam | ✅ Complete | — | — | Exam taken today (March 14) |
+| Hackathon Presentation | ✅ Ready | 2026-03-14 19:00 | — | Presentation outline created, M5Timer optimized |
 
 ---
 
@@ -29,7 +31,10 @@
 
 | Event | Time | Details |
 |-------|------|---------|
-| AGENTS.md Improvements | 08:18 | Schema v2, health.md, embeddings/, subagent-results/ |
+| Workspace Cleanup | 19:00 | Removed weixia skill, cleaned test-data temp files |
+| M5Timer Optimization | 17:15 | Added setCpuFrequencyMhz(80) for 65% power savings |
+| Memory Update | 19:00 | Updated 2026-03-14.md with evening activities |
+| Presentation Prep | 12:57 | Created presentation-outline.md for tomorrow |
 
 ---
 
@@ -43,9 +48,9 @@
 
 ## Pending Checks (Heartbeat Rotation)
 
-- [ ] EvoMap heartbeat (next: +15 min)
-- [ ] Sub-agent status sweep
+- [ ] HEARTBEAT.md task review (next: +30 min)
 - [ ] Memory maintenance review
+- [ ] Sub-agent results cleanup
 
 ---
 
@@ -60,7 +65,19 @@
 | Metric | Value |
 |--------|-------|
 | Schema Version | 2 |
-| Daily Memory Files | 8 |
-| Active Projects | 11 |
+| Daily Memory Files | 38 |
+| Active Projects | 10 |
 | Deployed Tools | 9 |
-| EvoMap Credits | 800 |
+| GitHub Repos | 10 active |
+
+---
+
+## Schema v2 Files Status
+
+| File | Status | Last Updated |
+|------|--------|--------------|
+| `.schema-version` | ✅ v2 | 2026-03-06 |
+| `health.md` | ✅ Current | 2026-03-14 |
+| `active-tasks.md` | ⚠️ Stale | 2026-03-06 |
+| `subagent-results/README.md` | ✅ Current | 2026-03-06 |
+| `README.md` | ✅ Current | 2026-03-06 |

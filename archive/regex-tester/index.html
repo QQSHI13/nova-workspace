@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regex Tester</title>
+  <style>
+    :root {
+      --bg: #1a1a2e;
+      --bg-secondary: #16213e;
+      --text: #eaeaea;
+      --text-muted: #a0a0a0;
+      --accent: #0f3460;
+      --accent-hover: #e94560;
+      --success: #4ecca3;
+      --error: #e94560;
+      --warning: #f9a825;
+      --border: #2d3a4a;
+      --match-bg: rgba(233, 69, 96, 0.2);
+      --match-border: #e94560;
+      --group-bg: rgba(78, 204, 163, 0.2);
+      --group-border: #4ecca3;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, var(--accent-hover), var(--success));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .section {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 1rem;
+      font-family: 'Consolas', 'Monaco', monospace;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent-hover);
+    }
+
+    input[type="text"].error,
+    textarea.error {
+      border-color: var(--error);
+    }
+
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .regex-input-wrapper {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .regex-input-wrapper input {
+      flex: 1;
+    }
+
+    .flags-input {
+      width: 120px !important;
+    }
+
+    .flags-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+
+    .flags-hint .valid {
+      color: var(--success);
+    }
+
+    .flags-hint .invalid {
+      color: var(--error);
+    }
+
+    .error-msg {
+      color: var(--error);
+      font-size: 0.9rem;
+      margin-top: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .success-msg {
+      color: var(--success);
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+
+    .warning-msg {
+      color: var(--warning);
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+
+    .size-warning {
+      background: var(--warning);
+      color: #000;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    .size-warning.visible {
+      display: block;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background: var(--accent);
+      color: var(--text);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: background 0.2s, transform 0.1s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-secondary {
+      background: var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--text-muted);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    .patterns-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+    }
+
+    .pattern-btn {
+      padding: 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .pattern-btn:hover {
+      border-color: var(--accent-hover);
+      background: var(--accent);
+    }
+
+    .pattern-btn .pattern-name {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .pattern-btn .pattern-regex {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: monospace;
+    }
+
+    .results-container {
+      position: relative;
+    }
+
+    .match-text {
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'Consolas', 'Monaco', monospace;
+      line-height: 1.8;
+      padding: 15px;
+      background: var(--bg);
+      border-radius: 8px;
+      min-height: 100px;
+    }
+
+    .match-highlight {
+      background: var(--match-bg);
+      border: 1px solid var(--match-border);
+      border-radius: 4px;
+      padding: 2px 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .match-highlight:hover,
+    .match-highlight.active {
+      background: var(--match-border);
+      color: white;
+    }
+
+    .group-highlight {
+      background: var(--group-bg);
+      border: 1px solid var(--group-border);
+      border-radius: 4px;
+      padding: 1px 3px;
+    }
+
+    .match-stats {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+      padding: 15px;
+      background: var(--bg);
+      border-radius: 8px;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--success);
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .match-navigation {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-top: 15px;
+      padding: 15px;
+      background: var(--bg);
+      border-radius: 8px;
+    }
+
+    .nav-btn {
+      padding: 8px 16px;
+      background: var(--accent);
+      border: none;
+      border-radius: 6px;
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background: var(--accent-hover);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .match-counter {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .match-counter .current {
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    .match-details {
+      margin-top: 15px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .match-item {
+      padding: 12px;
+      background: var(--bg);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      border-left: 3px solid var(--match-border);
+    }
+
+    .match-item:hover {
+      background: var(--accent);
+    }
+
+    .match-item .match-index {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    .match-item .match-value {
+      font-family: monospace;
+      color: var(--success);
+      word-break: break-all;
+    }
+
+    .match-item .match-position {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+
+    .match-item .groups {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .match-item .group {
+      font-size: 0.85rem;
+      margin: 3px 0;
+    }
+
+    .match-item .group-name {
+      color: var(--group-border);
+    }
+
+    .replacement-help {
+      background: var(--bg);
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+
+    .replacement-help h4 {
+      margin-bottom: 10px;
+      color: var(--success);
+    }
+
+    .replacement-help table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .replacement-help th,
+    .replacement-help td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .replacement-help th {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .replacement-help code {
+      background: var(--accent);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+
+    .replacement-result {
+      margin-top: 15px;
+      padding: 15px;
+      background: var(--bg);
+      border-radius: 8px;
+      border-left: 3px solid var(--success);
+    }
+
+    .replacement-result h4 {
+      margin-bottom: 10px;
+      color: var(--success);
+    }
+
+    .replacement-result pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: monospace;
+      background: var(--bg-secondary);
+      padding: 10px;
+      border-radius: 6px;
+    }
+
+    .keyboard-shortcuts {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 15px;
+      font-size: 0.85rem;
+      max-width: 300px;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .keyboard-shortcuts:hover {
+      opacity: 1;
+    }
+
+    .keyboard-shortcuts h4 {
+      margin-bottom: 10px;
+      color: var(--success);
+    }
+
+    .keyboard-shortcuts kbd {
+      background: var(--bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      border: 1px solid var(--border);
+    }
+
+    .loading {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .loading.visible {
+      display: block;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent-hover);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .share-url {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .share-url input {
+      flex: 1;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 768px) {
+      .regex-input-wrapper {
+        flex-direction: column;
+      }
+
+      .flags-input {
+        width: 100% !important;
+      }
+
+      .patterns-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .match-navigation {
+        flex-wrap: wrap;
+      }
+
+      .keyboard-shortcuts {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Regex Tester</h1>
+      <p class="subtitle">Test, debug, and share regular expressions safely</p>
+    </header>
+
+    <div class="section">
+      <h2 class="section-title">
+        <span>📝</span> Common Patterns
+      </h2>
+      <div class="patterns-grid" role="list" aria-label="Common regex patterns">
+        <button class="pattern-btn" onclick="loadPattern('email')" role="listitem" aria-label="Load email pattern">
+          <span class="pattern-name">Email</span>
+          <span class="pattern-regex">^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$</span>
+        </button>
+        <button class="pattern-btn" onclick="loadPattern('ipv4')" role="listitem" aria-label="Load IPv4 pattern">
+          <span class="pattern-name">IPv4 Address</span>
+          <span class="pattern-regex">^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$</span>
+        </button>
+        <button class="pattern-btn" onclick="loadPattern('url')" role="listitem" aria-label="Load URL pattern">
+          <span class="pattern-name">URL</span>
+          <span class="pattern-regex">^https?:\/\/(?:[-\w.])+(?:\:[0-9]+)?(?:\/(?:[\w/_.])*(?:\?(?:[\w&=%.])*)?(?:\#(?:[\w.])*)?)?$</span>
+        </button>
+        <button class="pattern-btn" onclick="loadPattern('date')" role="listitem" aria-label="Load date pattern">
+          <span class="pattern-name">Date (YYYY-MM-DD)</span>
+          <span class="pattern-regex">^\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$</span>
+        </button>
+        <button class="pattern-btn" onclick="loadPattern('phone')" role="listitem" aria-label="Load phone pattern">
+          <span class="pattern-name">US Phone</span>
+          <span class="pattern-regex">^\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$</span>
+        </button>
+        <button class="pattern-btn" onclick="loadPattern('hex')" role="listitem" aria-label="Load hex color pattern">
+          <span class="pattern-name">Hex Color</span>
+          <span class="pattern-regex">^#(?:[0-9a-fA-F]{3}){1,2}$</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">
+        <span>🔍</span> Regex Pattern
+      </h2>
+      <div class="input-group">
+        <label for="regex-input">Regular Expression</label>
+        <div class="regex-input-wrapper">
+          <input 
+            type="text" 
+            id="regex-input" 
+            placeholder="Enter your regex pattern (e.g., \d+)"
+            aria-label="Regular expression pattern"
+            aria-describedby="regex-error"
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <input 
+            type="text" 
+            id="flags-input" 
+            class="flags-input" 
+            placeholder="gimuy"
+            maxlength="5"
+            aria-label="Regex flags"
+            aria-describedby="flags-hint flags-error"
+            autocomplete="off"
+          >
+        </div>
+        <p id="flags-hint" class="flags-hint">
+          Valid flags: <span class="valid">g</span> (global), <span class="valid">i</span> (ignore case), 
+          <span class="valid">m</span> (multiline), <span class="valid">u</span> (unicode), 
+          <span class="valid">y</span> (sticky)
+        </p>
+        <div id="regex-error" class="error-msg" role="alert" aria-live="polite"></div>
+        <div id="flags-error" class="error-msg" role="alert" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">
+        <span>📄</span> Test Text
+      </h2>
+      <div class="size-warning" id="size-warning" role="alert">
+        ⚠️ Input size exceeds 1MB. Large inputs may impact performance.
+      </div>
+      <div class="input-group">
+        <label for="test-input">Text to test against</label>
+        <textarea 
+          id="test-input" 
+          placeholder="Enter text to test your regex against..."
+          aria-label="Test text input"
+          aria-describedby="test-size-indicator"
+        ></textarea>
+        <p id="test-size-indicator" class="flags-hint"></p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">
+        <span>🔄</span> Replacement
+      </h2>
+      <div class="input-group">
+        <label for="replacement-input">Replacement Pattern (optional)</label>
+        <input 
+          type="text" 
+          id="replacement-input" 
+          placeholder="e.g., $1, $&, $$"
+          aria-label="Replacement pattern"
+          autocomplete="off"
+        >
+        <div class="replacement-help">
+          <h4>Replacement Pattern Reference</h4>
+          <table>
+            <thead>
+              <tr>
+                <th>Pattern</th>
+                <th>Inserts</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>$$</code></td><td>A literal $ character</td></tr>
+              <tr><td><code>$&</code></td><td>The matched substring</td></tr>
+              <tr><td><code>$`</code></td><td>The portion of the string before the match</td></tr>
+              <tr><td><code>$'</code></td><td>The portion of the string after the match</td></tr>
+              <tr><td><code>$n</code></td><td>The nth capturing group (1-99)</td></tr>
+              <tr><td><code>$&lt;name&gt;</code></td><td>The named capturing group (ES2018+)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="replacement-result" class="replacement-result" style="display: none;">
+          <h4>Replacement Result</h4>
+          <pre id="replacement-output"></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn" onclick="testRegex()" aria-label="Test regex">
+        <span>▶️</span> Test Regex
+      </button>
+      <button class="btn btn-secondary" onclick="clearAll()" aria-label="Clear all inputs">
+        <span>🗑️</span> Clear
+      </button>
+      <button class="btn btn-secondary" onclick="generateShareUrl()" aria-label="Generate shareable URL">
+        <span>🔗</span> Share
+      </button>
+    </div>
+
+    <div class="share-url" id="share-url" style="display: none;">
+      <input type="text" id="share-url-input" readonly aria-label="Shareable URL">
+      <button class="btn" onclick="copyShareUrl()">Copy</button>
+    </div>
+
+    <div class="section results-container" id="results-section" style="display: none;">
+      <h2 class="section-title">
+        <span>✨</span> Match Results
+      </h2>
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Testing regex...</p>
+      </div>
+      <div id="match-info"></div>
+      <div class="match-stats" id="match-stats"></div>
+      <div class="match-text" id="match-display" role="region" aria-label="Highlighted matches"></div>
+      <div class="match-navigation" id="match-navigation" style="display: none;">
+        <button class="nav-btn" id="prev-match" onclick="navigateMatch(-1)" aria-label="Previous match">
+          ◀ Previous
+        </button>
+        <span class="match-counter">
+          Match <span class="current" id="current-match">0</span> of <span id="total-matches">0</span>
+        </span>
+        <button class="nav-btn" id="next-match" onclick="navigateMatch(1)" aria-label="Next match">
+          Next ▶
+        </button>
+      </div>
+      <div class="match-details" id="match-details"></div>
+    </div>
+  </div>
+
+  <div class="keyboard-shortcuts" role="complementary" aria-label="Keyboard shortcuts">
+    <h4>Keyboard Shortcuts</h4>
+    <p><kbd>Ctrl</kbd> + <kbd>Enter</kbd> - Test regex</p>
+    <p><kbd>Ctrl</kbd> + <kbd>N</kbd> - Next match</p>
+    <p><kbd>Ctrl</kbd> + <kbd>P</kbd> - Previous match</p>
+    <p><kbd>Ctrl</kbd> + <kbd>L</kbd> - Clear all</p>
+  </div>
+
+  <script>
+    // Constants
+    const MAX_INPUT_SIZE = 1024 * 1024; // 1MB
+    const MAX_MATCHES = 1000;
+    const REGEX_TIMEOUT = 5000; // 5 seconds
+    const VALID_FLAGS = new Set(['g', 'i', 'm', 'u', 'y', 's', 'd', 'v']);
+
+    // State
+    let matches = [];
+    let currentMatchIndex = -1;
+    let regexWorker = null;
+
+    // DOM Elements
+    const regexInput = document.getElementById('regex-input');
+    const flagsInput = document.getElementById('flags-input');
+    const testInput = document.getElementById('test-input');
+    const replacementInput = document.getElementById('replacement-input');
+    const regexError = document.getElementById('regex-error');
+    const flagsError = document.getElementById('flags-error');
+    const matchInfo = document.getElementById('match-info');
+    const matchDisplay = document.getElementById('match-display');
+    const matchStats = document.getElementById('match-stats');
+    const matchDetails = document.getElementById('match-details');
+    const resultsSection = document.getElementById('results-section');
+    const loading = document.getElementById('loading');
+    const sizeWarning = document.getElementById('size-warning');
+    const testSizeIndicator = document.getElementById('test-size-indicator');
+
+    // Pattern definitions
+    const patterns = {
+      email: { pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$', flags: '' },
+      ipv4: { pattern: '^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$', flags: '' },
+      url: { pattern: '^https?:\\/\\/(?:[-\\w.])+(?:\\:[0-9]+)?(?:\\/(?:[\\w/_.])*(?:\\?(?:[\\w&=%.])*)?(?:\\#(?:[\\w.])*)?)?$', flags: 'i' },
+      date: { pattern: '^\\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01])$', flags: '' },
+      phone: { pattern: '^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$', flags: '' },
+      hex: { pattern: '^#(?:[0-9a-fA-F]{3}){1,2}$', flags: 'i' }
+    };
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      loadFromUrl();
+      setupEventListeners();
+      validateFlags();
+      checkInputSize();
+    });
+
+    function setupEventListeners() {
+      // Keyboard shortcuts
+      document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey || e.metaKey) {
+          switch (e.key.toLowerCase()) {
+            case 'enter':
+              e.preventDefault();
+              testRegex();
+              break;
+            case 'n':
+              e.preventDefault();
+              navigateMatch(1);
+              break;
+            case 'p':
+              e.preventDefault();
+              navigateMatch(-1);
+              break;
+            case 'l':
+              e.preventDefault();
+              clearAll();
+              break;
+          }
+        }
+      });
+
+      // Real-time flag validation
+      flagsInput.addEventListener('input', validateFlags);
+
+      // Input size monitoring
+      testInput.addEventListener('input', checkInputSize);
+      regexInput.addEventListener('input', checkInputSize);
+
+      // Auto-test on input (with debounce)
+      let debounceTimer;
+      [regexInput, flagsInput, testInput].forEach(el => {
+        el.addEventListener('input', () => {
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(() => {
+            if (regexInput.value && testInput.value) {
+              testRegex();
+            }
+          }, 300);
+        });
+      });
+    }
+
+    function checkInputSize() {
+      const testSize = new Blob([testInput.value]).size;
+      const regexSize = new Blob([regexInput.value]).size;
+      const totalSize = testSize + regexSize;
+
+      if (totalSize > MAX_INPUT_SIZE) {
+        sizeWarning.classList.add('visible');
+        testInput.classList.add('error');
+      } else {
+        sizeWarning.classList.remove('visible');
+        testInput.classList.remove('error');
+      }
+
+      // Show size indicator
+      const testSizeKB = (testSize / 1024).toFixed(1);
+      testSizeIndicator.textContent = testSize > 0 ? `${testSizeKB} KB` : '';
+    }
+
+    function validateFlags() {
+      const flags = flagsInput.value;
+      const invalidFlags = [];
+
+      for (const flag of flags) {
+        if (!VALID_FLAGS.has(flag)) {
+          invalidFlags.push(flag);
+        }
+      }
+
+      // Check for duplicate flags
+      const uniqueFlags = new Set(flags);
+      if (uniqueFlags.size !== flags.length) {
+        flagsError.textContent = '⚠️ Duplicate flags detected';
+        flagsInput.classList.add('error');
+        return false;
+      }
+
+      if (invalidFlags.length > 0) {
+        flagsError.textContent = `❌ Invalid flags: ${invalidFlags.join(', ')}`;
+        flagsInput.classList.add('error');
+        return false;
+      }
+
+      flagsError.textContent = '';
+      flagsInput.classList.remove('error');
+      return true;
+    }
+
+    function loadPattern(type) {
+      const pattern = patterns[type];
+      if (pattern) {
+        regexInput.value = pattern.pattern;
+        flagsInput.value = pattern.flags;
+        validateFlags();
+        if (testInput.value) {
+          testRegex();
+        }
+      }
+    }
+
+    function clearAll() {
+      regexInput.value = '';
+      flagsInput.value = '';
+      testInput.value = '';
+      replacementInput.value = '';
+      regexError.textContent = '';
+      flagsError.textContent = '';
+      matchInfo.textContent = '';
+      matchDisplay.textContent = '';
+      matchStats.innerHTML = '';
+      matchDetails.innerHTML = '';
+      resultsSection.style.display = 'none';
+      document.getElementById('replacement-result').style.display = 'none';
+      document.getElementById('share-url').style.display = 'none';
+      matches = [];
+      currentMatchIndex = -1;
+      checkInputSize();
+      
+      // Clear URL parameters
+      history.replaceState(null, '', window.location.pathname);
+    }
+
+    // ReDoS protection using Web Worker approach
+    function createRegexWorker() {
+      const workerScript = `
+        self.onmessage = function(e) {
+          const { pattern, flags, text, maxMatches } = e.data;
+          const startTime = Date.now();
+          const TIMEOUT = ${REGEX_TIMEOUT};
+          
+          try {
+            const regex = new RegExp(pattern, flags);
+            const matches = [];
+            let match;
+            let matchCount = 0;
+            
+            if (flags.includes('g')) {
+              while ((match = regex.exec(text)) !== null && matchCount < maxMatches) {
+                // Check for timeout
+                if (Date.now() - startTime > TIMEOUT) {
+                  self.postMessage({ 
+                    error: 'Regex execution timed out (possible ReDoS attack). Try simplifying your pattern.' 
+                  });
+                  return;
+                }
+                
+                // Prevent infinite loop on zero-length matches
+                if (match.index === regex.lastIndex) {
+                  regex.lastIndex++;
+                }
+                
+                matches.push({
+                  index: match.index,
+                  value: match[0],
+                  groups: match.slice(1),
+                  groupNames: match.groups || {},
+                  length: match[0].length
+                });
+                matchCount++;
+              }
+            } else {
+              match = regex.exec(text);
+              if (match) {
+                matches.push({
+                  index: match.index,
+                  value: match[0],
+                  groups: match.slice(1),
+                  groupNames: match.groups || {},
+                  length: match[0].length
+                });
+              }
+            }
+            
+            self.postMessage({ matches, truncated: matchCount >= maxMatches });
+          } catch (err) {
+            self.postMessage({ error: err.message });
+          }
+        };
+      `;
+
+      const blob = new Blob([workerScript], { type: 'application/javascript' });
+      return new Worker(URL.createObjectURL(blob));
+    }
+
+    async function testRegex() {
+      const pattern = regexInput.value;
+      const flags = flagsInput.value;
+      const text = testInput.value;
+
+      // Validation
+      if (!pattern) {
+        regexError.textContent = '❌ Please enter a regex pattern';
+        return;
+      }
+
+      if (!text) {
+        regexError.textContent = '❌ Please enter test text';
+        return;
+      }
+
+      // Check size limits
+      const totalSize = new Blob([pattern + text]).size;
+      if (totalSize > MAX_INPUT_SIZE) {
+        regexError.textContent = '❌ Input size exceeds 1MB limit';
+        return;
+      }
+
+      if (!validateFlags()) {
+        return;
+      }
+
+      regexError.textContent = '';
+      resultsSection.style.display = 'block';
+      loading.classList.add('visible');
+      matchDisplay.textContent = '';
+      matchStats.innerHTML = '';
+      matchDetails.innerHTML = '';
+      matches = [];
+      currentMatchIndex = -1;
+
+      // Update URL state
+      updateUrlState();
+
+      try {
+        // Create worker for regex execution (ReDoS protection)
+        if (regexWorker) {
+          regexWorker.terminate();
+        }
+        regexWorker = createRegexWorker();
+
+        const result = await new Promise((resolve, reject) => {
+          const timeoutId = setTimeout(() => {
+            regexWorker.terminate();
+            reject(new Error('Regex execution timed out'));
+          }, REGEX_TIMEOUT + 1000);
+
+          regexWorker.onmessage = (e) => {
+            clearTimeout(timeoutId);
+            if (e.data.error) {
+              reject(new Error(e.data.error));
+            } else {
+              resolve(e.data);
+            }
+          };
+
+          regexWorker.onerror = (err) => {
+            clearTimeout(timeoutId);
+            reject(err);
+          };
+
+          regexWorker.postMessage({
+            pattern,
+            flags,
+            text,
+            maxMatches: MAX_MATCHES
+          });
+        });
+
+        loading.classList.remove('visible');
+        matches = result.matches;
+
+        if (matches.length === 0) {
+          // XSS Fix: Use textContent instead of innerHTML
+          const noMatchSpan = document.createElement('span');
+          noMatchSpan.className = 'warning-msg';
+          noMatchSpan.textContent = '⚠️ No matches found';
+          matchInfo.innerHTML = '';
+          matchInfo.appendChild(noMatchSpan);
+          matchDisplay.textContent = text;
+          document.getElementById('match-navigation').style.display = 'none';
+        } else {
+          const matchCountSpan = document.createElement('span');
+          matchCountSpan.className = 'success-msg';
+          let matchText = `✅ Found ${matches.length} match${matches.length !== 1 ? 'es' : ''}`;
+          if (result.truncated) {
+            matchText += ` (showing first ${MAX_MATCHES})`;
+          }
+          matchCountSpan.textContent = matchText;
+          matchInfo.innerHTML = '';
+          matchInfo.appendChild(matchCountSpan);
+
+          displayMatches(text, matches);
+          displayStats(matches, text);
+          displayMatchDetails(matches);
+          updateNavigation();
+        }
+
+        // Handle replacement
+        if (replacementInput.value) {
+          displayReplacement(pattern, flags, text, replacementInput.value);
+        }
+
+      } catch (error) {
+        loading.classList.remove('visible');
+        
+        // XSS Fix: Use textContent instead of innerHTML
+        const errorContainer = document.createElement('div');
+        errorContainer.className = 'error-msg';
+        
+        const errorIcon = document.createElement('span');
+        errorIcon.textContent = '❌';
+        
+        const errorText = document.createElement('span');
+        errorText.textContent = `Invalid regex: ${error.message}`;
+        
+        errorContainer.appendChild(errorIcon);
+        errorContainer.appendChild(errorText);
+        
+        matchInfo.innerHTML = '';
+        matchInfo.appendChild(errorContainer);
+        matchDisplay.textContent = text;
+        document.getElementById('match-navigation').style.display = 'none';
+      }
+    }
+
+    function displayMatches(text, matches) {
+      let html = '';
+      let lastIndex = 0;
+
+      matches.forEach((match, index) => {
+        // Add text before match (escaped)
+        html += escapeHtml(text.slice(lastIndex, match.index));
+
+        // Add highlighted match
+        const matchClass = `match-highlight" data-match-index="${index}`;
+        const matchText = escapeHtml(match.value);
+        
+        // Highlight groups within match
+        let highlightedMatch = matchText;
+        if (match.groups && match.groups.length > 0) {
+          // This is simplified - for complex nested groups, more processing would be needed
+          highlightedMatch = `<span class="${matchClass}">${matchText}</span>`;
+        } else {
+          highlightedMatch = `<span class="${matchClass}">${matchText}</span>`;
+        }
+
+        html += highlightedMatch;
+        lastIndex = match.index + match.length;
+      });
+
+      // Add remaining text
+      html += escapeHtml(text.slice(lastIndex));
+
+      matchDisplay.innerHTML = html;
+
+      // Add click handlers for match navigation
+      matchDisplay.querySelectorAll('.match-highlight').forEach(el => {
+        el.addEventListener('click', () => {
+          const index = parseInt(el.dataset.matchIndex);
+          currentMatchIndex = index;
+          updateNavigation();
+          highlightCurrentMatch();
+        });
+      });
+    }
+
+    function displayStats(matches, text) {
+      const totalLength = matches.reduce((sum, m) => sum + m.length, 0);
+      const avgLength = matches.length > 0 ? (totalLength / matches.length).toFixed(1) : 0;
+      const coverage = ((totalLength / text.length) * 100).toFixed(1);
+
+      matchStats.innerHTML = `
+        <div class="stat-item">
+          <span class="stat-value">${matches.length}</span>
+          <span class="stat-label">Matches</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">${avgLength}</span>
+          <span class="stat-label">Avg Length</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">${totalLength}</span>
+          <span class="stat-label">Total Chars</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">${coverage}%</span>
+          <span class="stat-label">Coverage</span>
+        </div>
+      `;
+    }
+
+    function displayMatchDetails(matches) {
+      if (matches.length === 0) {
+        matchDetails.innerHTML = '';
+        return;
+      }
+
+      const details = matches.map((match, index) => {
+        let groupsHtml = '';
+        if (match.groups.length > 0) {
+          const groups = match.groups.map((g, i) => 
+            `<div class="group"><span class="group-name">$${i + 1}:</span> ${escapeHtml(String(g))}</div>`
+          ).join('');
+          groupsHtml = `<div class="groups">${groups}</div>`;
+        }
+
+        return `
+          <div class="match-item" data-detail-index="${index}">
+            <div class="match-index">Match #${index + 1}</div>
+            <div class="match-value">${escapeHtml(match.value)}</div>
+            <div class="match-position">Position: ${match.index} - ${match.index + match.length}</div>
+            ${groupsHtml}
+          </div>
+        `;
+      }).join('');
+
+      matchDetails.innerHTML = details;
+    }
+
+    function displayReplacement(pattern, flags, text, replacement) {
+      try {
+        const regex = new RegExp(pattern, flags);
+        const result = text.replace(regex, replacement);
+        
+        document.getElementById('replacement-result').style.display = 'block';
+        document.getElementById('replacement-output').textContent = result;
+      } catch (e) {
+        document.getElementById('replacement-result').style.display = 'none';
+      }
+    }
+
+    function navigateMatch(direction) {
+      if (matches.length === 0) return;
+
+      currentMatchIndex += direction;
+      if (currentMatchIndex < 0) currentMatchIndex = matches.length - 1;
+      if (currentMatchIndex >= matches.length) currentMatchIndex = 0;
+
+      updateNavigation();
+      highlightCurrentMatch();
+    }
+
+    function updateNavigation() {
+      const navigation = document.getElementById('match-navigation');
+      const prevBtn = document.getElementById('prev-match');
+      const nextBtn = document.getElementById('next-match');
+      const currentSpan = document.getElementById('current-match');
+      const totalSpan = document.getElementById('total-matches');
+
+      if (matches.length === 0) {
+        navigation.style.display = 'none';
+        return;
+      }
+
+      navigation.style.display = 'flex';
+      prevBtn.disabled = matches.length <= 1;
+      nextBtn.disabled = matches.length <= 1;
+      currentSpan.textContent = currentMatchIndex >= 0 ? currentMatchIndex + 1 : 0;
+      totalSpan.textContent = matches.length;
+    }
+
+    function highlightCurrentMatch() {
+      // Remove previous active class
+      matchDisplay.querySelectorAll('.match-highlight').forEach(el => {
+        el.classList.remove('active');
+      });
+
+      // Add active class to current
+      const currentEl = matchDisplay.querySelector(`[data-match-index="${currentMatchIndex}"]`);
+      if (currentEl) {
+        currentEl.classList.add('active');
+        currentEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      // Highlight in details
+      matchDetails.querySelectorAll('.match-item').forEach((el, index) => {
+        if (index === currentMatchIndex) {
+          el.style.borderLeftWidth = '6px';
+          el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+          el.style.borderLeftWidth = '3px';
+        }
+      });
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // URL State Management
+    function updateUrlState() {
+      const params = new URLSearchParams();
+      if (regexInput.value) params.set('p', regexInput.value);
+      if (flagsInput.value) params.set('f', flagsInput.value);
+      if (testInput.value) params.set('t', testInput.value);
+      if (replacementInput.value) params.set('r', replacementInput.value);
+
+      const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+      history.replaceState(null, '', newUrl);
+    }
+
+    function loadFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      
+      if (params.has('p')) regexInput.value = params.get('p');
+      if (params.has('f')) {
+        flagsInput.value = params.get('f');
+        validateFlags();
+      }
+      if (params.has('t')) testInput.value = params.get('t');
+      if (params.has('r')) replacementInput.value = params.get('r');
+
+      checkInputSize();
+    }
+
+    function generateShareUrl() {
+      updateUrlState();
+      const urlInput = document.getElementById('share-url-input');
+      const shareDiv = document.getElementById('share-url');
+      
+      urlInput.value = window.location.href;
+      shareDiv.style.display = 'flex';
+    }
+
+    function copyShareUrl() {
+      const urlInput = document.getElementById('share-url-input');
+      urlInput.select();
+      document.execCommand('copy');
+      
+      const btn = event.target;
+      const originalText = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = originalText, 2000);
+    }
+  </script>
+
+  <!-- Service Worker for offline support with stale-while-revalidate -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      const swCode = `
+        const CACHE_NAME = 'regex-tester-v1';
+        const urlsToCache = ['/', '/index.html'];
+
+        self.addEventListener('install', event => {
+          event.waitUntil(
+            caches.open(CACHE_NAME)
+              .then(cache => cache.addAll(urlsToCache))
+          );
+          self.skipWaiting();
+        });
+
+        self.addEventListener('activate', event => {
+          event.waitUntil(self.clients.claim());
+        });
+
+        self.addEventListener('fetch', event => {
+          event.respondWith(
+            caches.match(event.request).then(cachedResponse => {
+              // Return cached response immediately if available
+              const fetchPromise = fetch(event.request)
+                .then(networkResponse => {
+                  // Update cache with fresh response
+                  if (networkResponse.ok) {
+                    caches.open(CACHE_NAME).then(cache => {
+                      cache.put(event.request, networkResponse.clone());
+                    });
+                  }
+                  return networkResponse;
+                })
+                .catch(() => cachedResponse);
+
+              // Stale-while-revalidate: return cached immediately, update in background
+              return cachedResponse || fetchPromise;
+            })
+          );
+        });
+      `;
+
+      const swBlob = new Blob([swCode], { type: 'application/javascript' });
+      const swUrl = URL.createObjectURL(swBlob);
+
+      navigator.serviceWorker.register(swUrl)
+        .then(registration => {
+          console.log('ServiceWorker registered:', registration.scope);
+        })
+        .catch(error => {
+          console.log('ServiceWorker registration failed:', error);
+        });
+    }
+  </script>
+</body>
+</html>
