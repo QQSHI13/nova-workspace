@@ -6,22 +6,44 @@ Active and completed projects with quick-reference info.
 
 ## 🔄 Active Projects
 
-### ESP32 Pomodoro Button
-- **Status**: Design complete, ready for fabrication
-- **Location**: `/home/qq/.openclaw/workspace/esp32-button/`
-- **Type**: Hardware (ESP32 embedded)
-- **Cost**: ~¥149-189
-- **Started**: 2026-03-06
-- **Next Action**: Order parts (Atom Lite, PCB, components, battery)
-- **Files**:
-  - `hardware/schematic.md` - Circuit design
-  - `firmware/` - PlatformIO code
-  - `3d-models/backpack.scad` - 3D case
-  - `docs/Assembly-Guide.md` - Build instructions
+### Skylight - Unity Day/Night Cycle
+- **Status**: Active development
+- **Location**: `/mnt/c/users/lenovo/skylight/`
+- **Type**: Unity 3D (URP)
+- **Started**: 2026-03-15
+- **Last Updated**: 2026-03-16
+- **Features**: Dynamic sky, day/night cycle, weather system, clouds, ground terrain
+- **Bugs Fixed**: Purple clouds→white, static sun→moving, purple ground→green
+- **Key Scripts**: SkyManager, WeatherSystem, GroundSystem, StarSystem
+- **Engine**: Unity 6000.0.38f1 with Universal Render Pipeline
 
 ---
 
 ## ✅ Recently Completed
+
+### M5Timer - Hardware Pomodoro Timer (2026-03-16)
+- **Status**: COMPLETE ✅
+- **Location**: `/home/qq/.openclaw/workspace/projects/esp32-button/`
+- **GitHub**: https://github.com/QQSHI13/M5Timer
+- **Type**: ESP32 hardware (M5Capsule)
+- **Completed**: 2026-03-16
+- **Features**:
+  - 4 system modes (INITIAL, TIMER, SWITCH, SYNC)
+  - Hardware: LED, button, buzzer, RTC, power management
+  - Pomodoro timing (Work/Break/Long Break)
+  - Web Serial API configuration
+  - Persistent flash storage
+  - 80MHz CPU for battery savings
+- **Tech**: C++, Arduino, PlatformIO, Web Serial API
+- **License**: GPL-3.0
+
+### Skylight Bug Fixes (2026-03-16)
+- **Project**: Unity Skylight day/night cycle
+- **Issues Fixed**:
+  - Purple clouds → White clouds (URP shader compatibility)
+  - Static sun → Moving sun (autoAdvance initialization fix)
+  - Purple ground → Green ground (proper color values)
+- **Changes**: Complete rewrite of SkyManager, WeatherSystem, GroundSystem for URP
 
 ### Web Tools Bug Sweep
 - **Completed**: 2026-03-06
@@ -48,8 +70,9 @@ Active and completed projects with quick-reference info.
 |----------|-------|
 | Web Tools (GitHub Pages) | 11 ✅ |
 | Desktop Apps | 1 🔄 |
-| Hardware Projects | 1 🔄 |
-| Total Completed | 11 |
+| Hardware Projects | 1 ✅ |
+| Unity 3D Projects | 1 🔄 |
+| Total Completed | 12 |
 | In Progress | 2 |
 
 ---
@@ -72,6 +95,12 @@ Active and completed projects with quick-reference info.
 - **Fabrication**: JLCPCB (PCB), JLC3D/第三方 (3D print)
 - **Sourcing**: LCSC (components), Taobao (battery, Atom Lite)
 
+### Unity 3D
+- **Stack**: Unity 6 (6000.x), URP, C#
+- **Platform**: PC (Windows)
+- **Rendering**: Universal Render Pipeline
+- **Version Control**: Unity built-in (no Git for this project)
+
 ---
 
-*Last updated: 2026-03-06*
+*Last updated: 2026-03-16*

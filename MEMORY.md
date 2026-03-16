@@ -73,17 +73,52 @@ All web tools are now centralized in **tools-suite**:
 
 ## Active Projects
 
-### ESP32 Pomodoro Button (M5Timer)
-- **Status**: ✅ Complete and ready for presentation!
-- **Location**: `/home/qq/.openclaw/workspace/projects/esp32-button/`
-- **Hardware**: M5Capsule (M5Stack StampS3)
-- **Mounting**: Snap-fit on GROVE side + 6x3mm magnet (no screws!)
-- **Firmware**: PlatformIO project, clean structure
-- **Hardware Status**: ✅ Arrived! (Wednesday, March 11th)
-- **GitHub Repo**: https://github.com/QQSHI13/M5Timer (renamed from esp32-pomodoro-button)
+### Skylight - Unity Day/Night Cycle
+- **Status**: 🔄 Active development
+- **Location**: `/mnt/c/users/lenovo/skylight/`
+- **Engine**: Unity 6 (6000.0.38f1) with URP
+- **Type**: 3D scene with dynamic time-of-day system
+- **Features**:
+  - Dynamic sky with day/night cycle
+  - Sun and moon movement
+  - Weather system (clear, cloudy, rain, snow)
+  - Procedural cloud generation
+  - Ground terrain with hills
+  - Star system at night
+- **Bugs Fixed** (2026-03-16):
+  - Purple clouds → White clouds (URP shader fix)
+  - Static sun → Moving sun (autoAdvance fix)
+  - Purple ground → Green ground (color fix)
+- **Scripts**:
+  - `SkyManager.cs` - Time cycle and lighting
+  - `WeatherSystem.cs` - Clouds and precipitation
+  - `GroundSystem.cs` - Terrain generation
+  - `StarSystem.cs` - Night stars
+  - `SkylightSetup.cs` - Scene initialization
+  - `SkylightDebug.cs` - Debug tools
+- **Controls**: T = advance time, R = rain, C = cloudy
+
+---
+
+## Completed Projects (Recent)
+
+### M5Timer ⏱️ - Hardware Pomodoro Timer - COMPLETE!
+- **Status**: ✅ **COMPLETE** - Ready for use!
+- **Completed**: 2026-03-16
+- **Location**: `/home/qq/.openclaw/workspace/projects/M5Timer/`
+- **GitHub**: https://github.com/QQSHI13/M5Timer
+- **Hardware**: M5Capsule (ESP32-S3)
 - **License**: GPL-3.0
-- **Web Sync**: https://qqshi13.github.io/tools-suite/web-sync.html
-- **Hackathon presentation**: Tomorrow (Sunday March 15)!
+
+**Completed Features**:
+- ✅ All 4 system modes (INITIAL, TIMER, SWITCH, SYNC)
+- ✅ Hardware: LED, button, buzzer, RTC, power management
+- ✅ Pomodoro: Work (25min) / Short Break (5min) / Long Break (15min)
+- ✅ Web sync interface with Web Serial API
+- ✅ Persistent settings in flash memory
+- ✅ Non-blocking buzzer with tone queue
+- ✅ 80MHz CPU for 65% power savings
+- ✅ Complete documentation
 
 ---
 
