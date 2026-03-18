@@ -213,6 +213,13 @@ openclaw security audit --fix
 openclaw security audit --json
 ```
 
+## Proactive Problem-Solving Rule
+When handling notifications or tasks:
+- **DO NOT just mark as read or acknowledge**
+- **Proactively fix bugs, solve problems, and check status for undone work**
+- Take initiative to resolve issues before asking for clarification
+- Save key decisions and lessons to AGENTS.md or memory files
+
 ## Skills System
 
 ### ClawHub (Skills Registry)
@@ -246,6 +253,7 @@ npx clawhub@latest update --all              # Update all skills
 - Work within this workspace
 - Clean up workspace (archive old files, remove duplicates)
 - Update documentation and memory files
+- **Commit and push automatically on every project/repo as long as it has git configured**
 
 **Ask first:**
 
