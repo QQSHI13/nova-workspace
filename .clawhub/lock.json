@@ -1,14 +1,6 @@
 {
   "version": 1,
   "skills": {
-    "self-improving-agent": {
-      "version": "3.0.1",
-      "installedAt": 1773389406751
-    },
-    "weixia": {
-      "version": "1.0.9",
-      "installedAt": 1773543599323
-    },
     "scrapling": {
       "version": "1.0.8",
       "installedAt": 1773198112885
@@ -16,10 +8,6 @@
     "markdown-converter": {
       "version": "1.0.0",
       "installedAt": 1773389128015
-    },
-    "mcporter": {
-      "version": "1.0.0",
-      "installedAt": 1773491350880
     }
   }
 }

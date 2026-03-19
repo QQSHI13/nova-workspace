@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "agents-radar": {
-      "baseUrl": "https://agents-radar-mcp.duanyytop.workers.dev"
-    }
-  },
-  "imports": []
-}

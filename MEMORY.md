@@ -36,10 +36,22 @@
 | LifeLab | ✅ | https://qqshi13.github.io/lifelab/ |
 | CollaBoard | ✅ | https://qqshi13.github.io/collaboard/ |
 
+### LifeLab Mini-Program (WeChat)
+- **Status**: ✅ UI complete, ready for testing
+- **Updates** (2026-03-15):
+  - Simplified UI: removed zoom buttons, edit/pan toggle, header
+  - Single finger = always edit mode (create/erase based on initial touch)
+  - Two fingers = pan + pinch zoom
+  - Added Bresenham line interpolation for smooth drawing
+  - Fixed canvas resize and flexbox layout
+- **Controls**:
+  - One finger: draw/erase cells
+  - Two fingers: pan/zoom
+
 ### Desktop Apps
 | Project | Status | Notes |
 |---------|--------|-------|
-| Quick Notes Command Palette Extension | ✅ v0.0.2.0 | Windows Command Palette Extension - All build warnings fixed (2026-03-13) |
+| Quick Notes Command Palette Extension | ✅ v0.0.2.0 | Windows Command Palette Extension - All build warnings fixed (2026-03-13), Microsoft Store listing ready (2026-03-18) |
 | ~~Quick Notes (Tauri desktop app)~~ | ❌ | Abandoned |
 
 ### Tools Suite Consolidation (2026-03-12)
@@ -61,12 +73,12 @@ All web tools are now centralized in **tools-suite**:
 
 ---
 
-## Upcoming Events
-- **Sunday March 15**: Hackathon presentation - Presenting M5Timer project!
-
 ---
 
 ## Recent Events
+- **Wednesday March 18**: Updated QuickNotes extension + homepage About Me
+- **Monday March 16**: M5Timer completed! + Skylight Unity fixes
+- **Sunday March 15**: Hackathon presentation - M5Timer project presented! + LifeLab mini-program UI
 - **Saturday March 14**: GESP 7th level exam - Completed! 🎉
 
 ---
@@ -119,6 +131,40 @@ All web tools are now centralized in **tools-suite**:
 - ✅ Non-blocking buzzer with tone queue
 - ✅ 80MHz CPU for 65% power savings
 - ✅ Complete documentation
+
+---
+
+## Recent Updates (2026-03-18)
+
+### Homepage & QuickNotes Updates
+- **QQ's Homepage** (https://qqshi13.github.io/): Added About Me section
+- **QuickNotes Extension**:
+  - Synced workspace files with desktop version (from /mnt/c/users/lenovo/Desktop/QuickNotes)
+  - Added Microsoft Store link to README
+  - Note: GitHub push requires workflow scope (push from Windows desktop)
+
+---
+
+## Recent Updates (2026-03-16)
+
+### M5Timer Project COMPLETED
+- See full details in "Completed Projects (Recent)" section below
+- Hardware: M5Capsule (ESP32-S3), all features implemented
+
+### Skylight Unity Project Fixed
+- Fixed all URP rendering bugs:
+  - Purple clouds → White clouds
+  - Static sun → Moving sun
+  - Purple ground → Green ground
+- Complete script rewrites for URP compatibility
+
+---
+
+## Recent Updates (2026-03-15)
+
+### LifeLab Mini-Program UI Complete
+- Simplified mobile UX, removed clutter
+- Single-finger edit, two-finger pan/zoom
 
 ---
 

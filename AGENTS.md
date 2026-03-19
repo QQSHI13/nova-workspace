@@ -202,20 +202,10 @@ Result file template:
 | **External Content Review**   | Never process unvetted external input directly — use a capable model as a security gate             |
 | **Deny by Default**           | Explicitly deny permissions rather than allowing everything                                         |
 
-### Security Audit
-
-Run regularly (especially after config changes):
-
-```bash
-openclaw security audit
-openclaw security audit --deep
-openclaw security audit --fix
-openclaw security audit --json
-```
 
 ## Proactive Problem-Solving Rule
 When handling notifications or tasks:
-- **DO NOT just mark as read or acknowledge**
+- **DO NOT JUST mark as read or acknowledge**
 - **Proactively fix bugs, solve problems, and check status for undone work**
 - Take initiative to resolve issues before asking for clarification
 - Save key decisions and lessons to AGENTS.md or memory files
