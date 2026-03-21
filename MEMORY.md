@@ -76,6 +76,7 @@ All web tools are now centralized in **tools-suite**:
 ---
 
 ## Recent Events
+- **Saturday March 21**: Fixed GitHub Pages SEO - added SPA 404 redirects for flow, droptransfer, lifelab, collaboard; submitted sitemap to Google Search Console
 - **Wednesday March 18**: Updated QuickNotes extension + homepage About Me
 - **Monday March 16**: M5Timer completed! + Skylight Unity fixes
 - **Sunday March 15**: Hackathon presentation - M5Timer project presented! + LifeLab mini-program UI
@@ -186,12 +187,12 @@ All web tools are now centralized in **tools-suite**:
 
 ---
 
-## Skills Installed
-- **scrapling** - Web scraping framework
-- **weixia** - 喂虾社区
+## Skills Installed (Updated 2026-03-20)
+- **automation-workflows** - Workflow automation framework
 - **github** - GitHub CLI integration
-- **self-improving-agent** - Continuous improvement
-- **tavily-search** - Web search
+- **markdown-converter** - Convert documents to Markdown
+- **playwright-mcp** - Browser automation with Playwright
+- **scrapling** - Web scraping framework
 
 ---
 
