@@ -4,6 +4,33 @@
 - **Dual-boot**: Windows + native Ubuntu (not just WSL)
 - **Browser plan**: Thorium + 夸克 (Quark) only (NO Chrome/Firefox!)
 
+### 📝 Name Usage Rule
+- **Use "QQ"** in all public/digital contexts (blog posts, GitHub, online profiles)
+- **"Cyrus"** is ONLY for in-person English environments
+- Never use Cyrus in written public content without explicit permission
+
+---
+
+## OpenClaw Configuration (Updated 2026-03-27)
+
+### Web Search
+- **Default Provider**: DuckDuckGo (free, no API key)
+- **Fallback**: Kimi CLI for deep research (included in coding plan)
+- **Kimi API**: Separate credits needed (not configured)
+- **Tools**: `web_search` (DuckDuckGo), `web_fetch` (single page), Kimi CLI
+
+### Avatar
+- **Visual**: Fox (🦊) - `fox-avatar.png`
+- **Text/Emoji**: ☄️ (Nova/comet)
+
+### Models
+- **Main Assistant**: Kimi for Coding (kimi-coding/kimi-for-coding)
+- **Coding Tasks**: Claude Code CLI (spawned sub-agents)
+
+### Browser
+- **Chrome on Windows** via MCP existing-session driver
+- **Screenshot capability**: Visual mode working
+
 ---
 
 ## ~~Current Project: Windows Fresh Start~~ - ABANDONED
@@ -76,6 +103,8 @@ All web tools are now centralized in **tools-suite**:
 ---
 
 ## Recent Events
+- **Friday March 27**: OpenClaw dev version rollback - switched to npm stable after gateway crashes; Web search activated (DuckDuckGo provider working); Avatar updated to fox (🦊); TOOLS.md updated with web search docs
+- **Tuesday March 25**: Attempted Tencent course transcript scraping - sub-agent timed out; cleaned up workspace (removed tc-transcripts/ and extract-course.js)
 - **Saturday March 21**: Fixed GitHub Pages SEO - added SPA 404 redirects for flow, droptransfer, lifelab, collaboard; submitted sitemap to Google Search Console
 - **Wednesday March 18**: Updated QuickNotes extension + homepage About Me
 - **Monday March 16**: M5Timer completed! + Skylight Unity fixes

@@ -8,6 +8,22 @@
     "markdown-converter": {
       "version": "1.0.0",
       "installedAt": 1773389128015
+    },
+    "github": {
+      "version": "1.0.0",
+      "installedAt": 1774012744081
+    },
+    "playwright-mcp": {
+      "version": "1.0.0",
+      "installedAt": 1774012750307
+    },
+    "playwright-scraper-skill": {
+      "version": "1.2.0",
+      "installedAt": 1774013524999
+    },
+    "mcporter": {
+      "version": "1.0.0",
+      "installedAt": 1774612133541
     }
   }
 }
