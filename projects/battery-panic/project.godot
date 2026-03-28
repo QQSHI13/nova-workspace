@@ -1,0 +1,29 @@
+; Engine Configuration File
+; Godot version: 4.x
+
+[application]
+config/name="Battery Panic"
+config/description="Optimize your way through battery emergencies! A pixel art game about efficiency."
+config/version="1.0.0"
+run/main_scene="res://scenes/main_menu.tscn"
+config/features=PackedStringArray("4.2", "Mobile")
+boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
+
+[display]
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+window/handheld/orientation=0
+
+[rendering]
+textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="mobile"
+
+[layer_names]
+2d_physics/layer_1="UI"
+
+[autoload]
+SoundManager="*res://scripts/sound_manager.gd"
