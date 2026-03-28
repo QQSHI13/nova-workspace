@@ -11,12 +11,12 @@ const BUS_MUSIC = "Music"
 # Placeholder sound generators
 var _sfx_players: Dictionary = {}
 
-func _ready():
+func _ready() -> void:
 	_setup_audio_buses()
 	_create_placeholder_sfx()
 	print("SoundManager ready")
 
-func _setup_audio_buses():
+func _setup_audio_buses() -> void:
 	# Ensure SFX bus exists
 	if AudioServer.get_bus_index(BUS_SFX) == -1:
 		AudioServer.add_bus(AudioServer.bus_count)
@@ -27,7 +27,7 @@ func _setup_audio_buses():
 		AudioServer.add_bus(AudioServer.bus_count)
 		AudioServer.set_bus_name(AudioServer.bus_count - 1, BUS_MUSIC)
 
-func _create_placeholder_sfx():
+func _create_placeholder_sfx() -> void:
 	# Create AudioStreamPlayer nodes for each SFX
 	var sfx_names = ["button_click", "task_complete", "task_fail", "low_battery", "game_over_win", "game_over_lose"]
 	for sfx_name in sfx_names:
@@ -60,22 +60,22 @@ func _generate_beep(frequency: float, duration: float = 0.1) -> AudioStreamWAV:
 	stream.data = data
 	return stream
 
-func play_sfx(sound_name: String):
+func play_sfx(sound_name: String) -> void:
 	if _sfx_players.has(sound_name):
 		_sfx_players[sound_name].play()
 	else:
 		push_warning("SFX not found: " + sound_name)
 
-func play_music(track_name: String):
+func play_music(_track_name: String) -> void:
 	# Placeholder - music not implemented yet
 	pass
 
-func set_sfx_volume(volume_db: float):
+func set_sfx_volume(volume_db: float) -> void:
 	var idx = AudioServer.get_bus_index(BUS_SFX)
 	if idx != -1:
 		AudioServer.set_bus_volume_db(idx, volume_db)
 
-func set_music_volume(volume_db: float):
+func set_music_volume(volume_db: float) -> void:
 	var idx = AudioServer.get_bus_index(BUS_MUSIC)
 	if idx != -1:
 		AudioServer.set_bus_volume_db(idx, volume_db)
