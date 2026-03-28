@@ -36,7 +36,7 @@ func update_display(value: float) -> void:
 
 	# Update color based on level
 	var color = _get_color_for_level(percent)
-	battery_bar.tint_progress = color
+	battery_bar.add_theme_color_override("fill", color)
 	percentage_label.add_theme_color_override("font_color", color)
 
 	# Flash when low
