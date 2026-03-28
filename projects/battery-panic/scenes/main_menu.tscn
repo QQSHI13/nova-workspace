@@ -1,0 +1,96 @@
+[gd_scene load_steps=2 format=3 uid="uid://mainmenu1"]
+
+[sub_resource type="GDScript" id="1"]
+script/source = "extends Control
+
+func _ready() -> void:
+	$StartButton.pressed.connect(_on_start)
+	$QuitButton.pressed.connect(_on_quit)
+
+func _on_start() -> void:
+	SoundManager.play_sfx('button_click')
+	get_tree().change_scene_to_file('res://scenes/main_game.tscn')
+
+func _on_quit() -> void:
+	SoundManager.play_sfx('button_click')
+	get_tree().quit()
+"
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 640.0
+offset_bottom = 360.0
+script = SubResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.141176, 0.141176, 0.141176, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Battery Panic"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -60.0
+offset_right = 150.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Optimize your way to survival!"
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = 20.0
+offset_right = 60.0
+offset_bottom = 51.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Start Game"
+
+[node name="QuitButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = 70.0
+offset_right = 60.0
+offset_bottom = 101.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Quit"
