@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://c8yvxg3ulq3a"]
+[gd_scene load_steps=8 format=3 uid="uid://c8yvxg3ulq3a"]
 
 [ext_resource type="Script" path="res://scripts/game_controller.gd" id="1_8j1j7"]
 [ext_resource type="PackedScene" uid="uid://devicescreen1" path="res://scenes/device_screen.tscn" id="2_device"]
 [ext_resource type="PackedScene" uid="uid://postit1" path="res://scenes/post_it_notes.tscn" id="3_postit"]
 [ext_resource type="PackedScene" uid="uid://osui1" path="res://scenes/os_ui.tscn" id="4_osui"]
+[ext_resource type="PackedScene" uid="uid://flashoverlay1" path="res://scenes/flash_overlay.tscn" id="5_flash"]
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_8j1j7")
@@ -112,5 +113,7 @@ z_index = -1
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0.1, 0.1, 0.12, 1.0)
+
+[node name="FlashOverlay" parent="." instance=ExtResource("5_flash")]
 
 [connection signal="pressed" from="UI/GameOverPanel/RestartButton" to="." method="_ready"]

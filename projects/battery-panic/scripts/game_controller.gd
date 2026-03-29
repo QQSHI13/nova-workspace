@@ -39,6 +39,7 @@ const TASKS = [
 @onready var time_label = $UI/TimeLabel
 @onready var score_label = $UI/ScoreLabel
 @onready var mode_button = $UI/ModeButton
+@onready var flash_overlay = $FlashOverlay
 
 func _ready() -> void:
 	current_battery = starting_battery
@@ -158,11 +159,12 @@ func _execute_task(task_id: int) -> void:
 	# Visual effects based on battery change
 	if current_battery > old_battery:
 		# Battery saved - green particles
-		ParticleEffects.spawn_battery_save_effect(Vector2(960, 540), abs(task["battery"]))
-		AnimationManager.flash_color($UI, Color(0, 1, 0, 0.2), 0.3)
+		ParticleEffects.spawn_battery_save_effect(Vector2(600, 400), abs(task["battery"]))
+		flash_overlay.flash_green(0.3, 0.3)
 	else:
 		# Battery drained - red particles
-		ParticleEffects.spawn_battery_drain_effect(Vector2(960, 540), abs(task["battery"]))
+		ParticleEffects.spawn_battery_drain_effect(Vector2(600, 400), abs(task["battery"]))
+		flash_overlay.flash_red(0.2, 0.2)
 
 	# Remove post-it with fade out
 	post_it_notes.remove_note_with_animation(task_id)
@@ -180,11 +182,12 @@ func _execute_task(task_id: int) -> void:
 	# Check for critical battery - screen shake
 	if current_battery < 5.0:
 		AnimationManager.screen_shake(self, 15.0, 0.5)
-		ParticleEffects.spawn_critical_warning_effect(Vector2(960, 540))
-		AnimationManager.flash_color($UI, Color(1, 0, 0, 0.5), 0.5)
+		ParticleEffects.spawn_critical_warning_effect(Vector2(600, 400))
+		flash_overlay.flash_red(0.6, 0.5)
+		flash_overlay.pulse_warning()
 	elif current_battery < 10.0:
 		AnimationManager.screen_shake(self, 5.0, 0.3)
-		AnimationManager.flash_color($UI, Color(1, 0.5, 0, 0.3), 0.3)
+		flash_overlay.flash_yellow(0.3, 0.3)
 
 	# End turn
 	_end_turn()
@@ -230,13 +233,13 @@ func _trigger_game_over(win: bool) -> void:
 	if win:
 		SoundManager.play_sfx("game_over_win")
 		ParticleEffects.spawn_success_effect(Vector2(960, 540))
-		AnimationManager.flash_color($UI, Color(0, 1, 0, 0.3), 0.5)
+		flash_overlay.flash_green(0.5, 1.0)
 		print("成功！你在电池耗尽前完成了任务！")
 	else:
 		SoundManager.play_sfx("game_over_lose")
 		ParticleEffects.spawn_critical_warning_effect(Vector2(960, 540))
 		AnimationManager.screen_shake(self, 20.0, 1.0)
-		AnimationManager.flash_color($UI, Color(1, 0, 0, 0.5), 1.0)
+		flash_overlay.flash_red(0.8, 1.5)
 		print("失败！电池耗尽了...")
 
 	# Show game over panel with animation
