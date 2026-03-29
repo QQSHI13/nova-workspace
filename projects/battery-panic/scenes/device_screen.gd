@@ -41,7 +41,7 @@ func _setup_interactive_elements() -> void:
 		btn.text = icons[i] + "\n" + apps[i]
 		btn.position = Vector2(80 + i * 180, 100)
 		btn.size = Vector2(140, 140)
-		btn.theme_override_font_sizes/font_size = 24
+		btn.add_theme_font_size_override("font_size", 24)
 		btn.pressed.connect(_on_app_clicked.bind(apps[i]))
 		screen_area.add_child(btn)
 		_interactive_elements[apps[i]] = btn
