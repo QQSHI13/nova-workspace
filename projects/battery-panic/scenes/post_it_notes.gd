@@ -53,7 +53,7 @@ func add_note(task_name: String, battery_save: int, note_type: String = "task") 
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD
 	label.position = Vector2(10, 15)
 	label.size = Vector2(260, 80)
-	label.theme_override_font_sizes/font_size = 24
+	label.add_theme_font_size_override("font_size", 24)
 	label.add_theme_color_override("font_color", Color("#333333"))
 	note.add_child(label)
 
@@ -66,7 +66,7 @@ func add_note(task_name: String, battery_save: int, note_type: String = "task") 
 	battery_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	battery_label.position = Vector2(10, 100)
 	battery_label.size = Vector2(260, 40)
-	battery_label.theme_override_font_sizes/font_size = 28
+	battery_label.add_theme_font_size_override("font_size", 28)
 	battery_label.add_theme_color_override("font_color", Color("#1565c0"))
 	note.add_child(battery_label)
 
