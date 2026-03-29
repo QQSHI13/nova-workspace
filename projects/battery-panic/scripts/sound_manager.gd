@@ -29,7 +29,7 @@ func _setup_audio_buses() -> void:
 
 func _create_placeholder_sfx() -> void:
 	# Create AudioStreamPlayer nodes for each SFX
-	var sfx_names = ["button_click", "task_complete", "task_fail", "low_battery", "game_over_win", "game_over_lose"]
+	var sfx_names = ["button_click", "button_hover", "task_complete", "task_fail", "low_battery", "game_over_win", "game_over_lose"]
 	for sfx_name in sfx_names:
 		var player = AudioStreamPlayer.new()
 		player.name = sfx_name
@@ -38,7 +38,19 @@ func _create_placeholder_sfx() -> void:
 		add_child(player)
 
 		# Generate simple placeholder beep
-		var stream = _generate_beep(440.0 if "click" in sfx_name else 880.0)
+		var freq = 440.0
+		if "hover" in sfx_name:
+			freq = 330.0
+		elif "complete" in sfx_name:
+			freq = 880.0
+		elif "fail" in sfx_name:
+			freq = 220.0
+		elif "win" in sfx_name:
+			freq = 1100.0
+		elif "lose" in sfx_name:
+			freq = 150.0
+
+		var stream = _generate_beep(freq)
 		player.stream = stream
 
 func _generate_beep(frequency: float, duration: float = 0.1) -> AudioStreamWAV:
