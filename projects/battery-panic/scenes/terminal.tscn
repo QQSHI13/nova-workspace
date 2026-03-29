@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://terminal1"]
+
+[ext_resource type="Script" path="res://scenes/terminal.gd" id="1_terminal"]
+
+[node name="Terminal" type="Panel"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 100.0
+offset_top = 50.0
+offset_right = 540.0
+offset_bottom = 270.0
+script = ExtResource("1_terminal")
+
+[node name="OutputLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 430.0
+offset_bottom = 180.0
+text = "$ _"
+
+[node name="InputLine" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 190.0
+offset_right = 430.0
+offset_bottom = 221.0
+placeholder_text = "Enter command..."
