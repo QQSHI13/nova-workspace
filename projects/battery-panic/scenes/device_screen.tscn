@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://devicescreen1"]
+
+[ext_resource type="Script" path="res://scenes/device_screen.gd" id="1_device"]
+[ext_resource type="PackedScene" uid="uid://terminal1" path="res://scenes/terminal.tscn" id="2_terminal"]
+
+[node name="DeviceScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+script = ExtResource("1_device")
+
+[node name="ScreenArea" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 620.0
+offset_bottom = 300.0
+color = Color(0, 0.470588, 0.831373, 1)
+
+[node name="Taskbar" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 300.0
+offset_right = 620.0
+offset_bottom = 340.0
+
+[node name="Terminal" parent="." instance=ExtResource("2_terminal")]
