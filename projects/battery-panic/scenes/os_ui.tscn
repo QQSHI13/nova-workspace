@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://osui1"]
+
+[ext_resource type="Script" path="res://scenes/os_ui.gd" id="1_osui"]
+
+[sub_resource type="GradientTexture2D" id="1"]
+width = 24
+height = 12
+fill = 1
+fill_from = Vector2(0, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="OS_UI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_osui")
+
+[node name="BatteryIcon" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 12.0
+texture = SubResource("1")
+
+[node name="BatteryLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = -50.0
+offset_right = -5.0
+offset_bottom = 23.0
+text = "100%"
+horizontal_alignment = 2
+
+[node name="ClickArea" type="Button" parent="."]
+layout_mode = 0
+offset_left = -60.0
+offset_right = 30.0
+offset_bottom = 30.0
+flat = true
