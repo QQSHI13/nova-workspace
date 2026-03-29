@@ -109,11 +109,8 @@ text = "Try Again"
 
 [node name="Background" type="ColorRect" parent="."]
 z_index = -1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_right = 1920.0
+offset_bottom = 1080.0
 color = Color(0.1, 0.1, 0.12, 1.0)
 
 [connection signal="pressed" from="UI/GameOverPanel/RestartButton" to="." method="_ready"]
