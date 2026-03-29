@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://postit1"]
+
+[ext_resource type="Script" path="res://scenes/post_it_notes.gd" id="1_postit"]
+
+[node name="PostItNotes" type="CanvasLayer"]
+script = ExtResource("1_postit")
+
+[node name="NotesContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
