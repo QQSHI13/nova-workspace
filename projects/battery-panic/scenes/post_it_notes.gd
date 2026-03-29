@@ -88,6 +88,18 @@ func remove_note(note_id: int) -> void:
 		_notes[note_id]["panel"].queue_free()
 		_notes.erase(note_id)
 
+func remove_note_with_animation(note_id: int) -> void:
+	if _notes.has(note_id):
+		var note = _notes[note_id]["panel"]
+		# Fade out and scale down
+		var tween = create_tween()
+		tween.set_parallel(true)
+		tween.tween_property(note, "modulate:a", 0.0, 0.3)
+		tween.tween_property(note, "scale", Vector2(0.8, 0.8), 0.3)
+		await tween.finished
+		note.queue_free()
+		_notes.erase(note_id)
+
 func clear_all_notes() -> void:
 	for note_id in _notes.keys():
 		remove_note(note_id)

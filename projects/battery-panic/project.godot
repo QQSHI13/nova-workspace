@@ -24,6 +24,8 @@ boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
 [autoload]
 
 SoundManager="*res://scripts/sound_manager.gd"
+AnimationManager="*res://scripts/animation_manager.gd"
+ParticleEffects="*res://scripts/particle_effects.gd"
 
 [display]
 

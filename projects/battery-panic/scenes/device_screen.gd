@@ -43,12 +43,58 @@ func _setup_interactive_elements() -> void:
 		btn.size = Vector2(140, 140)
 		btn.add_theme_font_size_override("font_size", 24)
 		btn.pressed.connect(_on_app_clicked.bind(apps[i]))
+
+		# Add hover effects
+		btn.mouse_entered.connect(_on_btn_hover.bind(btn, true))
+		btn.mouse_exited.connect(_on_btn_hover.bind(btn, false))
+
+		# Style the button
+		var style_normal = StyleBoxFlat.new()
+		style_normal.bg_color = Color(1, 1, 1, 0.2)
+		style_normal.corner_radius_top_left = 12
+		style_normal.corner_radius_top_right = 12
+		style_normal.corner_radius_bottom_left = 12
+		style_normal.corner_radius_bottom_right = 12
+		btn.add_theme_stylebox_override("normal", style_normal)
+
+		var style_hover = StyleBoxFlat.new()
+		style_hover.bg_color = Color(1, 1, 1, 0.4)
+		style_hover.corner_radius_top_left = 12
+		style_hover.corner_radius_top_right = 12
+		style_hover.corner_radius_bottom_left = 12
+		style_hover.corner_radius_bottom_right = 12
+		btn.add_theme_stylebox_override("hover", style_hover)
+
+		var style_pressed = StyleBoxFlat.new()
+		style_pressed.bg_color = Color(1, 1, 1, 0.1)
+		style_pressed.corner_radius_top_left = 12
+		style_pressed.corner_radius_top_right = 12
+		style_pressed.corner_radius_bottom_left = 12
+		style_pressed.corner_radius_bottom_right = 12
+		btn.add_theme_stylebox_override("pressed", style_pressed)
+
 		screen_area.add_child(btn)
 		_interactive_elements[apps[i]] = btn
+
+		# Entrance animation
+		btn.scale = Vector2(0, 0)
+		var tween = create_tween()
+		tween.tween_property(btn, "scale", Vector2(1, 1), 0.3)
+		tween.set_ease(Tween.EASE_OUT)
+		tween.set_trans(Tween.TRANS_BACK)
+		tween.set_delay(i * 0.1)
 
 func _on_app_clicked(app_name: String) -> void:
 	element_clicked.emit(app_name)
 	app_opened.emit(app_name)
+
+func _on_btn_hover(btn: Button, is_hovering: bool) -> void:
+	var tween = create_tween()
+	if is_hovering:
+		tween.tween_property(btn, "scale", Vector2(1.1, 1.1), 0.15)
+		SoundManager.play_sfx("button_hover")
+	else:
+		tween.tween_property(btn, "scale", Vector2(1.0, 1.0), 0.15)
 
 func show_terminal_window(show_it: bool) -> void:
 	if terminal:

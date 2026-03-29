@@ -1,7 +1,7 @@
 extends Node2D
 
-# Battery Panic - Main Game Controller (Multi-Device UI Version)
-# Turn-based with real-time toggle, multi-device support
+# Battery Panic - Main Game Controller (Polished Version)
+# Turn-based with real-time toggle, multi-device support, full polish
 
 @export var starting_battery: float = 15.0
 @export var time_limit: float = 1200.0  # 20 minutes in seconds
@@ -24,12 +24,12 @@ var _is_player_turn: bool = true
 
 # Tasks - now shown as post-it notes
 const TASKS = [
-	{"name": "发送紧急邮件", "time": 180, "battery": 2, "priority": 3},
-	{"name": "保存文档", "time": 60, "battery": 1, "priority": 3},
-	{"name": "关闭Chrome标签", "time": 30, "battery": -3, "priority": 2},
-	{"name": "调低屏幕亮度", "time": 10, "battery": -5, "priority": 2},
-	{"name": "下载文件", "time": 600, "battery": 4, "priority": 1},
-	{"name": "刷B站", "time": 900, "battery": 8, "priority": 0}
+	{"name": "发送紧急邮件", "time": 180, "battery": 2, "priority": 3, "icon": "📧"},
+	{"name": "保存文档", "time": 60, "battery": 1, "priority": 3, "icon": "💾"},
+	{"name": "关闭Chrome标签", "time": 30, "battery": -3, "priority": 2, "icon": "🌐"},
+	{"name": "调低屏幕亮度", "time": 10, "battery": -5, "priority": 2, "icon": "🔆"},
+	{"name": "下载文件", "time": 600, "battery": 4, "priority": 1, "icon": "⬇️"},
+	{"name": "刷B站", "time": 900, "battery": 8, "priority": 0, "icon": "📺"}
 ]
 
 @onready var device_screen = $UI/DeviceScreen
@@ -56,6 +56,9 @@ func _ready() -> void:
 	# Initial UI update
 	_update_ui()
 
+	# Start animation
+	AnimationManager.fade_in($UI)
+
 	print("游戏开始！电池: ", current_battery, "%")
 	print("你有20分钟完成关键任务！")
 
@@ -75,7 +78,9 @@ func _process(delta: float) -> void:
 func _spawn_post_it_notes() -> void:
 	for i in range(TASKS.size()):
 		var task = TASKS[i]
-		var note_id = post_it_notes.add_note(task["name"], -task["battery"])
+		var note_id = post_it_notes.add_note(task["icon"] + " " + task["name"], -task["battery"])
+		# Slide in animation
+		AnimationManager.slide_in(post_it_notes.get_node("NotesContainer/Note_%d" % note_id), true, 0.5 + i * 0.1)
 
 func _on_element_clicked(element_name: String) -> void:
 	# Direct click on OS element
@@ -83,7 +88,9 @@ func _on_element_clicked(element_name: String) -> void:
 	_handle_action(element_name)
 
 func _on_note_clicked(note_id: int, task_name: String) -> void:
-	# Click on post-it note
+	# Click on post-it note - bounce effect
+	var note = post_it_notes.get_node("NotesContainer/Note_%d" % note_id)
+	AnimationManager.bounce(note)
 	print("Post-it clicked: " + task_name)
 	_handle_action_by_name(task_name)
 
@@ -96,13 +103,13 @@ func _on_terminal_command(command: String, success: bool) -> void:
 func _handle_action(element_name: String) -> void:
 	# Map element clicks to actions
 	match element_name:
-		"chrome":
+		"Chrome":
 			_execute_task(2)  # Close Chrome tabs
-		"settings":
+		"Settings":
 			_execute_task(3)  # Dim screen
-		"mail":
+		"Mail":
 			_execute_task(0)  # Send email
-		"files":
+		"Files":
 			_execute_task(1)  # Save document
 		_:
 			print("Unknown action: " + element_name)
@@ -117,12 +124,15 @@ func _handle_terminal_command(command: String) -> void:
 	# Apply effects based on terminal command
 	if command.begins_with("brightness"):
 		current_battery += 5.0  # Save battery
+		ParticleEffects.spawn_battery_save_effect(Vector2(960, 540), 5.0)
 		print("Brightness lowered, battery +5%")
 	elif command.begins_with("killall"):
 		current_battery += 3.0
+		ParticleEffects.spawn_battery_save_effect(Vector2(960, 540), 3.0)
 		print("App killed, battery +3%")
 	elif command.begins_with("wifi off"):
 		current_battery += 2.0
+		ParticleEffects.spawn_battery_save_effect(Vector2(960, 540), 2.0)
 		print("WiFi off, battery +2%")
 
 func _execute_task(task_id: int) -> void:
@@ -134,25 +144,47 @@ func _execute_task(task_id: int) -> void:
 	# Validate affordability
 	if current_battery < task["battery"] or current_time < task["time"]:
 		SoundManager.play_sfx("task_fail")
+		AnimationManager.flash_color($UI, Color(1, 0, 0, 0.3), 0.3)
 		return
 
 	# Execute task
+	var old_battery = current_battery
 	current_battery -= task["battery"]
 	current_time -= task["time"]
 	tasks_completed += 1
 	score += task["priority"] * 100
 	_completed_task_ids.append(task_id)
 
-	# Remove post-it
-	post_it_notes.remove_note(task_id)
+	# Visual effects based on battery change
+	if current_battery > old_battery:
+		# Battery saved - green particles
+		ParticleEffects.spawn_battery_save_effect(Vector2(960, 540), abs(task["battery"]))
+		AnimationManager.flash_color($UI, Color(0, 1, 0, 0.2), 0.3)
+	else:
+		# Battery drained - red particles
+		ParticleEffects.spawn_battery_drain_effect(Vector2(960, 540), abs(task["battery"]))
 
-	# Update UI
+	# Remove post-it with fade out
+	post_it_notes.remove_note_with_animation(task_id)
+
+	# Update UI with animation
+	AnimationManager.animate_number(score_label, score - task["priority"] * 100, score, 0.5, "Score: ")
 	_update_ui()
 
 	# Play sounds
 	SoundManager.play_sfx("task_complete")
+	AnimationManager.pulse_scale(score_label, 1.1, 0.3)
 
 	print("完成任务: ", task["name"], " | 剩余电池: ", current_battery, "%")
+
+	# Check for critical battery - screen shake
+	if current_battery < 5.0:
+		AnimationManager.screen_shake(self, 15.0, 0.5)
+		ParticleEffects.spawn_critical_warning_effect(Vector2(960, 540))
+		AnimationManager.flash_color($UI, Color(1, 0, 0, 0.5), 0.5)
+	elif current_battery < 10.0:
+		AnimationManager.screen_shake(self, 5.0, 0.3)
+		AnimationManager.flash_color($UI, Color(1, 0.5, 0, 0.3), 0.3)
 
 	# End turn
 	_end_turn()
@@ -188,14 +220,28 @@ func _toggle_mode() -> void:
 	real_time_mode = not real_time_mode
 	mode_button.text = "Mode: Real-Time" if real_time_mode else "Mode: Turn-Based"
 
+	# Pulse animation on button
+	AnimationManager.pulse_scale(mode_button, 1.05, 0.2)
+
 func _trigger_game_over(win: bool) -> void:
 	game_over.emit(win, score)
 
+	# Success or failure effects
 	if win:
 		SoundManager.play_sfx("game_over_win")
+		ParticleEffects.spawn_success_effect(Vector2(960, 540))
+		AnimationManager.flash_color($UI, Color(0, 1, 0, 0.3), 0.5)
 		print("成功！你在电池耗尽前完成了任务！")
 	else:
 		SoundManager.play_sfx("game_over_lose")
+		ParticleEffects.spawn_critical_warning_effect(Vector2(960, 540))
+		AnimationManager.screen_shake(self, 20.0, 1.0)
+		AnimationManager.flash_color($UI, Color(1, 0, 0, 0.5), 1.0)
 		print("失败！电池耗尽了...")
+
+	# Show game over panel with animation
+	var game_over_panel = $UI/GameOverPanel
+	game_over_panel.visible = true
+	AnimationManager.fade_in(game_over_panel)
 
 	get_tree().paused = true
