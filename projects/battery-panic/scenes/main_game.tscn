@@ -1,21 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8yvxg3ulq3a"]
+[gd_scene load_steps=8 format=3 uid="uid://c8yvxg3ulq3a"]
 
 [ext_resource type="Script" path="res://scripts/game_controller.gd" id="1_8j1j7"]
-[ext_resource type="PackedScene" uid="uid://battery1" path="res://scenes/battery_display.tscn" id="2_battery"]
+[ext_resource type="PackedScene" uid="uid://devicescreen1" path="res://scenes/device_screen.tscn" id="2_device"]
+[ext_resource type="PackedScene" uid="uid://postit1" path="res://scenes/post_it_notes.tscn" id="3_postit"]
+[ext_resource type="PackedScene" uid="uid://osui1" path="res://scenes/os_ui.tscn" id="4_osui"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 bg_color = Color(0.141176, 0.141176, 0.141176, 1)
+
+[sub_resource type="GradientTexture2D" id="2"]
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_8j1j7")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="BatteryDisplay" parent="UI" instance=ExtResource("2_battery")]
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 220.0
-offset_bottom = 70.0
+[node name="DeviceScreen" parent="UI" instance=ExtResource("2_device")]
+
+[node name="PostItNotes" parent="UI" instance=ExtResource("3_postit")]
+
+[node name="OS_UI" parent="UI" instance=ExtResource("4_osui")]
 
 [node name="TimeLabel" type="Label" parent="UI"]
 offset_left = 540.0
@@ -33,16 +41,12 @@ offset_bottom = 50.0
 text = "Score: 0"
 horizontal_alignment = 1
 
-[node name="TaskContainer" type="VBoxContainer" parent="UI"]
+[node name="ModeButton" type="Button" parent="UI"]
 offset_left = 20.0
-offset_top = 80.0
-offset_right = 280.0
-offset_bottom = 340.0
-theme_override_constants/separation = 5
-
-[node name="TaskLabel" type="Label" parent="UI/TaskContainer"]
-layout_mode = 2
-text = "Tasks:"
+offset_top = 320.0
+offset_right = 140.0
+offset_bottom = 351.0
+text = "Mode: Turn-Based"
 
 [node name="GameOverPanel" type="Panel" parent="UI"]
 visible = false
