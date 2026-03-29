@@ -1,18 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://c8yvxg3ulq3a"]
+[gd_scene load_steps=7 format=3 uid="uid://c8yvxg3ulq3a"]
 
 [ext_resource type="Script" path="res://scripts/game_controller.gd" id="1_8j1j7"]
 [ext_resource type="PackedScene" uid="uid://devicescreen1" path="res://scenes/device_screen.tscn" id="2_device"]
 [ext_resource type="PackedScene" uid="uid://postit1" path="res://scenes/post_it_notes.tscn" id="3_postit"]
 [ext_resource type="PackedScene" uid="uid://osui1" path="res://scenes/os_ui.tscn" id="4_osui"]
-
-[sub_resource type="StyleBoxFlat" id="1"]
-bg_color = Color(0.141176, 0.141176, 0.141176, 1)
-
-[sub_resource type="GradientTexture2D" id="2"]
-width = 32
-height = 32
-fill = 1
-fill_from = Vector2(0.5, 0.5)
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_8j1j7")
@@ -20,71 +11,109 @@ script = ExtResource("1_8j1j7")
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="DeviceScreen" parent="UI" instance=ExtResource("2_device")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -400.0
+offset_right = 600.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="PostItNotes" parent="UI" instance=ExtResource("3_postit")]
 
 [node name="OS_UI" parent="UI" instance=ExtResource("4_osui")]
 
 [node name="TimeLabel" type="Label" parent="UI"]
-offset_left = 540.0
-offset_top = 20.0
-offset_right = 620.0
-offset_bottom = 50.0
+offset_left = 1620.0
+offset_top = 40.0
+offset_right = 1880.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 48
 text = "20:00"
 horizontal_alignment = 2
 
 [node name="ScoreLabel" type="Label" parent="UI"]
-offset_left = 280.0
-offset_top = 20.0
-offset_right = 360.0
-offset_bottom = 50.0
+offset_left = 860.0
+offset_top = 40.0
+offset_right = 1060.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 48
 text = "Score: 0"
 horizontal_alignment = 1
 
 [node name="ModeButton" type="Button" parent="UI"]
-offset_left = 20.0
-offset_top = 320.0
-offset_right = 140.0
-offset_bottom = 351.0
+offset_left = 40.0
+offset_top = 980.0
+offset_right = 320.0
+offset_bottom = 1040.0
+theme_override_font_sizes/font_size = 28
 text = "Mode: Turn-Based"
 
 [node name="GameOverPanel" type="Panel" parent="UI"]
 visible = false
-offset_left = 170.0
-offset_top = 100.0
-offset_right = 470.0
-offset_bottom = 260.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="GameOverLabel" type="Label" parent="UI/GameOverPanel"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 280.0
-offset_bottom = 60.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 40.0
+offset_right = 250.0
+offset_bottom = 120.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 56
 text = "Battery Dead!"
 horizontal_alignment = 1
 
 [node name="TipsText" type="RichTextLabel" parent="UI/GameOverPanel"]
 layout_mode = 0
-offset_left = 20.0
-offset_top = 70.0
-offset_right = 280.0
-offset_bottom = 130.0
+offset_left = 40.0
+offset_top = 140.0
+offset_right = 560.0
+offset_bottom = 260.0
+theme_override_font_sizes/normal_font_size = 24
 bbcode_enabled = true
 text = "Try these tips next time..."
 
 [node name="RestartButton" type="Button" parent="UI/GameOverPanel"]
-layout_mode = 0
-offset_left = 100.0
-offset_top = 140.0
-offset_right = 200.0
-offset_bottom = 170.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -80.0
+offset_right = 100.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 28
 text = "Try Again"
 
 [node name="Background" type="ColorRect" parent="."]
 z_index = -1
-offset_right = 640.0
-offset_bottom = 360.0
-color = Color(0.141176, 0.141176, 0.141176, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1, 0.1, 0.12, 1.0)
 
 [connection signal="pressed" from="UI/GameOverPanel/RestartButton" to="." method="_ready"]

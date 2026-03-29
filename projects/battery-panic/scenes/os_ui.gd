@@ -1,7 +1,6 @@
-
 extends Control
 
-# OS_UI - Battery display in OS-specific location
+# OS_UI - Battery display in OS-specific location - Full HD
 
 signal battery_clicked
 
@@ -20,23 +19,23 @@ func _ready() -> void:
 	update_battery(100.0)
 
 func _position_for_os() -> void:
-	# Position based on OS style
+	# Position based on OS style - Full HD coordinates
 	match os_type:
 		"windows":
 			# Bottom right
-			position = Vector2(560, 320)
+			position = Vector2(1800, 1020)
 			battery_icon.position = Vector2(0, 0)
-			battery_label.position = Vector2(-40, 0)
+			battery_label.position = Vector2(-100, 10)
 		"mac":
 			# Top right
-			position = Vector2(560, 10)
+			position = Vector2(1820, 20)
 			battery_icon.position = Vector2(0, 0)
-			battery_label.position = Vector2(-50, 0)
+			battery_label.position = Vector2(-120, 10)
 		"phone":
 			# Top right
-			position = Vector2(550, 25)
+			position = Vector2(1780, 40)
 			battery_icon.position = Vector2(0, 0)
-			battery_label.position = Vector2(-35, 0)
+			battery_label.position = Vector2(-100, 10)
 
 func update_battery(actual_percent: float) -> void:
 	_actual_battery = actual_percent

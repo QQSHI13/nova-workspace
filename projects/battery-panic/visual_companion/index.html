@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battery Panic - Pixel Art Styles</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1a2e;
+            color: #eee;
+            font-family: 'Courier New', monospace;
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #4ecca3;
+            font-size: 32px;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .styles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .style-card {
+            background: #16213e;
+            border: 3px solid #0f3460;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .style-card:hover {
+            transform: translateY(-5px);
+            border-color: #4ecca3;
+        }
+
+        .style-title {
+            color: #e94560;
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .preview-box {
+            background: #0a0a0a;
+            border: 2px solid #333;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            image-rendering: pixelated;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 8-bit NES Style */
+        .nes-style .laptop {
+            width: 64px;
+            height: 48px;
+            background: #888;
+            position: relative;
+            box-shadow:
+                /* Screen */
+                4px 4px 0 #0f0,
+                8px 4px 0 #0f0,
+                12px 4px 0 #0f0,
+                16px 4px 0 #0f0,
+                20px 4px 0 #0f0,
+                24px 4px 0 #0f0,
+                28px 4px 0 #0f0,
+                32px 4px 0 #0f0,
+                36px 4px 0 #0f0,
+                40px 4px 0 #0f0,
+                44px 4px 0 #0f0,
+                48px 4px 0 #0f0,
+                52px 4px 0 #0f0,
+                /* Body */
+                0 8px 0 #666,
+                4px 8px 0 #666,
+                8px 8px 0 #666,
+                12px 8px 0 #666,
+                16px 8px 0 #666,
+                20px 8px 0 #666,
+                24px 8px 0 #666,
+                28px 8px 0 #666,
+                32px 8px 0 #666,
+                36px 8px 0 #666,
+                40px 8px 0 #666,
+                44px 8px 0 #666,
+                48px 8px 0 #666,
+                52px 8px 0 #666,
+                56px 8px 0 #666;
+        }
+
+        .nes-style .character {
+            position: absolute;
+            right: 20px;
+            bottom: 40px;
+            width: 8px;
+            height: 8px;
+            background: #f00;
+            box-shadow:
+                /* Head */
+                0 -8px 0 #fcc,
+                8px -8px 0 #fcc,
+                0 -16px 0 #fcc,
+                8px -16px 0 #fcc,
+                /* Body */
+                -4px 8px 0 #00f,
+                0 8px 0 #00f,
+                4px 8px 0 #00f,
+                8px 8px 0 #00f,
+                12px 8px 0 #00f;
+        }
+
+        /* 16-bit SNES Style */
+        .snes-style .laptop {
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(135deg, #aaa 0%, #888 100%);
+            border: 2px solid #666;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .snes-style .laptop::before {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            right: 6px;
+            height: 40px;
+            background: linear-gradient(180deg, #2a2a4a 0%, #1a1a2e 100%);
+            border: 1px solid #4a4a6a;
+            border-radius: 2px;
+        }
+
+        .snes-style .laptop::after {
+            content: '15%';
+            position: absolute;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ff4444;
+            font-size: 10px;
+            font-family: monospace;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .snes-style .character {
+            position: absolute;
+            right: 30px;
+            bottom: 50px;
+            width: 32px;
+            height: 48px;
+            background: linear-gradient(180deg, #ffcccc 0%, #ff9999 30%, #3366cc 30%, #2244aa 100%);
+            border-radius: 8px 8px 4px 4px;
+        }
+
+        /* Modern Minimalist */
+        .minimal-style .laptop {
+            width: 72px;
+            height: 52px;
+            background: #2d2d3a;
+            border-radius: 6px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .minimal-style .laptop::before {
+            content: '';
+            width: 56px;
+            height: 36px;
+            background: #ff6b6b;
+            border-radius: 2px;
+        }
+
+        .minimal-style .battery-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 10px;
+            border: 2px solid #fff;
+            border-radius: 2px;
+        }
+
+        .minimal-style .battery-icon::after {
+            content: '';
+            position: absolute;
+            right: -4px;
+            top: 2px;
+            width: 2px;
+            height: 4px;
+            background: #fff;
+            border-radius: 0 1px 1px 0;
+        }
+
+        /* Game Boy Style */
+        .gameboy-style .preview-box {
+            background: #8bac0f;
+        }
+
+        .gameboy-style .laptop {
+            width: 56px;
+            height: 44px;
+            background: #0f380f;
+            position: relative;
+            box-shadow:
+                4px 0 0 #0f380f,
+                0 4px 0 #0f380f,
+                4px 4px 0 #306230,
+                8px 4px 0 #306230,
+                12px 4px 0 #306230,
+                16px 4px 0 #306230,
+                20px 4px 0 #306230,
+                24px 4px 0 #306230,
+                28px 4px 0 #306230,
+                32px 4px 0 #306230,
+                36px 4px 0 #306230,
+                40px 4px 0 #306230,
+                44px 4px 0 #306230,
+                48px 4px 0 #306230,
+                52px 4px 0 #306230;
+        }
+
+        .gameboy-style .battery-dot {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #0f380f;
+            box-shadow:
+                6px 0 0 #0f380f,
+                12px 0 0 #9bbc0f,
+                18px 0 0 #9bbc0f;
+        }
+
+        .style-description {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #aaa;
+        }
+
+        .style-description strong {
+            color: #4ecca3;
+        }
+
+        .pros-cons {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #0f3460;
+        }
+
+        .pros-cons li {
+            margin-left: 20px;
+            margin-bottom: 4px;
+            font-size: 12px;
+        }
+
+        .pros {
+            color: #4ecca3;
+        }
+
+        .cons {
+            color: #e94560;
+        }
+
+        .instruction {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: #16213e;
+            border-radius: 8px;
+            color: #888;
+        }
+
+        .instruction strong {
+            color: #4ecca3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Battery Panic - Pixel Art Style Options</h1>
+
+    <div class="styles-grid">
+        <!-- 8-bit NES Style -->
+        <div class="style-card">
+            <div class="style-title">A. 8-bit NES Style</div>
+            <div class="preview-box nes-style">
+                <div class="laptop"></div>
+                <div class="character"></div>
+            </div>
+            <div class="style-description">
+                <strong>Characteristics:</strong> Limited 54-color palette, hard edges, iconic retro look
+                <ul class="pros-cons">
+                    <li class="pros">Authentic nostalgic feel</li>
+                    <li class="pros">Small file sizes</li>
+                    <li class="cons">Less detail for complex sprites</li>
+                    <li class="cons">Can look dated</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 16-bit SNES Style -->
+        <div class="style-card">
+            <div class="style-title">B. 16-bit SNES Style</div>
+            <div class="preview-box snes-style">
+                <div class="laptop"></div>
+                <div class="character"></div>
+            </div>
+            <div class="style-description">
+                <strong>Characteristics:</strong> 32,768 colors, gradients, more detail, Mode 7 effects possible
+                <ul class="pros-cons">
+                    <li class="pros">Rich, detailed graphics</li>
+                    <li class="pros">Still clearly pixel art</li>
+                    <li class="cons">More work to create</li>
+                    <li class="cons">Larger sprites needed</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Modern Minimalist -->
+        <div class="style-card">
+            <div class="style-title">C. Modern Minimalist</div>
+            <div class="preview-box minimal-style">
+                <div class="laptop">
+                    <div class="battery-icon"></div>
+                </div>
+            </div>
+            <div class="style-description">
+                <strong>Characteristics:</strong> Flat colors, simple shapes, clean aesthetic, contemporary
+                <ul class="pros-cons">
+                    <li class="pros">Quick to produce</li>
+                    <li class="pros">Scales well to all sizes</li>
+                    <li class="pros">Modern appeal</li>
+                    <li class="cons">Less "gamey" feeling</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Game Boy Style -->
+        <div class="style-card">
+            <div class="style-title">D. Game Boy Style</div>
+            <div class="preview-box gameboy-style">
+                <div class="laptop"></div>
+                <div class="battery-dot"></div>
+            </div>
+            <div class="style-description">
+                <strong>Characteristics:</strong> 4-shade monochrome green, extreme constraints, unique aesthetic
+                <ul class="pros-cons">
+                    <li class="pros">Very distinctive look</li>
+                    <li class="pros">Extremely fast to create</li>
+                    <li class="cons">Limited expressiveness</li>
+                    <li class="cons">Niche appeal</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="instruction">
+        <p><strong>Which style speaks to you?</strong></p>
+        <p>Reply with A, B, C, or D to choose your pixel art direction.</p>
+    </div>
+</body>
+</html>

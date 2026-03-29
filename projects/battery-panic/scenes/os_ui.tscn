@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://scenes/os_ui.gd" id="1_osui"]
 
 [sub_resource type="GradientTexture2D" id="1"]
-width = 24
-height = 12
+width = 64
+height = 32
 fill = 1
 fill_from = Vector2(0, 0.5)
 fill_to = Vector2(1, 0.5)
@@ -16,21 +16,22 @@ script = ExtResource("1_osui")
 
 [node name="BatteryIcon" type="TextureRect" parent="."]
 layout_mode = 0
-offset_right = 24.0
-offset_bottom = 12.0
+offset_right = 64.0
+offset_bottom = 32.0
 texture = SubResource("1")
 
 [node name="BatteryLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = -50.0
-offset_right = -5.0
-offset_bottom = 23.0
+offset_left = -120.0
+offset_right = -10.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 36
 text = "100%"
 horizontal_alignment = 2
 
 [node name="ClickArea" type="Button" parent="."]
 layout_mode = 0
-offset_left = -60.0
-offset_right = 30.0
-offset_bottom = 30.0
+offset_left = -140.0
+offset_right = 80.0
+offset_bottom = 60.0
 flat = true

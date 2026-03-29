@@ -1,29 +1,44 @@
-; Engine Configuration File
-; Godot version: 4.x
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
+
 config/name="Battery Panic"
 config/description="Optimize your way through battery emergencies! A pixel art game about efficiency."
 config/version="1.0.0"
 run/main_scene="res://scenes/main_menu.tscn"
-config/features=PackedStringArray("4.2", "Mobile")
+config/features=PackedStringArray("4.6", "Mobile")
 boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
 
-[display]
-window/size/viewport_width=640
-window/size/viewport_height=360
-window/size/window_width_override=1280
-window/size/window_height_override=720
-window/stretch/mode="viewport"
-window/stretch/aspect="keep"
-window/handheld/orientation=0
+[autoload]
 
-[rendering]
-textures/canvas_textures/default_texture_filter=0
-renderer/rendering_method="mobile"
+SoundManager="*res://scripts/sound_manager.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/window_width_override=1920
+window/size/window_height_override=1080
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 
 [layer_names]
+
 2d_physics/layer_1="UI"
 
-[autoload]
-SoundManager="*res://scripts/sound_manager.gd"
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="mobile"

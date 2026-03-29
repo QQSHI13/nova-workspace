@@ -1,13 +1,13 @@
 extends CanvasLayer
 
-# PostItNotes - Physical post-it notes showing tasks and hints
+# PostItNotes - Physical post-it notes showing tasks and hints - Full HD
 
 signal note_clicked(task_id: int, task_name: String)
 signal note_hover(task_name: String)
 
 const COLOR_YELLOW = Color("#ffeb3b")  # Available tasks
-const COLOR_GREEN = Color("#4caf50")   # Tips
-const COLOR_RED = Color("#f44336")     # Urgent
+const COLOR_GREEN = Color("#81c784")   # Tips
+const COLOR_RED = Color("#e57373")     # Urgent
 
 var _notes: Dictionary = {}
 var _note_counter: int = 0
@@ -23,10 +23,10 @@ func add_note(task_name: String, battery_save: int, note_type: String = "task") 
 
 	var note = Panel.new()
 	note.name = "Note_%d" % note_id
-	note.custom_minimum_size = Vector2(120, 80)
+	note.custom_minimum_size = Vector2(280, 160)
 
-	# Position on right side, stacked
-	note.position = Vector2(500, 50 + note_id * 90)
+	# Position on right side, stacked - Full HD spacing
+	note.position = Vector2(1400, 100 + note_id * 200)
 
 	# Color based on type
 	var color = COLOR_YELLOW
@@ -37,10 +37,12 @@ func add_note(task_name: String, battery_save: int, note_type: String = "task") 
 
 	var style = StyleBoxFlat.new()
 	style.bg_color = color
-	style.corner_radius_top_left = 5
-	style.corner_radius_top_right = 5
-	style.corner_radius_bottom_left = 5
-	style.corner_radius_bottom_right = 5
+	style.corner_radius_top_left = 8
+	style.corner_radius_top_right = 8
+	style.corner_radius_bottom_left = 8
+	style.corner_radius_bottom_right = 8
+	style.shadow_color = Color(0, 0, 0, 0.3)
+	style.shadow_size = 4
 	note.add_theme_stylebox_override("panel", style)
 
 	# Task name label
@@ -49,26 +51,29 @@ func add_note(task_name: String, battery_save: int, note_type: String = "task") 
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD
-	label.position = Vector2(5, 5)
-	label.size = Vector2(110, 40)
+	label.position = Vector2(10, 15)
+	label.size = Vector2(260, 80)
+	label.theme_override_font_sizes/font_size = 24
+	label.add_theme_color_override("font_color", Color("#333333"))
 	note.add_child(label)
 
 	# Battery save label
 	var battery_label = Label.new()
 	if battery_save > 0:
-		battery_label.text = "+%d%%" % battery_save
+		battery_label.text = "+%d%% battery" % battery_save
 	else:
-		battery_label.text = "-%d%%" % abs(battery_save)
+		battery_label.text = "-%d%% battery" % abs(battery_save)
 	battery_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	battery_label.position = Vector2(5, 50)
-	battery_label.size = Vector2(110, 25)
-	battery_label.add_theme_color_override("font_color", Color.BLACK)
+	battery_label.position = Vector2(10, 100)
+	battery_label.size = Vector2(260, 40)
+	battery_label.theme_override_font_sizes/font_size = 28
+	battery_label.add_theme_color_override("font_color", Color("#1565c0"))
 	note.add_child(battery_label)
 
 	# Make clickable
 	var btn = Button.new()
 	btn.flat = true
-	btn.size = Vector2(120, 80)
+	btn.size = Vector2(280, 160)
 	btn.pressed.connect(_on_note_clicked.bind(note_id, task_name))
 	btn.mouse_entered.connect(_on_note_hover.bind(task_name))
 	note.add_child(btn)
