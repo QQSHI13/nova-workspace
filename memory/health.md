@@ -1,6 +1,6 @@
 # Agent Health Dashboard
 
-**Last Updated**: 2026-03-27 08:56 PM (Asia/Shanghai)  
+**Last Updated**: 2026-04-01 09:58 AM (Asia/Shanghai)  
 **Agent**: Nova (main)  
 **Session**: agent:main:main
 
@@ -14,37 +14,40 @@
 | Web Search | ✅ Active | 2026-03-27 16:14 | DuckDuckGo provider working |
 | Kimi CLI | ✅ Active | 2026-03-27 16:09 | Deep research available |
 | Browser Control | ✅ Active | 2026-03-27 16:27 | Chrome MCP connected |
-| Memory System | ✅ OK | 2026-03-27 20:56 | Files updated |
+| Memory System | ✅ OK | 2026-03-29 21:35 | Files updated |
 | Sub-Agents | ✅ Available | — | Can spawn Claude Code CLI |
+| **ACP** | ✅ **Enabled** | 2026-03-29 21:35 | acpx backend, Claude default |
 | WeChat | ✅ Active | — | Plugin installed |
-| **MCP Servers** | ✅ **Active** | 2026-03-27 20:56 | See details below |
+| **MCP Servers** | ✅ **None** | 2026-03-29 19:58 | Using native tools |
+
+---
+
+## Active Tasks (Crash Recovery)
+
+This section is the "save game" state. Read on every session start to resume work autonomously.
+
+**Format:** Task | Status | Subagent | Started | Last Update | Success Criteria
+
+### Current Tasks
+
+*(none active)*
+
+### Upcoming Tasks
+
+| Task | Due | Priority | Notes |
+|------|-----|----------|-------|
+| Workspace Cleanup | When ready | LOW | ~700-800 MB recoverable |
+| GitHub Repo Cleanup | Ongoing | MEDIUM | Archive old repos |
 
 ---
 
 ## MCP Servers
 
-| Server | Status | Transport | URL/Command | Tools |
-|--------|--------|-----------|-------------|-------|
-| ✅ **everything** | **Online** | HTTP/SSE | `http://172.22.128.1:3000/sse` | Test/reference server |
-| ✅ **filesystem** | **Online** | STDIO | `npx -y @modelcontextprotocol/server-filesystem` | 14 file tools |
+**Status**: No MCP servers configured — using native OpenClaw tools instead
 
-**Setup Details:**
-- everything server running on Windows (172.22.128.1:3000)
-- Connected via HTTP/SSE transport
-- filesystem server runs locally via STDIO
-- Both configured in `~/.openclaw/openclaw.json`
-
----
-
-## Active Tasks
-
-| Task | Status | Started | Notes |
-|------|--------|---------|-------|
-| OpenClaw Stabilization | ✅ Complete | 2026-03-27 13:55 | Dev version rolled back to npm stable |
-| Web Search Setup | ✅ Complete | 2026-03-27 15:41 | DuckDuckGo activated, Kimi CLI documented |
-| Avatar Update | ✅ Complete | 2026-03-27 10:09 | Iron Golem → Fox |
-| Memory Organization | ✅ Complete | 2026-03-27 16:30 | 2026-03-27.md created, files updated |
-| **MCP Server Setup** | ✅ Complete | 2026-03-27 20:50 | everything + filesystem servers configured |
+**History**:
+- 2026-03-27: Configured `everything` + `filesystem` servers
+- 2026-03-29: Removed all servers (redundant with native tools)
 
 ---
 
@@ -52,18 +55,14 @@
 
 | Event | Time | Details |
 |-------|------|---------|
-| Dev Version Crash | 13:55 | Multiple "Gateway draining" errors |
-| Rollback to Stable | 14:00 | Switched to npm install version |
-| Avatar Rename | 15:10 | Iron_Golem_face.png → fox-avatar.png |
-| IDENTITY.md Update | 15:12 | Avatar path updated |
-| Kimi Search Test | 15:41 | 401/429 errors (separate API needed) |
-| Kimi CLI Test | 16:09 | Successfully retrieved March 2025 AI news |
-| DuckDuckGo Test | 16:14 | 5 results in 1.8 seconds, no API key |
-| TOOLS.md Update | 16:17 | Documented both search methods |
-| Browser Screenshot | 16:27 | Visual mode working (Chrome on Windows) |
-| Memory Update | 16:30 | Created 2026-03-27.md, organized files |
-| **MCP everything Server** | 20:50 | Configured HTTP server on Windows |
-| **MCP Config Update** | 20:56 | Updated OpenClaw config with SSE URL |
+| **ACP Configuration** | 2026-03-29 21:35 | Enabled acpx backend, Claude default |
+| **Session Cleanup** | 2026-03-29 21:20 | Archived 8+ sessions, fixed sessions.json |
+| MCP Server Cleanup | 2026-03-29 | Removed github + filesystem servers |
+| Blog Writing | 2026-03-29 | Weekly wrap-up blog post completed |
+| Memory Update | 2026-03-29 | Distilled raw logs from March 20-28 |
+| Workspace Cleanup | 2026-03-28 | Archived 9 files, reduced workspace by 76% |
+| SSH Password Testing | 2026-03-28 | Documented in TOOLS.md |
+| OpenClaw Install Job | 2026-03-27 | Earned ¥200 on client PC |
 
 ---
 
@@ -71,11 +70,11 @@
 
 | Config | Status | Last Updated |
 |--------|--------|--------------|
-| `~/.openclaw/openclaw.json` | ✅ Stable | 2026-03-27 (MCP servers added) |
+| `~/.openclaw/openclaw.json` | ✅ Stable | 2026-03-29 (ACP enabled) |
 | `IDENTITY.md` | ✅ Current | 2026-03-27 (fox avatar) |
-| `TOOLS.md` | ✅ Current | 2026-03-27 (web search docs) |
+| `TOOLS.md` | ✅ Current | 2026-03-28 (SSH docs) |
 | `SOUL.md` | ✅ Current | Unchanged |
-| `AGENTS.md` | ✅ Current | Unchanged |
+| `AGENTS.md` | ✅ Current | 2026-03-29 (startup optimized) |
 | `USER.md` | ✅ Current | Unchanged |
 
 ---
@@ -87,30 +86,23 @@
 | `web_search` | ✅ DuckDuckGo | Free, no API key |
 | `web_fetch` | ✅ Active | Single page fetch |
 | `browser` | ✅ Chrome | Windows MCP |
-| `exec` | ✅ Active | Bash commands |
+| `exec` | ✅ Active | `ask=off` + allowlist configured |
 | `sessions_spawn` | ✅ Available | Can spawn Claude Code |
 | `canvas` | ⚠️ Needs node | No paired device |
 | `tts` | ✅ Available | Text to speech |
 | `cron` | ✅ Available | Scheduled tasks |
-| **MCP** | ✅ Active | everything + filesystem servers |
+| **ACP** | ✅ **Enabled** | `/acp spawn` works |
 
 ---
 
-## Quick Stats
+## Recent Activity
 
-| Metric | Value |
-|--------|-------|
-| Schema Version | 2 |
-| Daily Memory Files | 40 (+1 today) |
-| Active Projects | 11 |
-| Deployed Tools | 9 |
-| GitHub Repos | 10 active |
-| Web Search Provider | DuckDuckGo |
-| Main Model | kimi-for-coding |
-| Coding Sub-Agent | Claude Code CLI |
-| **MCP Servers** | 2 active |
-
----
+| Event | Time | Details |
+|-------|------|---------|
+| **Browser MCP** | 2026-04-01 09:58 | Reconnected, Tencent camp explored |
+| **Exec Config** | 2026-04-01 08:27 | `ask=off` + allowlist configured |
+| ACP Configuration | 2026-03-29 21:35 | Enabled acpx backend, Claude default |
+| Session Cleanup | 2026-03-29 21:20 | Archived 8+ sessions, fixed sessions.json |
 
 ## Alerts
 
@@ -118,4 +110,4 @@
 
 ---
 
-*Last updated: 2026-03-27 20:56 by Nova ☄️*
+*Last updated: 2026-03-29 21:35 by Nova ☄️*

@@ -4,47 +4,64 @@
 
 ### Core Files (Root)
 
-- `AGENTS.md` - Agent configuration and guidelines
-- `MEMORY.md` - Long-term memory storage
-- `HEARTBEAT.md` - Periodic task definitions
-- `IDENTITY.md` - Nova's identity
-- `SOUL.md` - Personality and behavior
-- `USER.md` - QQ's user profile
+| File | Purpose |
+|------|---------|
+| `AGENTS.md` | Agent configuration and guidelines |
+| `MEMORY.md` | Curated long-term memory (quick reference) |
+| `HEARTBEAT.md` | Periodic task definitions |
+| `IDENTITY.md` | Nova's identity |
+| `SOUL.md` | Personality and behavior |
+| `USER.md` | QQ's user profile |
 
 ### Projects (`/projects/`)
 
-Contains all individual project repos:
+Active repositories:
 
-- `QQSHI13/` - GitHub profile README
-- `QQSHI13.github.io/` - Main GitHub Pages site
-- `collaboard/` - Collaborative whiteboard
-- `droptransfer/` - P2P file transfer
-- `flow/` - Pomodoro timer + clock
-- `homepage/` - Legacy homepage
-- `lifelab/` - Conway's Game of Life
-- `nova-site/` - Nova's personal site
-- `powertoys-command-palette/` - PowerToys plugin
-- `quick-notes/` - Desktop note app (Tauri)
-- `time/` - Standalone clock (merged into flow)
-- `tools-suite/` - Unified tools repo
-- `esp32-button/` - ESP32 Pomodoro Button project
+| Project | Description | Status |
+|---------|-------------|--------|
+| `QQSHI13/` | GitHub profile README | ✅ Active |
+| `QQSHI13.github.io/` | Main GitHub Pages site | ✅ Active |
+| `battery-panic/` | "1%" game project | 🔄 In Progress |
+| `collaboard/` | Collaborative whiteboard | ✅ Active |
+| `droptransfer/` | P2P file transfer | ✅ Active |
+| `flow/` | Pomodoro timer + clock | ✅ Active |
+| `lifelab/` | Conway's Game of Life | ✅ Active |
+| `M5Timer/` | Hardware Pomodoro timer | ✅ **Complete** |
+| `nova-site/` | Nova's personal site | ✅ Active |
+| `tools-suite/` | Unified web tools collection | ✅ Active |
+| `weixia-sdk/` | TypeScript SDK for Weixia | 🔄 In Progress |
+| `weixia-sdk-python/` | Python SDK for Weixia | 🔄 In Progress |
+
+**Archived/Merged:**
+- `homepage/` → Legacy (archived)
+- `quick-notes/` → Abandoned (Tauri version)
+- `time/` → Merged into flow
+- `esp32-button/` → Evolved into M5Timer
 
 ### Memory (`/memory/`)
 
-Daily logs and knowledge base:
+| File/Dir | Purpose |
+|----------|---------|
+| `YYYY-MM-DD.md` | Daily session logs |
+| `active-tasks.md` | Current tasks (crash recovery) |
+| `code-index.md` | Code project index |
+| `health.md` | Agent health dashboard |
+| `lessons.md` | Lessons learned |
+| `projects.md` | Project tracker |
+| `tools-knowledge-base.md` | Tool documentation |
+| `embeddings/` | Vector embeddings for search |
+| `subagent-results/` | Sub-agent outputs |
 
-- `YYYY-MM-DD.md` - Daily session logs
-- `active-tasks.md` - Current tasks
-- `code-index.md` - Code project index
-- `health.md` - Agent health dashboard
-- `lessons.md` - Lessons learned
-- `projects.md` - Project tracker
-- `tools-knowledge-base.md` - Tool documentation
-- `embeddings/` - Vector embeddings for search
-- `subagent-results/` - Sub-agent outputs
+### Archive (`/archive/`)
+
+- `app-inventory/` - Windows app list (from Fresh Start project)
+- `pi-project/` - Raspberry Pi 5 home server (cancelled)
+- `pi-research/` - Pi research notes
+- `scrapling-official-0.4.2/` - Scrapling archive
+- `weixia-1.0.4/` - Weixia skill archive
 
 ### Other
 
-- `archive/` - Archived projects (app-inventory, pi-project, pi-research, scrapling-official-0.4.2, weixia-1.0.4)
 - `kofi-setup/` - Ko-fi monetization setup guide
 - `skills/` - OpenClaw skills
+- `blog/` - Weekly wrap-up blog posts

@@ -12,14 +12,13 @@ Before doing anything else:
 
 1. Read `SOUL.md` — this is who you are
 2. Read `USER.md` — this is who you're helping
-3. Read `memory/health.md` — system status and active tasks
-4. Read `memory/active-tasks.md` — crash recovery state
-5. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
-6. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
+3. Read `memory/health.md` — system status and active tasks (crash recovery)
+4. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
+5. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
 
 Don't ask permission. Just do it.
 
-**Crash Recovery Priority:** If restarting after a crash, read `memory/active-tasks.md` first to resume interrupted work.
+**Crash Recovery Priority:** If restarting after a crash, check `memory/health.md` "Active Tasks" section first to resume interrupted work.
 
 ## Memory
 
@@ -48,7 +47,6 @@ Don't dump everything in MEMORY.md. Split it for efficient retrieval:
 | File                             | Purpose                                                                         |
 | -------------------------------- | ------------------------------------------------------------------------------- |
 | `memory/health.md`               | **Agent health dashboard** - Real-time status, active tasks, sub-agent activity |
-| `memory/active-tasks.md`         | Current ongoing tasks — your "save game" for crash recovery                     |
 | `memory/YYYY-MM-DD.md`           | Daily operation logs                                                            |
 | `memory/projects.md`             | Project-specific notes                                                          |
 | `memory/lessons.md`              | Lessons learned                                                                 |
@@ -56,6 +54,7 @@ Don't dump everything in MEMORY.md. Split it for efficient retrieval:
 | `memory/code-index.md`           | Searchable index of all code projects                                           |
 | `memory/tools-knowledge-base.md` | Comprehensive docs on deployed tools                                            |
 | `memory/subagent-results/`       | Persistent sub-agent outputs with auto-generated index                          |
+| `memory/code-analysis.md`        | Code analysis methodology and best practices                                    |
 
 **Schema Versioning:** Check `memory/.schema-version` for format compatibility. See `memory/schema-v2.md` for full schema documentation.
 
@@ -63,9 +62,7 @@ Don't dump everything in MEMORY.md. Split it for efficient retrieval:
 
 ### 🔍 Semantic Memory with Nomic Embeddings
 
-For memory search beyond keyword matching, use **Nomic embeddings** (via Ollama) to enable semantic retrieval:
-
-**Quick Start:**
+For memory search beyond keyword matching, use **Nomic embeddings** (via Ollama):
 
 ```bash
 # Generate embeddings
@@ -75,34 +72,9 @@ node memory/embeddings/generate.js
 node memory/embeddings/generate.js search "WebRTC code"
 ```
 
-**How it works:**
+**Use `memory_search`** (built-in) for quick queries across MEMORY.md + memory/*.md.
 
-1. Generate embeddings for all memory content using `nomic-embed-text` model
-2. Store in `memory/embeddings/vectors/`
-3. Query with natural language → retrieve semantically relevant chunks
-4. Use `memory_get` to pull full context for specific sections
-
-**Use cases:**
-
-| Query Type       | Example                             | Result                                   |
-| ---------------- | ----------------------------------- | ---------------------------------------- |
-| Code search      | "Find my WebRTC code"               | Locates DropTransfer implementation      |
-| Lesson recall    | "What did I learn about mobile UX?" | Finds double-tap pattern from lessons.md |
-| Date lookup      | "When did I deploy JWT Decoder?"    | Returns specific daily file              |
-| Pattern matching | "How do I handle file uploads?"     | Surfaces relevant code patterns          |
-
-**Integration with memory_search:**
-
-- `memory_search` (built-in): Semantic search across MEMORY.md + memory/*.md
-- Nomic embeddings: Higher quality, local inference via Ollama (`memory/embeddings/`)
-- Combine both: Use built-in search first, fall back to Nomic for complex queries
-
-**Benefits:**
-
-- Find information even when keywords don't match exactly
-- Connect related work across days without explicit links
-- Resume context after crashes without reading entire history
-- Surface forgotten patterns that apply to current tasks
+**Use Nomic embeddings** for complex semantic search where keywords don't match exactly.
 
 ### 📝 Write It Down - No "Mental Notes"!
 
@@ -150,14 +122,14 @@ Stop doing things sequentially. Spawn 3-5 sub-agents in parallel for big tasks. 
 
 ### Crash Recovery Pattern
 
-I WILL crash/restart. `memory/active-tasks.md` is my safety net:
+I WILL crash/restart. `memory/health.md` is my safety net:
 
-- When I START a task → write it
-- When I SPAWN a sub-agent → note session key
+- When I START a task → write it to health.md "Active Tasks"
+- When I SPAWN a sub-agent → note session key in health.md
 - When sub-agent COMPLETES → write result to `memory/subagent-results/<uuid>.md`
-- When task COMPLETES → update status
+- When task COMPLETES → update status in health.md
 
-On restart, read `active-tasks.md` and `health.md` first and resume autonomously. No "what were we doing?" — figure it out.
+On restart, read `health.md` first and resume autonomously. No "what were we doing?" — figure it out.
 
 ### Sub-Agent Result Persistence
 
@@ -265,6 +237,13 @@ Things like:
 - Device nicknames
 - Anything environment-specific
 
+### Workspace Configuration Files
+
+| File | Purpose |
+|------|---------|
+| `.editorconfig` | Editor formatting rules (UTF-8, LF, indent sizes) |
+| `TOOLS.md` | Environment-specific tool configurations |
+
 ### Why Separate?
 
 Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
@@ -275,52 +254,9 @@ If multiple skills exist, add "Use when / Don't use when" in each description. W
 
 ## 🔍 Code Analysis Methodology
 
-When analyzing code, use structured parsing instead of grep hunting. Here's the proper approach:
+See `memory/code-analysis.md` for the complete guide.
 
-### 1. Read the Full File First
-
-```
-read file_path:/path/to/file
-```
-
-Start with the complete context. Don't grep blindly.
-
-### 2. Use Offset/Limit for Large Files
-
-```
-read file_path:/path/to/file limit:100 offset:1      # First 100 lines
-read file_path:/path/to/file limit:50 offset:200     # Lines 200-250
-```
-
-### 3. Identify Entry Points
-
-For HTML/JS apps, find:
-
-- Event listeners (`addEventListener`, `onclick`)
-- DOM element IDs
-- Function definitions
-- State initialization
-
-### 4. Trace Execution Flow
-
-Follow the call chain:
-
-1. User action (click, submit)
-2. Event handler
-3. Core function
-4. State update / API call
-5. UI update
-
-### 5. Document Findings
-
-When you find bugs or patterns, document them:
-
-- **Location**: file + line number
-- **Issue**: what's wrong
-- **Fix**: what changed
-- **Why**: root cause
-
-### Code Parsing Checklist
+**Quick Checklist:**
 
 | Step | Action                          | Tool         |
 | ---- | ------------------------------- | ------------ |
@@ -331,34 +267,9 @@ When you find bugs or patterns, document them:
 | 5    | Fix with precise edit           | `edit`       |
 | 6    | Verify the fix                  | Re-read      |
 
-### Anti-Patterns to Avoid
-
-- ❌ `grep -n "keyword"` without context
-- ❌ Editing without reading surrounding code
-- ❌ Assuming variable names match functionality
-- ❌ Fixing symptoms instead of root causes
-
-### Sub-Agent Code Analysis
-
-When spawning sub-agents for code tasks, give them:
-
-```
-Task: Analyze and fix bugs in [project]
-
-Process:
-1. Read the main entry file (index.html, main.js, etc.)
-2. Map out the component/module structure
-3. Identify all event handlers and their callbacks
-4. Look for console errors, broken state, or missing cleanup
-5. Fix issues at the root cause, not symptoms
-6. Verify fixes don't break other functionality
-
-Report: What you found, what you fixed, and why.
-```
-
 ### Mass Bug Check Pattern
 
-For checking multiple repos at once (e.g., 42 bugs fixed across 6 repos in one session):
+For checking multiple repos at once:
 
 ```
 Spawn 1 sub-agent per repository in parallel:
@@ -366,36 +277,47 @@ Spawn 1 sub-agent per repository in parallel:
 - Use consistent criteria: Critical/High/Medium/Low
 - Track in central table format
 - Report: bugs found, fixes applied, verification status
-
-Success: All repos checked, critical bugs fixed, changes committed
 ```
 
 **Key insight:** Parallel sub-agents + consistent reporting format = scalable quality assurance
 
 ## 💓 Heartbeats - Be Proactive!
 
-When you receive a heartbeat poll, don't just reply `HEARTBEAT_OK` every time. Use heartbeats productively!
+When you receive a heartbeat poll, use it productively! Read `HEARTBEAT.md` and follow its laws strictly.
 
-You are free to edit `HEARTBEAT.md` with a short checklist or reminders. Keep it small to limit token burn.
+### Heartbeat Protocol
 
-### Heartbeat vs Cron: When to Use Each
+When you receive a heartbeat poll, read `HEARTBEAT.md` and follow it strictly. Do not infer or repeat old tasks from prior chats.
 
-**Use heartbeat when:**
+**Reply exactly:** `HEARTBEAT_OK` — if nothing needs attention
 
-- Multiple checks can batch together (inbox + calendar + notifications in one turn)
-- You need conversational context from recent messages
-- Timing can drift slightly (every ~30 min is fine, not exact)
-- You want to reduce API calls by combining periodic checks
+**Reply with alert:** If something needs attention, do NOT include "HEARTBEAT_OK"; reply with the alert text instead.
 
-**Use cron when:**
+OpenClaw treats a leading/trailing "HEARTBEAT_OK" as a heartbeat ack (and may discard it).
 
-- Exact timing matters ("9:00 AM sharp every Monday")
-- Task needs isolation from main session history
-- You want a different model or thinking level for the task
-- One-shot reminders ("remind me in 20 minutes")
-- Output should deliver directly to a channel without main session involvement
+### When to reach out:
 
-**Tip:** Batch similar periodic checks into `HEARTBEAT.md` instead of creating multiple cron jobs. Use cron for precise schedules and standalone tasks.
+- Something interesting you found
+- It's been >8h since you said anything
+
+### When to stay quiet:
+
+- Late night (21:30-07:30) unless urgent
+- Human is clearly busy
+- Nothing new since last check
+- You just checked &lt;30 minutes ago
+
+### Proactive Work You Can Do Without Asking
+
+- Read and organize memory files
+- Check `memory/health.md` on startup
+- Check on projects (git status, etc.)
+- Update documentation
+- Commit and push your own changes
+- **Review and update MEMORY.md**
+- **Audit schema compliance** (check `memory/.schema-version`)
+
+The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
 
 ## Silent Replies
 
@@ -410,40 +332,6 @@ When you have nothing to say, respond with ONLY: `NO_REPLY`
 ❌ Wrong: "```NO_REPLY```"  
 ✅ Right: NO_REPLY
 
-## Heartbeat Protocol
-
-When you receive a heartbeat poll, read `HEARTBEAT.md` and follow it strictly. Do not infer or repeat old tasks from prior chats.
-
-**Reply exactly:** `HEARTBEAT_OK` — if nothing needs attention
-
-**Reply with alert:** If something needs attention, do NOT include "HEARTBEAT_OK"; reply with the alert text instead.
-
-OpenClaw treats a leading/trailing "HEARTBEAT_OK" as a heartbeat ack (and may discard it).
-
-### **When to reach out:**
-
-- Something interesting you found
-- It's been >8h since you said anything
-
-**When to stay quiet (HEARTBEAT_OK):**
-
-- Late night (21:30-07:30) unless urgent
-- Human is clearly busy
-- Nothing new since last check
-- You just checked &lt;30 minutes ago
-
-### Proactive Work You Can Do Without Asking
-
-- Read and organize memory files
-- Check `memory/health.md` and `memory/active-tasks.md` on startup
-- Check on projects (git status, etc.)
-- Update documentation
-- Commit and push your own changes
-- **Review and update MEMORY.md**
-- **Audit schema compliance** (check `memory/.schema-version`, ensure all required files exist)
-
-The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
-
 ## 24/7 Stable Operation Tips
 
 For long-running deployments:
@@ -451,7 +339,7 @@ For long-running deployments:
 1. **Implement split memory architecture** — active/daily/thematic
 2. **Use sub-agents for parallel processing** — distribute workload
 3. **Optimize cron tasks** — automated maintenance and reporting
-4. **Design crash recovery** — robust failure recovery via `active-tasks.md`
+4. **Design crash recovery** — robust failure recovery via `health.md`
 5. **Follow security rules** — dedicated model for external content review
 
 ## Make It Yours

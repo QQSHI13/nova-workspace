@@ -1,250 +1,344 @@
 extends Node2D
 
-# Battery Panic - Main Game Controller (Polished Version)
-# Turn-based with real-time toggle, multi-device support, full polish
+# Battery Panic - Realistic OS Desktop Game
+# A polished game where you manage a dying laptop
 
-@export var starting_battery: float = 15.0
-@export var time_limit: float = 1200.0  # 20 minutes in seconds
-@export var real_time_mode: bool = false  # Toggle for real-time
+const START_BATTERY = 30.0
+const START_TIME = 120.0
 
-# Signals
-signal battery_changed(new_value: float)
-signal time_changed(new_value: float)
-signal score_changed(new_score: int)
-signal task_completed(task_name: String)
-signal turn_ended
-signal game_over(win: bool, final_score: int)
+var battery: float
+var time_left: float
+var game_running: bool = false
 
-var current_battery: float
-var current_time: float
-var score: int = 0
-var tasks_completed: int = 0
-var _completed_task_ids: Array[int] = []
-var _is_player_turn: bool = true
+# Apps with realistic drain rates - BALANCED for gameplay
+var apps = {
+	"chrome": {"name": "Chrome", "drain": 0.025, "open": true, "window": "ChromeWindow", "task": "ChromeTask"},
+	"vscode": {"name": "VS Code", "drain": 0.015, "open": true, "window": "CodeWindow", "task": "CodeTask"},
+	"slack": {"name": "Slack", "drain": 0.012, "open": true, "window": "SlackWindow", "task": "SlackTask"},
+	"spotify": {"name": "Spotify", "drain": 0.008, "open": true, "window": "SpotifyWindow", "task": "SpotifyTask"},
+}
 
-# Tasks - now shown as post-it notes
-const TASKS = [
-	{"name": "发送紧急邮件", "time": 180, "battery": 2, "priority": 3, "icon": "📧"},
-	{"name": "保存文档", "time": 60, "battery": 1, "priority": 3, "icon": "💾"},
-	{"name": "关闭Chrome标签", "time": 30, "battery": -3, "priority": 2, "icon": "🌐"},
-	{"name": "调低屏幕亮度", "time": 10, "battery": -5, "priority": 2, "icon": "🔆"},
-	{"name": "下载文件", "time": 600, "battery": 4, "priority": 1, "icon": "⬇️"},
-	{"name": "刷B站", "time": 900, "battery": 8, "priority": 0, "icon": "📺"}
+var tasks = [
+	{"name": "Email Boss", "battery": 4, "time": 15, "done": false},
+	{"name": "Save Project", "battery": 3, "time": 10, "done": false},
+	{"name": "Git Commit", "battery": 2, "time": 8, "done": false},
 ]
 
-@onready var device_screen = $UI/DeviceScreen
-@onready var post_it_notes = $UI/PostItNotes
-@onready var os_ui = $UI/OS_UI
-@onready var terminal = $UI/DeviceScreen/Terminal
-@onready var time_label = $UI/TimeLabel
-@onready var score_label = $UI/ScoreLabel
-@onready var mode_button = $UI/ModeButton
-@onready var flash_overlay = $FlashOverlay
+var task_buttons: Array[Button] = []
 
-func _ready() -> void:
-	current_battery = starting_battery
-	current_time = time_limit
+@onready var screens = $Screens
+@onready var hud = $HUD
 
-	# Connect signals
-	device_screen.element_clicked.connect(_on_element_clicked)
-	post_it_notes.note_clicked.connect(_on_note_clicked)
-	terminal.command_executed.connect(_on_terminal_command)
-	mode_button.pressed.connect(_toggle_mode)
+func _ready():
+	# Menu buttons
+	var play_btn = screens.get_node_or_null("Menu/PlayButton")
+	if play_btn:
+		play_btn.pressed.connect(_start_game)
 
-	# Spawn post-it notes for tasks
-	_spawn_post_it_notes()
+	var quit_btn = screens.get_node_or_null("Menu/QuitButton")
+	if quit_btn:
+		quit_btn.pressed.connect(get_tree().quit)
 
-	# Initial UI update
-	_update_ui()
+	# Game over restart button (inside Panel)
+	var restart_btn = screens.get_node_or_null("GameOverScreen/Panel/RestartBtn")
+	if restart_btn:
+		restart_btn.pressed.connect(_restart)
 
-	# Start animation
-	AnimationManager.fade_in($UI)
+	# Window close buttons
+	for app_id in apps:
+		var app = apps[app_id]
+		var window = screens.get_node_or_null("GameScreen/AppWindows/" + app.window)
+		if window:
+			var close_btn = window.get_node_or_null("TitleBar/CloseBtn")
+			if close_btn:
+				close_btn.pressed.connect(_close_app.bind(app_id))
 
-	print("游戏开始！电池: ", current_battery, "%")
-	print("你有20分钟完成关键任务！")
+			var minimize_btn = window.get_node_or_null("TitleBar/MinimizeBtn")
+			if minimize_btn:
+				minimize_btn.pressed.connect(_toggle_app.bind(app_id))
 
-func _process(delta: float) -> void:
-	if real_time_mode and _is_player_turn:
-		# In real-time mode, drain continuously
-		current_time -= delta
-		current_battery -= delta * 0.005
+		var task_btn = screens.get_node_or_null("GameScreen/Taskbar/TaskbarApps/" + app.task)
+		if task_btn:
+			task_btn.pressed.connect(_toggle_app.bind(app_id))
 
-		_update_ui()
+	# Setup task buttons
+	_setup_tasks()
 
-		if current_battery <= 0:
-			_trigger_game_over(false)
-		elif current_time <= 0:
-			_trigger_game_over(true)
+	_show_screen("Menu")
 
-func _spawn_post_it_notes() -> void:
-	for i in range(TASKS.size()):
-		var task = TASKS[i]
-		var note_id = post_it_notes.add_note(task["icon"] + " " + task["name"], -task["battery"])
-		# Slide in animation
-		AnimationManager.slide_in(post_it_notes.get_node("NotesContainer/Note_%d" % note_id), true, 0.5 + i * 0.1)
-
-func _on_element_clicked(element_name: String) -> void:
-	# Direct click on OS element
-	print("Clicked: " + element_name)
-	_handle_action(element_name)
-
-func _on_note_clicked(note_id: int, task_name: String) -> void:
-	# Click on post-it note - bounce effect
-	var note = post_it_notes.get_node("NotesContainer/Note_%d" % note_id)
-	AnimationManager.bounce(note)
-	print("Post-it clicked: " + task_name)
-	_handle_action_by_name(task_name)
-
-func _on_terminal_command(command: String, success: bool) -> void:
-	if success:
-		# Parse command and apply effects
-		_handle_terminal_command(command)
-		_end_turn()
-
-func _handle_action(element_name: String) -> void:
-	# Map element clicks to actions
-	match element_name:
-		"Chrome":
-			_execute_task(2)  # Close Chrome tabs
-		"Settings":
-			_execute_task(3)  # Dim screen
-		"Mail":
-			_execute_task(0)  # Send email
-		"Files":
-			_execute_task(1)  # Save document
-		_:
-			print("Unknown action: " + element_name)
-
-func _handle_action_by_name(task_name: String) -> void:
-	for i in range(TASKS.size()):
-		if TASKS[i]["name"] == task_name and not _completed_task_ids.has(i):
-			_execute_task(i)
-			return
-
-func _handle_terminal_command(command: String) -> void:
-	# Apply effects based on terminal command
-	if command.begins_with("brightness"):
-		current_battery += 5.0  # Save battery
-		ParticleEffects.spawn_battery_save_effect(Vector2(960, 540), 5.0)
-		print("Brightness lowered, battery +5%")
-	elif command.begins_with("killall"):
-		current_battery += 3.0
-		ParticleEffects.spawn_battery_save_effect(Vector2(960, 540), 3.0)
-		print("App killed, battery +3%")
-	elif command.begins_with("wifi off"):
-		current_battery += 2.0
-		ParticleEffects.spawn_battery_save_effect(Vector2(960, 540), 2.0)
-		print("WiFi off, battery +2%")
-
-func _execute_task(task_id: int) -> void:
-	if _completed_task_ids.has(task_id):
+func _setup_tasks():
+	var task_list = hud.get_node_or_null("TasksPanel/TaskList")
+	if not task_list:
 		return
 
-	var task = TASKS[task_id]
+	# Clear existing
+	for child in task_list.get_children():
+		child.queue_free()
+	task_buttons.clear()
 
-	# Validate affordability
-	if current_battery < task["battery"] or current_time < task["time"]:
-		SoundManager.play_sfx("task_fail")
-		AnimationManager.flash_color($UI, Color(1, 0, 0, 0.3), 0.3)
+	for i in tasks.size():
+		var task = tasks[i]
+		var btn = Button.new()
+		btn.text = "%s\n⚡ %d%% battery  •  ⏱ %ds" % [task.name, task.battery, task.time]
+		btn.custom_minimum_size = Vector2(320, 70)
+		btn.add_theme_font_size_override("font_size", 16)
+		btn.pressed.connect(_do_task.bind(i))
+		task_list.add_child(btn)
+		task_buttons.append(btn)
+
+		_update_task_button_style(i)
+
+func _update_task_button_style(idx: int):
+	if idx < 0 or idx >= task_buttons.size():
 		return
 
-	# Execute task
-	var old_battery = current_battery
-	current_battery -= task["battery"]
-	current_time -= task["time"]
-	tasks_completed += 1
-	score += task["priority"] * 100
-	_completed_task_ids.append(task_id)
+	var btn = task_buttons[idx]
+	var task = tasks[idx]
 
-	# Visual effects based on battery change
-	if current_battery > old_battery:
-		# Battery saved - green particles
-		ParticleEffects.spawn_battery_save_effect(Vector2(600, 400), abs(task["battery"]))
-		flash_overlay.flash_green(0.3, 0.3)
+	var style = StyleBoxFlat.new()
+	style.corner_radius_top_left = 8
+	style.corner_radius_top_right = 8
+	style.corner_radius_bottom_left = 8
+	style.corner_radius_bottom_right = 8
+
+	if task.done:
+		style.bg_color = Color(0.2, 0.5, 0.3, 0.6)
+		btn.disabled = true
+		btn.text = "✓ " + task.name + " (DONE)"
+	elif battery < task.battery or time_left < task.time:
+		style.bg_color = Color(0.5, 0.2, 0.2, 0.4)
 	else:
-		# Battery drained - red particles
-		ParticleEffects.spawn_battery_drain_effect(Vector2(600, 400), abs(task["battery"]))
-		flash_overlay.flash_red(0.2, 0.2)
+		style.bg_color = Color(0.2, 0.3, 0.5, 0.6)
 
-	# Remove post-it with fade out
-	post_it_notes.remove_note_with_animation(task_id)
+	btn.add_theme_stylebox_override("normal", style)
+	btn.add_theme_stylebox_override("hover", style)
+	btn.add_theme_stylebox_override("pressed", style)
 
-	# Update UI with animation
-	AnimationManager.animate_number(score_label, score - task["priority"] * 100, score, 0.5, "Score: ")
-	_update_ui()
+func _start_game():
+	battery = START_BATTERY
+	time_left = START_TIME
+	game_running = true
 
-	# Play sounds
-	SoundManager.play_sfx("task_complete")
-	AnimationManager.pulse_scale(score_label, 1.1, 0.3)
+	# Reset tasks
+	for t in tasks:
+		t.done = false
 
-	print("完成任务: ", task["name"], " | 剩余电池: ", current_battery, "%")
+	# Reset apps
+	for id in apps:
+		apps[id].open = true
+		_show_app_window(id, true)
 
-	# Check for critical battery - screen shake
-	if current_battery < 5.0:
-		AnimationManager.screen_shake(self, 15.0, 0.5)
-		ParticleEffects.spawn_critical_warning_effect(Vector2(600, 400))
-		flash_overlay.flash_red(0.6, 0.5)
-		flash_overlay.pulse_warning()
-	elif current_battery < 10.0:
-		AnimationManager.screen_shake(self, 5.0, 0.3)
-		flash_overlay.flash_yellow(0.3, 0.3)
+	_setup_tasks()
+	_update_hud()
+	_update_taskbar()
+	_show_screen("Game")
 
-	# End turn
-	_end_turn()
+func _close_app(id: String):
+	if not game_running:
+		return
+	if not apps.has(id):
+		return
+	apps[id].open = false
+	_show_app_window(id, false)
+	_update_taskbar()
 
-func _end_turn() -> void:
-	if not real_time_mode:
-		# In turn-based mode, wait for player
-		pass
+func _toggle_app(id: String):
+	if not game_running:
+		return
+	if not apps.has(id):
+		return
+	apps[id].open = !apps[id].open
+	_show_app_window(id, apps[id].open)
+	_update_taskbar()
 
-	turn_ended.emit()
+func _show_app_window(id: String, show: bool):
+	if not apps.has(id):
+		return
+	var window = screens.get_node_or_null("GameScreen/AppWindows/" + apps[id].window)
+	if not window:
+		return
 
-	# Check win/lose
-	if tasks_completed >= 3:
-		_trigger_game_over(true)
+	window.visible = show
 
-func _update_ui() -> void:
-	# Update time display
-	var minutes = int(current_time) / 60
-	var seconds = int(current_time) % 60
-	time_label.text = "%02d:%02d" % [minutes, seconds]
+	if show:
+		# Animate in
+		window.scale = Vector2(0.9, 0.9)
+		window.modulate.a = 0.0
+		var tween = create_tween()
+		tween.set_parallel(true)
+		tween.tween_property(window, "scale", Vector2(1, 1), 0.2)
+		tween.tween_property(window, "modulate:a", 1.0, 0.2)
 
-	# Update score
-	score_label.text = "Score: %d" % score
+func _update_taskbar():
+	for id in apps:
+		var task_btn = screens.get_node_or_null("GameScreen/Taskbar/TaskbarApps/" + apps[id].task)
+		if not task_btn:
+			continue
 
-	# Update OS battery display
-	os_ui.update_battery(current_battery)
+		var style = StyleBoxFlat.new()
+		style.corner_radius_top_left = 4
+		style.corner_radius_top_right = 4
 
-	# Emit signals
-	battery_changed.emit(current_battery)
-	time_changed.emit(current_time)
+		if apps[id].open:
+			style.bg_color = Color(0.3, 0.4, 0.6, 0.8)
+			task_btn.add_theme_color_override("font_color", Color(1, 1, 1))
+		else:
+			style.bg_color = Color(0.15, 0.17, 0.2, 0.5)
+			task_btn.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5))
 
-func _toggle_mode() -> void:
-	real_time_mode = not real_time_mode
-	mode_button.text = "Mode: Real-Time" if real_time_mode else "Mode: Turn-Based"
+		task_btn.add_theme_stylebox_override("normal", style)
 
-	# Pulse animation on button
-	AnimationManager.pulse_scale(mode_button, 1.05, 0.2)
+func _do_task(idx: int):
+	if not game_running:
+		return
 
-func _trigger_game_over(win: bool) -> void:
-	game_over.emit(win, score)
+	if idx < 0 or idx >= tasks.size():
+		return
 
-	# Success or failure effects
-	if win:
-		SoundManager.play_sfx("game_over_win")
-		ParticleEffects.spawn_success_effect(Vector2(960, 540))
-		flash_overlay.flash_green(0.5, 1.0)
-		print("成功！你在电池耗尽前完成了任务！")
-	else:
-		SoundManager.play_sfx("game_over_lose")
-		ParticleEffects.spawn_critical_warning_effect(Vector2(960, 540))
-		AnimationManager.screen_shake(self, 20.0, 1.0)
-		flash_overlay.flash_red(0.8, 1.5)
-		print("失败！电池耗尽了...")
+	var task = tasks[idx]
+	if task.done:
+		return
 
-	# Show game over panel with animation
-	var game_over_panel = $UI/GameOverPanel
-	game_over_panel.visible = true
-	AnimationManager.fade_in(game_over_panel)
+	if battery < task.battery or time_left < task.time:
+		_flash(Color(1, 0.2, 0.2, 0.4))
+		return
 
-	get_tree().paused = true
+	battery -= task.battery
+	time_left -= task.time
+	task.done = true
+
+	_update_task_button_style(idx)
+	_flash(Color(0.2, 1, 0.3, 0.3))
+	_update_hud()
+
+func _process(delta):
+	if not game_running:
+		return
+
+	# Drain battery from open apps
+	var drain = 0.0
+	for id in apps:
+		if apps[id].open:
+			drain += apps[id].drain
+	battery -= drain * delta * 60
+
+	time_left -= delta
+	_update_hud()
+
+	# Check end conditions
+	if battery <= 0:
+		_game_over(false, "Battery depleted!")
+	elif time_left <= 0:
+		_game_over(false, "Time's up!")
+	elif _all_tasks_done():
+		_game_over(true, "All tasks completed!")
+
+func _update_hud():
+	var battery_bar = hud.get_node_or_null("TopBar/BatteryPanel/ProgressBar")
+	var battery_label = hud.get_node_or_null("TopBar/BatteryPanel/Label")
+
+	if battery_bar:
+		battery_bar.value = max(0, battery)
+	if battery_label:
+		battery_label.text = "%.0f%%" % max(0, battery)
+
+	# Battery color
+	if battery_bar:
+		var battery_col = Color(0.2, 0.9, 0.3) if battery > 50 else Color(0.9, 0.9, 0.2) if battery > 20 else Color(0.9, 0.2, 0.2)
+		battery_bar.modulate = battery_col
+
+	# Time display
+	var time_label = hud.get_node_or_null("TopBar/TimePanel/Label")
+	if time_label:
+		var m = int(time_left) / 60
+		var s = int(time_left) % 60
+		time_label.text = "%d:%02d" % [m, s]
+
+	# Update taskbar battery
+	var tray_battery = screens.get_node_or_null("GameScreen/Taskbar/SystemTray/Battery")
+	if tray_battery:
+		tray_battery.text = "🔋 %.0f%%" % max(0, battery)
+		if battery < 20:
+			tray_battery.add_theme_color_override("font_color", Color(1, 0.3, 0.3))
+		else:
+			tray_battery.add_theme_color_override("font_color", Color(0.9, 0.9, 0.2))
+
+	# Update clock
+	var clock = screens.get_node_or_null("GameScreen/Taskbar/SystemTray/Clock")
+	if clock:
+		var total_m = int(START_TIME - time_left) / 60
+		var total_s = int(START_TIME - time_left) % 60
+		clock.text = "%d:%02d" % [2 + total_m, total_s]
+
+	# Update task availability
+	for i in tasks.size():
+		_update_task_button_style(i)
+
+func _all_tasks_done() -> bool:
+	for t in tasks:
+		if not t.done:
+			return false
+	return true
+
+func _done_count() -> int:
+	var n = 0
+	for t in tasks:
+		if t.done:
+			n += 1
+	return n
+
+func _game_over(win: bool, message: String):
+	game_running = false
+
+	var panel = screens.get_node_or_null("GameOverScreen/Panel")
+	if not panel:
+		return
+
+	var title = panel.get_node_or_null("Title")
+	var msg = panel.get_node_or_null("Message")
+	var stats = panel.get_node_or_null("Stats")
+
+	if title:
+		if win:
+			title.text = "SUCCESS!"
+			title.add_theme_color_override("font_color", Color(0.2, 1, 0.3))
+		else:
+			title.text = "SYSTEM FAILURE"
+			title.add_theme_color_override("font_color", Color(1, 0.2, 0.2))
+
+	if msg:
+		msg.text = message
+
+	if stats:
+		stats.text = "Tasks Completed: %d/%d\nBattery Remaining: %.1f%%" % [_done_count(), tasks.size(), max(0, battery)]
+
+	_show_screen("GameOver")
+
+func _flash(col: Color):
+	var f = hud.get_node_or_null("FlashOverlay")
+	if not f:
+		return
+	f.color = col
+	f.visible = true
+
+	var t = create_tween()
+	t.tween_property(f, "color:a", 0.0, 0.4)
+	t.tween_callback(func(): f.visible = false)
+
+func _restart():
+	_start_game()
+
+func _show_screen(name: String):
+	var menu = screens.get_node_or_null("Menu")
+	var game_screen = screens.get_node_or_null("GameScreen")
+	var game_over = screens.get_node_or_null("GameOverScreen")
+
+	if menu:
+		menu.visible = (name == "Menu")
+	if game_screen:
+		game_screen.visible = (name == "Game")
+	if game_over:
+		game_over.visible = (name == "GameOver")
+
+	if hud:
+		hud.visible = (name == "Game")

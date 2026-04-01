@@ -1,17 +1,28 @@
-[gd_scene load_steps=3 format=3 uid="uid://mainmenu1"]
+[gd_scene load_steps=5 format=3 uid="uid://mainmenu1"]
 
 [ext_resource type="Script" path="res://scenes/main_menu.gd" id="1_menu"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 bg_color = Color(0.12, 0.12, 0.15, 1)
 
+[sub_resource type="StyleBoxFlat" id="2"]
+bg_color = Color(0.2, 0.5, 0.9, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
+
+[sub_resource type="StyleBoxFlat" id="3"]
+bg_color = Color(0.15, 0.4, 0.75, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
+
 [node name="MainMenu" type="Control"]
-layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 script = ExtResource("1_menu")
 
 [node name="Background" type="ColorRect" parent="."]
@@ -19,72 +30,102 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.12, 0.12, 0.15, 1.0)
+color = Color(0.1, 0.12, 0.18, 1.0)
 
-[node name="Title" type="Label" parent="."]
+[node name="Pattern" type="Control" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="BatteryIcon" type="Label" parent="Background"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = -200.0
-offset_right = 400.0
-offset_bottom = -50.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = -150.0
+offset_top = -350.0
+offset_right = 150.0
+offset_bottom = -150.0
+theme_override_font_sizes/font_size = 120
+text = "🔋"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="Background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -150.0
+offset_right = 500.0
+offset_bottom = -20.0
 theme_override_font_sizes/font_size = 96
-text = "Battery Panic"
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1.0)
+text = "BATTERY PANIC"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="."]
+[node name="Subtitle" type="Label" parent="Background"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = -50.0
-offset_right = 400.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 32
-text = "Optimize your way through battery emergencies"
+offset_left = -500.0
+offset_top = -20.0
+offset_right = 500.0
+offset_bottom = 60.0
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.7, 0.7, 0.8, 1.0)
+text = "Close apps. Save battery. Complete tasks. Survive."
 horizontal_alignment = 1
 
-[node name="StartButton" type="Button" parent="."]
+[node name="StartButton" type="Button" parent="Background"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = 100.0
-offset_right = 150.0
-offset_bottom = 180.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = -200.0
+offset_top = 80.0
+offset_right = 200.0
+offset_bottom = 160.0
 theme_override_font_sizes/font_size = 36
-text = "Start Game"
+theme_override_styles/normal = SubResource("2")
+theme_override_styles/hover = SubResource("3")
+text = "PLAY GAME"
 
-[node name="QuitButton" type="Button" parent="."]
+[node name="QuitButton" type="Button" parent="Background"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = 220.0
-offset_right = 150.0
-offset_bottom = 300.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 36
-text = "Quit"
+offset_left = -200.0
+offset_top = 190.0
+offset_right = 200.0
+offset_bottom = 250.0
+theme_override_font_sizes/font_size = 28
+text = "QUIT"
+
+[node name="Instructions" type="Label" parent="Background"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -600.0
+offset_top = -120.0
+offset_right = 600.0
+offset_bottom = -40.0
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.5, 0.5, 0.6, 1.0)
+text = "💡 Close apps to reduce battery drain  •  Complete tasks before time runs out  •  Don't let the battery hit 0%"
+horizontal_alignment = 1

@@ -79,10 +79,10 @@ func _setup_interactive_elements() -> void:
 		# Entrance animation
 		btn.scale = Vector2(0, 0)
 		var tween = create_tween()
+		tween.tween_interval(i * 0.1)
 		tween.tween_property(btn, "scale", Vector2(1, 1), 0.3)
 		tween.set_ease(Tween.EASE_OUT)
 		tween.set_trans(Tween.TRANS_BACK)
-		tween.set_delay(i * 0.1)
 
 func _on_app_clicked(app_name: String) -> void:
 	element_clicked.emit(app_name)

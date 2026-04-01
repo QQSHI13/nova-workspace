@@ -58,15 +58,31 @@ func bounce(node: Control, height: float = 20.0, duration: float = 0.4) -> void:
 	tween.set_ease(Tween.EASE_OUT)
 	tween.set_trans(Tween.TRANS_BOUNCE)
 
-# Fade in/out
-func fade_in(node: CanvasItem, duration: float = 0.3) -> void:
-	node.modulate.a = 0.0
-	var tween = create_tween()
-	tween.tween_property(node, "modulate:a", 1.0, duration)
+# Fade in/out - works with CanvasItem or CanvasLayer
+func fade_in(node: Node, duration: float = 0.3) -> void:
+	if node is CanvasItem:
+		node.modulate.a = 0.0
+		var tween = create_tween()
+		tween.tween_property(node, "modulate:a", 1.0, duration)
+	elif node is CanvasLayer:
+		# For CanvasLayer, get the first child Control and fade that
+		for child in node.get_children():
+			if child is CanvasItem:
+				child.modulate.a = 0.0
+				var tween = create_tween()
+				tween.tween_property(child, "modulate:a", 1.0, duration)
+				break
 
-func fade_out(node: CanvasItem, duration: float = 0.3) -> void:
-	var tween = create_tween()
-	tween.tween_property(node, "modulate:a", 0.0, duration)
+func fade_out(node: Node, duration: float = 0.3) -> void:
+	if node is CanvasItem:
+		var tween = create_tween()
+		tween.tween_property(node, "modulate:a", 0.0, duration)
+	elif node is CanvasLayer:
+		for child in node.get_children():
+			if child is CanvasItem:
+				var tween = create_tween()
+				tween.tween_property(child, "modulate:a", 0.0, duration)
+				break
 
 # Number counting animation
 func animate_number(label: Label, from_value: int, to_value: int, duration: float = 1.0, prefix: String = "") -> void:

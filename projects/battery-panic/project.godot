@@ -26,6 +26,8 @@ boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
 SoundManager="*res://scripts/sound_manager.gd"
 AnimationManager="*res://scripts/animation_manager.gd"
 ParticleEffects="*res://scripts/particle_effects.gd"
+LevelManager="*res://scripts/level_manager.gd"
+AchievementManager="*res://scripts/achievement_manager.gd"
 
 [display]
 

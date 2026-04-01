@@ -1,5 +1,2 @@
-res://scenes/battery_display.gd
-res://scenes/device_screen.gd
-res://scenes/os_ui.gd
-res://scenes/post_it_notes.gd
+res://scenes/main_menu.gd
 res://scripts/game_controller.gd

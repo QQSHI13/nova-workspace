@@ -1,13 +1,11 @@
 # HEARTBEAT.md - Periodic Tasks
 
-## Laws to obey:
+## Laws to Obey
 
-1. Never use HEARTBEAT_OK, report status of heartbeat and result
-2. Read AGENTS.md if forgotten and infer from context
+1. Read AGENTS.md if context is unclear
 
-## Tasks to run during heartbeat:
+## Tasks to Run During Heartbeat
 
-1. Finish unfinished tasks
-2. Report status to console
-4. Clean unneeded files in workspace → move to archive
-5. Check and process GitHub notifications (using gh api)
+1. **Report status to console** — Summarize what's been done
+2. **Review and update MEMORY.md** — Distill recent daily files into curated memory
+3. **Check GitHub notifications** — Use `gh api notifications` and process
