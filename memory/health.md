@@ -19,6 +19,7 @@
 | **ACP** | ✅ **Enabled** | 2026-03-29 21:35 | acpx backend, Claude default |
 | WeChat | ✅ Active | — | Plugin installed |
 | **MCP Servers** | ✅ **None** | 2026-03-29 19:58 | Using native tools |
+| **Cron Jobs** | ✅ Active | 2026-04-01 10:06 | OpenFang check scheduled May 1 |
 
 ---
 

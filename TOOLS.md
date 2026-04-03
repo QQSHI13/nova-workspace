@@ -37,6 +37,37 @@ openclaw browser tabs
 - If port changes, restart OpenClaw gateway to reconnect
 - Remote debugging notification appears - this is normal
 
+### Browser Startup Procedure (When Connection Fails)
+
+If browser commands fail with "timed out" or "Connection closed":
+
+**Step 1: Start the browser connection**
+```javascript
+browser({ action: "start" })
+```
+
+**Step 2: Open a new tab (preserves existing tabs)**
+```javascript
+browser({ action: "open", url: "https://example.com" })
+```
+
+**⚠️ Warning**: Using `action: "navigate"` wipes the current tab. Use `action: "open"` to preserve existing tabs.
+
+**Example workflow:**
+```javascript
+// 1. Start connection
+browser({ action: "start" })
+
+// 2. Open new tab (safe - doesn't wipe existing tabs)
+browser({ action: "open", url: "https://tcamp.qq.com/mooc/R7U7xA9P/task/5070" })
+
+// 3. Extract content
+browser({ 
+  action: "act", 
+  request: { fn: "() => { return document.body.innerText; }", kind: "evaluate" } 
+})
+```
+
 ### Visual Screenshot Mode 🎉
 **Quirk discovered:** I can see actual webpage screenshots via `browser screenshot`!
 
