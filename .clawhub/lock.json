@@ -20,14 +20,6 @@
     "playwright-scraper-skill": {
       "version": "1.2.0",
       "installedAt": 1774013524999
-    },
-    "mcporter": {
-      "version": "1.0.0",
-      "installedAt": 1774612133541
-    },
-    "weixiahub": {
-      "version": "1.0.0",
-      "installedAt": 1774759860066
     }
   }
 }
