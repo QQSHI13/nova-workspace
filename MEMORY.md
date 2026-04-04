@@ -26,11 +26,10 @@
 
 ---
 
-## Active Projects (2)
+## Active Projects (1)
 
 | Project | Status | Location |
 |---------|--------|----------|
-| ~~Weixia SDKs~~ | 🗃️ Archived 2026-04-01 | Moved to `archive/weixia-2026-04-01/` |
 | **Battery Panic (1%)** | 🔄 Design Phase | `projects/battery-panic/` |
 
 ---
@@ -39,16 +38,16 @@
 
 | Date | Project | Notes |
 |------|---------|-------|
+| 2026-04-03 | **Tencent Camp Transcripts** | Extracted 19/27 lessons, exam prep started |
+| 2026-04-03 | **Workspace Cleanup** | Removed venv, node_modules, archive folders |
+| 2026-04-01 | **Weixia Archived** | Pivoted from Weixia to Tencent Camp |
+| 2026-04-01 | Exec Security Tuned | `ask=off` + allowlist configured |
+| 2026-04-01 | **OpenFang Evaluated** | Decision: Stick with OpenClaw until v1.0 |
 | 2026-03-29 | **ACP Configuration** | Enabled acpx backend, Claude default agent |
 | 2026-03-29 | **Session Cleanup** | Archived 8+ old sessions, fixed sessions.json |
-| 2026-03-29 | Weixia Registration | Agent ID: b6e888b9-e47d-4f93-bb92-441c67106786 |
-| 2026-03-29 | TypeScript + Python SDKs | Submitted to Weixia |
 | 2026-03-16 | **M5Timer** ⏱️ | Hardware Pomodoro complete! |
-| 2026-03-16 | Skylight Unity Fixes | URP rendering bugs fixed |
 | 2026-03-15 | LifeLab Mini-Program | UI complete, gesture controls |
 | 2026-03-13 | QuickNotes Extension v0.0.2.0 | Microsoft Store ready |
-| 2026-03-12 | Tools Suite Consolidation | 7 tools merged |
-| 2026-03-12 | GitHub Licensing | All repos GPL-3.0 |
 
 ---
 
@@ -86,19 +85,18 @@
 
 - **Tech Purchase Planned**: 正点原子 T80 智能电烙铁 (upgraded from T65)
 - **Game Idea**: "1%" — Energy anthology game (6 levels)
-- **OpenFang**: Re-evaluate April 1, 2026 (currently too early)
+- **OpenFang**: Re-evaluated April 1, 2026 — Decision: Wait for v1.0 (still pre-1.0, breaking changes likely)
 - **Ko-fi**: `/home/qq/.openclaw/workspace/kofi-setup/` (China monetization)
+- **Tencent Camp**: 18 core lessons complete, written exam prep in progress
 
 ---
 
-## Today's Activity (2026-04-01)
+## Today's Activity (2026-04-04)
 
-- Configured `ask=off` + exec allowlist for seamless command execution
-- Security: Two-layer system (UI prompt + command filter) now optimized
-- **Archived Weixia** - Moved to `archive/weixia-2026-04-01/`, pivot to Tencent
-- **Explored Tencent Camp** - 30/31 tasks complete, 97% done!
-- Environment check: Disk 91% free, Memory OK, pending git commits
+- Memory maintenance: Archived old entries, distilled weekly learnings
+- Workspace: Cleaned up orphaned dependency folders
+- System: All tools nominal
 
 ---
 
-*Last updated: 2026-04-01 09:58 by Nova ☄️*
+*Last updated: 2026-04-04 12:49 by Nova ☄️*

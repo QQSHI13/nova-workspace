@@ -39,10 +39,14 @@ func _ready():
 	if quit_btn:
 		quit_btn.pressed.connect(get_tree().quit)
 
-	# Game over restart button (inside Panel)
+	# Game over buttons (inside Panel)
+	var tips_btn = screens.get_node_or_null("GameOverScreen/Panel/TipsBtn")
+	if tips_btn:
+		tips_btn.pressed.connect(_show_tips)
+
 	var restart_btn = screens.get_node_or_null("GameOverScreen/Panel/RestartBtn")
 	if restart_btn:
-		restart_btn.pressed.connect(_restart)
+		restart_btn.pressed.connect(_start_game)
 
 	# Window close buttons
 	for app_id in apps:
@@ -326,7 +330,15 @@ func _flash(col: Color):
 	t.tween_callback(func(): f.visible = false)
 
 func _restart():
-	_start_game()
+	_show_tips()
+
+func _show_tips():
+	var tips_scene = load("res://scenes/battery_tips_screen.tscn")
+	if tips_scene:
+		var tips = tips_scene.instantiate()
+		var done = _done_count()
+		tips.set_game_result(battery > 0, done, battery)
+		get_tree().current_scene.add_child(tips)
 
 func _show_screen(name: String):
 	var menu = screens.get_node_or_null("Menu")
