@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "skylight",
+  "version": "${version}",
+  "name": "Skylight",
+  "description": "A single-toggle mod for peaceful, auto-jump, and hidden hotbar.",
+  "authors": ["Skylight"],
+  "license": "MIT",
+  "icon": "assets/skylight/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.skylight.SkylightMod"
+    ]
+  },
+  "mixins": [
+    "skylight.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.7",
+    "fabric": "*",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "cloth-config": ">=15.0.127",
+    "autoconfig1u": ">=3.4.2"
+  }
+}
