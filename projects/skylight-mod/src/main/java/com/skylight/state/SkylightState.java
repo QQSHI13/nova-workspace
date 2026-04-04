@@ -5,9 +5,9 @@ import net.minecraft.world.Difficulty;
 public class SkylightState {
     private static final SkylightState INSTANCE = new SkylightState();
 
-    private boolean active = false;
-    private Difficulty originalDifficulty = null;
-    private boolean originalAutoJump = false;
+    private volatile boolean active = false;
+    private volatile Difficulty originalDifficulty = null;
+    private volatile boolean originalAutoJump = false;
 
     private SkylightState() {}
 
