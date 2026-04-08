@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "skylight",
+  "version": "1.0.0",
+  "name": "Skylight",
+  "description": "Automatically set Peaceful difficulty and enable auto-jump on world join",
+  "authors": ["QQ"],
+  "license": "GPL-3.0",
+  "icon": "assets/skylight/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.qq.skylight.SkylightMod"
+    ]
+  },
+  "mixins": [
+    "skylight.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.7",
+    "fabric": "*",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "cloth-config": ">=15.0.140"
+  }
+}

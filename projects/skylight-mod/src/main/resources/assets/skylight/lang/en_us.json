@@ -1,0 +1,36 @@
+{
+  "key.skylight.mode": "Toggle Skylight Mode",
+  "key.skylight.freecam": "Toggle Free Camera",
+  "key.skylight.timepause": "Toggle Time Pause",
+  "key.skylight.screenshot": "Skylight Screenshot",
+  "category.skylight.general": "Skylight",
+  "category.skylight.photography": "Skylight Photography",
+  
+  "message.skylight.mode.enabled": "Skylight Mode enabled (Peaceful + Effects)",
+  "message.skylight.mode.enabled_no_difficulty": "Skylight Mode enabled (Effects only - Difficulty locked)",
+  "message.skylight.mode.disabled": "Skylight Mode disabled",
+  
+  "message.skylight.freecam.enabled": "Free Camera enabled - Use WASD to fly",
+  "message.skylight.freecam.disabled": "Free Camera disabled",
+  "message.skylight.freecam.disabled_config": "Free Camera is disabled in config",
+  
+  "message.skylight.timepause.enabled": "Time paused - World frozen",
+  "message.skylight.timepause.disabled": "Time resumed",
+  "message.skylight.timepause.disabled_config": "Time Pause is disabled in config",
+  
+  "message.skylight.screenshot.saved": "Screenshot saved: %s",
+  "message.skylight.screenshot.failed": "Screenshot failed: %s",
+  "message.skylight.screenshot.disabled_config": "Skylight Screenshot is disabled in config",
+  
+  "createWorld.skylight.toggle": "Skylight World",
+  "createWorld.skylight.toggle.tooltip": "Peaceful mode, no hunger, free elytra + fireworks + boat",
+  
+  "config.skylight.option.enablePeacefulOnToggle": "Enable Peaceful on Toggle",
+  "config.skylight.option.enablePeacefulOnToggle.tooltip": "When enabled, Skylight Mode will try to set peaceful difficulty",
+  
+  "config.skylight.photography.enableFreeCam": "Enable Free Camera",
+  "config.skylight.photography.enableTimePause": "Enable Time Pause",
+  "config.skylight.photography.enableScreenshot": "Enable Skylight Screenshot",
+  "config.skylight.photography.freeCamSpeed": "Free Camera Speed",
+  "config.skylight.photography.freeCamSprintSpeed": "Free Camera Sprint Speed"
+}

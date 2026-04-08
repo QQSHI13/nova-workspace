@@ -21,11 +21,11 @@ func _ready() -> void:
 	update_display(battery_value)
 
 func _process(delta: float) -> void:
-	if _is_flashing:
+	if _is_flashing and battery_icon:
 		_flash_timer += delta
 		var flash_speed = 0.2 if battery_value < 10.0 else 0.5
 		var alpha = 0.5 + 0.5 * sin(_flash_timer * PI / flash_speed)
-		modulate.a = alpha
+		battery_icon.modulate.a = alpha
 
 func update_display(value: float) -> void:
 	battery_value = clampf(value, 0.0, max_battery)
@@ -41,8 +41,8 @@ func update_display(value: float) -> void:
 
 	# Flash when low
 	_is_flashing = percent <= 30.0
-	if not _is_flashing:
-		modulate.a = 1.0
+	if not _is_flashing and battery_icon:
+		battery_icon.modulate.a = 1.0
 
 func _get_color_for_level(percent: float) -> Color:
 	if percent > 30.0:
@@ -54,5 +54,5 @@ func _get_color_for_level(percent: float) -> Color:
 
 func set_max_battery(value: float) -> void:
 	max_battery = value
-	battery_bar.max_value = 100.0  # Always 0-100 scale
+	battery_bar.max_value = max_battery
 	update_display(battery_value)

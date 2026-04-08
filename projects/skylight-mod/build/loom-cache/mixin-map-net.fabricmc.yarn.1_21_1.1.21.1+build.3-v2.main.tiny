@@ -1,0 +1,10 @@
+v1	named	intermediary
+FIELD	com/qq/skylight/mixin/CameraMixin	Lnet/minecraft/entity/Entity;	focusedEntity	field_18711
+FIELD	com/qq/skylight/mixin/CameraMixin	Lnet/minecraft/util/math/Vec3d;	pos	field_18712
+FIELD	com/qq/skylight/mixin/CameraMixin	F	yaw	field_18718
+FIELD	com/qq/skylight/mixin/CameraMixin	F	pitch	field_18717
+FIELD	com/qq/skylight/mixin/CameraMixin	Lorg/joml/Quaternionf;	rotation	field_21518
+FIELD	com/qq/skylight/mixin/CameraMixin	Lorg/joml/Vector3f;	horizontalPlane	field_18714
+FIELD	com/qq/skylight/mixin/CameraMixin	Lorg/joml/Vector3f;	verticalPlane	field_18715
+FIELD	com/qq/skylight/mixin/CameraMixin	Lorg/joml/Vector3f;	diagonalPlane	field_18716
+METHOD	com/qq/skylight/mixin/CameraMixin	(FF)V	setRotation	method_19325

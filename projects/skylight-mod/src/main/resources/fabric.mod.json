@@ -3,14 +3,14 @@
   "id": "skylight",
   "version": "${version}",
   "name": "Skylight",
-  "description": "A single-toggle mod for peaceful, auto-jump, and hidden hotbar.",
-  "authors": ["Skylight"],
-  "license": "MIT",
+  "description": "Automatically set Peaceful difficulty and enable auto-jump on world join",
+  "authors": ["QQ"],
+  "license": "GPL-3.0",
   "icon": "assets/skylight/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
-      "com.skylight.SkylightMod"
+      "com.qq.skylight.SkylightMod"
     ]
   },
   "mixins": [
@@ -21,7 +21,6 @@
     "fabric": "*",
     "minecraft": "~1.21.1",
     "java": ">=21",
-    "cloth-config": ">=15.0.127",
-    "autoconfig1u": ">=3.4.2"
+    "cloth-config": ">=15.0.140"
   }
 }

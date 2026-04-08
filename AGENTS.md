@@ -2,10 +2,6 @@
 
 This folder is home. Treat it that way.
 
-## First Run
-
-If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out who you are, then delete it. You won't need it again.
-
 ## Every Session
 
 Before doing anything else:
@@ -345,16 +341,3 @@ For long-running deployments:
 ## Make It Yours
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.
-
----
-
-## Resources
-
-| Resource       | URL                               | Purpose                 |
-| -------------- | --------------------------------- | ----------------------- |
-| Website        | https://openclaw.ai               | Main site, testimonials |
-| GitHub         | github.com/openclaw/openclaw      | Source code             |
-| Docs           | https://docs.openclaw.ai          | Full documentation      |
-| Docs Index     | https://docs.openclaw.ai/llms.txt | Complete page index     |
-| Skills Hub     | https://clawhub.com               | Browse/install skills   |
-| Security Audit | `openclaw security audit`         | Check your setup        |

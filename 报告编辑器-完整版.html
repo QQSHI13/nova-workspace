@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI专属钱包报告编辑器 - 完整版</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f7fa; }
+.container { display: flex; height: 100vh; }
+.editor { width: 50%; background: #fff; padding: 15px; overflow-y: auto; border-right: 2px solid #e8e8e8; }
+.preview { width: 50%; padding: 15px; overflow-y: auto; background: #f5f7fa; }
+h1 { font-size: 16px; color: #333; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #4CAF50; }
+h2 { font-size: 14px; color: #4CAF50; margin: 15px 0 10px; }
+.section { margin-bottom: 15px; padding: 12px; background: #fafafa; border-radius: 6px; border: 1px solid #e8e8e8; }
+.section-title { font-size: 13px; font-weight: 600; color: #4CAF50; margin-bottom: 8px; }
+label { display: block; font-size: 11px; color: #666; margin-bottom: 3px; margin-top: 8px; }
+input[type="text"], textarea, select { width: 100%; padding: 6px 10px; border: 1px solid #d9d9d9; border-radius: 4px; font-size: 12px; font-family: inherit; }
+textarea { min-height: 60px; resize: vertical; }
+input:focus, textarea:focus { border-color: #4CAF50; outline: none; }
+.btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; margin-right: 8px; margin-top: 8px; }
+.btn-primary { background: #4CAF50; color: white; }
+.btn-secondary { background: #fff; color: #4CAF50; border: 1px solid #4CAF50; }
+.btn-danger { background: #ff4d4f; color: white; }
+.report-preview { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 800px; margin: 0 auto; font-size: 13px; line-height: 1.8; }
+.report-preview h2 { color: #333; border-left: 4px solid #4CAF50; padding-left: 12px; font-size: 15px; margin-top: 20px; }
+.report-preview h3 { color: #444; font-size: 13px; margin-top: 15px; }
+.report-preview p { margin: 10px 0; }
+.report-preview blockquote { border-left: 3px solid #FF9800; padding: 10px 15px; background: #fff8e1; margin: 10px 0; font-style: italic; }
+.word-count { position: fixed; bottom: 15px; right: 15px; background: #4CAF50; color: white; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 12px; }
+th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+th { background: #f5f5f5; }
+.step { background: #f5f5f5; padding: 10px; margin: 8px 0; border-radius: 4px; border-left: 3px solid #4CAF50; }
+.rule { background: #ffebee; padding: 10px; margin: 8px 0; border-radius: 4px; border-left: 3px solid #f44336; }
+.collapsible { cursor: pointer; padding: 10px; background: #e8f5e9; border-radius: 4px; margin-bottom: 5px; }
+.collapsible:hover { background: #c8e6c9; }
+.content { display: none; padding: 10px; }
+.content.active { display: block; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="editor">
+    <h1>📝 AI钱包报告编辑器</h1>
+    
+    <div class="section">
+      <div class="section-title">基本信息</div>
+      <label>你的姓名</label>
+      <input type="text" id="userName" placeholder="输入你的姓名" oninput="updatePreview()">
+      <label>产品名称</label>
+      <input type="text" id="productName" value="智付伙伴" oninput="updatePreview()">
+      <label>英文名称</label>
+      <input type="text" id="productNameEn" value="PayMate AI" oninput="updatePreview()">
+      <label>核心定位</label>
+      <input type="text" id="positioning" value="可协商的消费执行伙伴" oninput="updatePreview()">
+    </div>
+
+    <div class="section">
+      <div class="section-title">一、背景与定位</div>
+      <label>背景描述</label>
+      <textarea id="backgroundDesc" oninput="updatePreview()">随着AI技术从工具型向伙伴型演进，未来的个人AI助手将具备自主执行能力。它不再局限于信息查询与任务提醒，而是能够代理处理日常事务——包括管理个人财务。为AI配置一个独立且受控的资金账户，是实现从"被动建议"到"主动执行"跃迁的基础设施。</textarea>
+      <label>现状与机会</label>
+      <textarea id="background" oninput="updatePreview()">当前AI助手在消费决策链路中存在明显断层：它们可以完成需求识别、商品筛选、价格比对等前置环节，但在最终的资金划转环节被迫中断——用户仍需手动确认支付。这种"临门一脚"的缺失，造成了体验上的割裂感。智付伙伴通过赋予AI一个专属的"资金沙盒"，使其能够在用户预设的边界内独立完成支付闭环，真正打通"意图-执行"的最后一公里。</textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-title">二、找需求</div>
+      <label>用户画像</label>
+      <input type="text" id="userProfile" value="初入职场、追求效率与生活品质的年轻白领（22-28岁）" oninput="updatePreview()">
+      <label>用户特征（用分号分隔）</label>
+      <textarea id="userTraits" oninput="updatePreview()">有固定收入但缺乏精细理财时间；有储蓄意愿但难以坚持执行；工作繁忙，无暇关注每一笔支出和优惠；数字化原住民，愿意尝试AI辅助工具</textarea>
+      <label>痛点1问题</label>
+      <input type="text" id="pain1Question" value="当我的AI助手能替我支付时，我最希望它帮我解决什么具体的烦恼？" oninput="updatePreview()">
+      <label>痛点1内容</label>
+      <textarea id="pain1Content" oninput="updatePreview()">订阅陷阱：每个月被各种自动续费悄悄扣钱——视频会员、音乐会员、网盘会员、健身卡...等到发现时已经扣了好几个月。想取消时却找不到入口，或者忘了这回事。</textarea>
+      <label>痛点2问题</label>
+      <input type="text" id="pain2Question" value="现在，我在授权AI做任何事时，最大的顾虑和担心是什么？" oninput="updatePreview()">
+      <label>痛点2内容</label>
+      <textarea id="pain2Content" oninput="updatePreview()">失控焦虑：怕AI不理解我"省钱"的潜台词，在我冲动时依然执行消费指令。比如深夜刷到直播间促销，当时觉得超值，第二天早上就后悔。AI应该在我非理性时帮我踩刹车，而不是推波助澜。</textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-title">三、定策略</div>
+      <label>定位描述</label>
+      <textarea id="strategyDesc" oninput="updatePreview()">用户设定规则后，AI在授权范围内拥有有限决策权，依据预算、消费习惯、场景智能判断是否执行。</textarea>
+      <label>差异化对比-传统支付</label>
+      <input type="text" id="diffTraditional" value="用户100%决策，每笔手动确认" oninput="updatePreview()">
+      <label>差异化对比-智付伙伴</label>
+      <input type="text" id="diffProduct" value="AI在规则内拥有有限决策权" oninput="updatePreview()">
+    </div>
+
+    <div class="section">
+      <div class="section-title">双层架构设计</div>
+      <label>下层（安全执行层）职责</label>
+      <textarea id="lowerLayer" oninput="updatePreview()">资金托管与支付执行、Cron定时任务（月度资金分流）、心跳监测异常交易、地理位置校验、紧急制动响应</textarea>
+      <label>上层（决策交互层）职责</label>
+      <textarea id="upperLayer" oninput="updatePreview()">用户意图理解与协商、动态调整执行阈值、消费场景判断、生成个性化建议、学习用户习惯优化策略</textarea>
+      <label>架构说明</label>
+      <input type="text" id="archDesc" value="下层负责安全执行，上层负责智能决策。两层通过API通信，下层只接受上层的合法指令。" oninput="updatePreview()">
+    </div>
+
+    <div class="section">
+      <div class="section-title">四、画蓝图 - 场景1</div>
+      <label>场景1名称</label>
+      <input type="text" id="scene1Name" value="深夜直播间危机" oninput="updatePreview()">
+      <label>场景1背景</label>
+      <textarea id="scene1Bg" oninput="updatePreview()">周五晚上11点，小李刷短视频时进入某品牌直播间，主播正在推销一款限量版机械键盘，原价¥1299，直播间专属价¥899，限量100个，还剩最后15分钟。</textarea>
+      <label>Step1: AI分析</label>
+      <textarea id="scene1Step1" oninput="updatePreview()">解析需求：机械键盘，¥899；检查用户状态：深夜23:00，用户今日屏幕使用时间已超10小时；检查小金库：本月"数码外设"预算剩余¥1200，但本月总支出已接近月度上限的90%；检查历史：用户过去3个月已有2次深夜冲动消费后悔记录；检查优惠：该键盘其他平台日常价¥950，直播间¥899确实是好价</textarea>
+      <label>Step2: AI协商对话</label>
+      <textarea id="scene1Step2" oninput="updatePreview()">"检测到你想购买机械键盘¥899。我需要提醒你几点：
+1. 现在是深夜23:00，你过去3个月有2次深夜消费后第二天后悔
+2. 本月总支出已达月度预算90%，再买这个会超支
+3. 虽然直播间价格确实优惠，但非限量款，明天官网同价
+
+建议：设置12小时冷静期。如果明天中午12点后你还想要，我自动帮你下单，价格不变。这样你可以睡一觉再决定。"</textarea>
+      <label>Step3-5: 后续流程</label>
+      <textarea id="scene1End" oninput="updatePreview()">第二天中午12:30，AI主动询问，小李决定不购买。AI记录：用户对深夜消费建议接受度高，下次深夜消费时自动启用冷静期策略。</textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-title">四、画蓝图 - 场景2</div>
+      <label>场景2名称</label>
+      <input type="text" id="scene2Name" value="订阅服务大清理" oninput="updatePreview()">
+      <label>场景2背景</label>
+      <input type="text" id="scene2Bg" value="每月1号发薪日，AI自动执行"订阅体检"。" oninput="updatePreview()">
+      <label>AI扫描结果</label>
+      <textarea id="scene2Scan" oninput="updatePreview()">视频会员A：¥25/月，最近30天使用2次
+音乐会员B：¥15/月，最近30天使用28次
+网盘会员C：¥30/月，最近30天使用0次
+健身会员D：¥200/月，最近30天使用1次</textarea>
+      <label>AI优化建议</label>
+      <textarea id="scene2Suggest" oninput="updatePreview()">网盘会员C：30天未使用，建议取消，年省¥360
+健身会员D：使用率极低，建议改为次卡或取消，年省¥2400
+音乐会员B：使用率高，保留
+视频会员A：使用率中等，建议降级为非会员或寻找拼单
+
+预计年节省：¥2760。确认执行优化方案吗？</textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-title">四、画蓝图 - 规则与界面</div>
+      <label>资金分流规则</label>
+      <input type="text" id="fundRule" value="每月发薪日自动分流：AI小金库（如¥3000）+ 强制储蓄（如¥2000）+ 自留" oninput="updatePreview()">
+      <label>执行阈值规则（AI可根据情况动态调整）</label>
+      <textarea id="thresholdRule" oninput="updatePreview()">小额自动层：AI直接执行（默认¥80以下，AI可根据用户消费习惯调整）
+协商确认层：AI反问后执行（默认¥80-1000，AI可根据预算紧张程度调整冷却时间）
+辩论说服层：用户需说服AI（默认¥1000以上，AI可根据消费类别调整辩论难度）
+特殊时段：深夜消费AI可自动增加冷静期</textarea>
+      <label>设置页描述</label>
+      <input type="text" id="uiSettings" value="顶部：月度预算分配滑块；中部：三层执行阈值设定；底部：特殊规则开关" oninput="updatePreview()">
+      <label>协商页描述</label>
+      <input type="text" id="uiChat" value="聊天界面风格，AI消息带思考过程，用户可一键确认、修改、延期、拒绝" oninput="updatePreview()">
+      <label>报告页描述</label>
+      <input type="text" id="uiReport" value="本周消费总额、节省金额、预算使用率、图表、下周建议、成就系统" oninput="updatePreview()">
+    </div>
+
+    <div class="section">
+      <div class="section-title">五、守边界</div>
+      <label>规则1标题</label>
+      <input type="text" id="rule1Title" value="绝对禁止借贷投资" oninput="updatePreview()">
+      <label>规则1内容</label>
+      <input type="text" id="rule1Content" value="AI只能操作小金库内现有资金，不可透支、借贷或投资，小金库与主账户隔离" oninput="updatePreview()">
+      <label>规则2标题</label>
+      <input type="text" id="rule2Title" value="大额强制手动确认" oninput="updatePreview()">
+      <label>规则2内容</label>
+      <input type="text" id="rule2Content" value="单笔超过¥1000必须用户手动确认，AI无权自动执行" oninput="updatePreview()">
+      <label>规则3标题</label>
+      <input type="text" id="rule3Title" value="紧急制动按钮" oninput="updatePreview()">
+      <label>规则3内容</label>
+      <input type="text" id="rule3Content" value="用户可随时一键冻结AI账户，资金秒级退回，解冻需二次验证" oninput="updatePreview()">
+      <label>风控措施</label>
+      <textarea id="riskControl" oninput="updatePreview()">异常模式警报：非常规时间、异常地点或高频交易自动冻结
+地理位置校验：大额消费需匹配GPS
+周度锁定期：每周必须查看报告确认后方可解锁下周额度</textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-title">六、商业模式</div>
+      <label>商业模式</label>
+      <textarea id="businessModel" oninput="updatePreview()">按交易抽成0.5%：每笔AI成功执行的支付，收取0.5%服务费。小额高频积累稳定收入，用户只为实际使用的自动化服务付费，激励AI帮助用户省钱（省得越多，双方收益越多）</textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-title">七、总结</div>
+      <label>总结内容</label>
+      <textarea id="conclusion" oninput="updatePreview()">智付伙伴通过"可协商的执行"模式，重新定义了用户与AI的消费协作关系。AI不再是简单的执行工具，而是拥有有限决策权的理性伙伴——它会在你冲动时踩刹车，在你遗忘时提个醒，在你省钱时点个赞。
+
+通过分层执行策略、硬性安全边界和智能风控机制，智付伙伴让AI在授权范围内跑完支付最后一棒，同时确保用户始终握住最终控制权的遥控器。
+
+这不是关于付钱更快，而是关于花得更明智。</textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-title">操作</div>
+      <button class="btn btn-primary" onclick="exportHTML()">导出HTML</button>
+      <button class="btn btn-secondary" onclick="exportMarkdown()">导出Markdown</button>
+      <button class="btn btn-danger" onclick="resetForm()">重置</button>
+    </div>
+  </div>
+
+  <div class="preview">
+    <div class="report-preview" id="preview">
+      <!-- Preview content will be generated here -->
+    </div>
+  </div>
+</div>
+
+<div class="word-count" id="wordCount">字数：0</div>
+
+<script>
+function updatePreview() {
+  const fields = {};
+  const fieldIds = ['userName', 'productName', 'productNameEn', 'positioning', 'backgroundDesc', 'background', 
+    'userProfile', 'userTraits', 'pain1Question', 'pain1Content', 'pain2Question', 'pain2Content',
+    'strategyDesc', 'diffTraditional', 'diffProduct', 'lowerLayer', 'upperLayer', 'archDesc',
+    'scene1Name', 'scene1Bg', 'scene1Step1', 'scene1Step2', 'scene1End', 
+    'scene2Name', 'scene2Bg', 'scene2Scan', 'scene2Suggest',
+    'fundRule', 'thresholdRule', 'uiSettings', 'uiChat', 'uiReport',
+    'rule1Title', 'rule1Content', 'rule2Title', 'rule2Content', 'rule3Title', 'rule3Content',
+    'riskControl', 'businessModel', 'conclusion'];
+  
+  fieldIds.forEach(id => {
+    const el = document.getElementById(id);
+    fields[id] = el ? el.value : '';
+  });
+  
+  const traits = fields.userTraits.split('；').map(t => t.trim()).filter(t => t);
+  const thresholdRules = fields.thresholdRule.split('\n').map(r => r.trim()).filter(r => r);
+  const risks = fields.riskControl.split('\n').map(r => r.trim()).filter(r => r);
+  
+  const html = `
+    <h1 style="color:#222;border-bottom:2px solid #4CAF50;padding-bottom:10px;font-size:20px;">AI专属钱包产品方案报告</h1>
+    <p style="color:#666;font-size:11px;">课题一+${fields.userName || '[你的姓名]'}+${fields.productName}</p>
+    <hr style="border:none;border-top:1px solid #ddd;margin:15px 0;">
+    
+    <h2>一、背景与产品定位</h2>
+    <h3>1.1 背景</h3>
+    <p>${fields.backgroundDesc}</p>
+    
+    <h3>1.2 现状与机会</h3>
+    <blockquote>${fields.background}</blockquote>
+    <p><strong>${fields.productName}</strong>就是要让AI能安全地跑完最后一棒，实现从"想到"到"做到"的完整闭环。</p>
+    
+    <h3>1.3 核心定位</h3>
+    <p><strong>"${fields.positioning}"</strong>——不是无脑执行支付，而是在规则内自主决策，关键时刻与用户协商。</p>
+    
+    <h2>二、找需求</h2>
+    <h3>2.1 用户画像</h3>
+    <p><strong>核心用户</strong>：${fields.userProfile}</p>
+    <p><strong>特征</strong>：</p>
+    <ul>${traits.map(t => `<li>${t}</li>`).join('')}</ul>
+    
+    <h3>2.2 核心痛点</h3>
+    <p><strong>问自己第一个问题</strong>：<em>"${fields.pain1Question}"</em></p>
+    <p>→ <strong>${fields.pain1Content.split('：')[0]}</strong>：${fields.pain1Content.split('：')[1] || fields.pain1Content}</p>
+    
+    <p><strong>问自己第二个问题</strong>：<em>"${fields.pain2Question}"</em></p>
+    <p>→ <strong>${fields.pain2Content.split('：')[0]}</strong>：${fields.pain2Content.split('：')[1] || fields.pain2Content}</p>
+    
+    <h2>三、定策略</h2>
+    <h3>3.1 产品名称与定位</h3>
+    <p><strong>产品名称</strong>：${fields.productName}（${fields.productNameEn}）</p>
+    <p><strong>一句话定位</strong>：${fields.strategyDesc}</p>
+    
+    <h3>3.2 差异化</h3>
+    <table>
+      <tr><th>维度</th><th>传统移动支付</th><th>${fields.productName}</th></tr>
+      <tr><td>决策模式</td><td>${fields.diffTraditional}</td><td>${fields.diffProduct}</td></tr>
+    </table>
+    
+    <p><strong>真正的不同不在于付钱更快，而在于谁拥有决策权，以及决策的依据是什么。</strong></p>
+    
+    <h2>四、画蓝图</h2>
+    <h3>双层架构设计</h3>
+    <p><strong>下层（安全执行层）</strong>：${fields.lowerLayer}</p>
+    <p><strong>上层（决策交互层）</strong>：${fields.upperLayer}</p>
+    <p>${fields.archDesc}</p>
+    
+    <h3>4.1 协作场景：${fields.scene1Name}</h3>
+    <p><strong>场景背景</strong>：${fields.scene1Bg}</p>
+    
+    <div class="step">
+      <strong>Step 1：AI接收意图并分析</strong><br>
+      ${fields.scene1Step1.replace(/\n/g, '<br>')}
+    </div>
+    
+    <div class="step">
+      <strong>Step 2：AI启动协商（而非直接执行）</strong><br>
+      ${fields.scene1Step2.replace(/\n/g, '<br>')}
+    </div>
+    
+    <div class="step">
+      <strong>Step 3-5：后续流程</strong><br>
+      ${fields.scene1End}
+    </div>
+    
+    <h3>4.2 另一个场景：${fields.scene2Name}</h3>
+    <p><strong>场景背景</strong>：${fields.scene2Bg}</p>
+    
+    <div class="step">
+      <strong>Step 1：AI扫描所有订阅</strong><br>
+      ${fields.scene2Scan.replace(/\n/g, '<br>')}
+    </div>
+    
+    <div class="step">
+      <strong>Step 2：AI生成优化建议</strong><br>
+      ${fields.scene2Suggest.replace(/\n/g, '<br>')}
+    </div>
+    
+    <h3>4.3 用户设定的规则</h3>
+    <p><strong>资金分流规则</strong>：${fields.fundRule}</p>
+    <p><strong>执行阈值规则</strong>：</p>
+    <ul>${thresholdRules.map(r => `<li>${r}</li>`).join('')}</ul>
+    
+    <h3>4.4 产品界面草图</h3>
+    <p><strong>设置页</strong>：${fields.uiSettings}</p>
+    <p><strong>协商对话页</strong>：${fields.uiChat}</p>
+    <p><strong>每周报告页</strong>：${fields.uiReport}</p>
+    
+    <h2>五、守边界</h2>
+    <h3>5.1 硬性规则</h3>
+    <div class="rule"><strong>规则1：${fields.rule1Title}</strong><br>${fields.rule1Content}</div>
+    <div class="rule"><strong>规则2：${fields.rule2Title}</strong><br>${fields.rule2Content}</div>
+    <div class="rule"><strong>规则3：${fields.rule3Title}</strong><br>${fields.rule3Content}</div>
+    
+    <h3>5.2 智能风控（Heartbeat监测）</h3>
+    <ul>${risks.map(r => `<li>${r}</li>`).join('')}</ul>
+    
+    <h2>六、商业模式</h2>
+    <p>${fields.businessModel}</p>
+    
+    <h2>七、总结</h2>
+    <p>${fields.conclusion.replace(/\n/g, '<br>')}</p>
+    
+    <hr style="border:none;border-top:1px solid #ddd;margin:15px 0;">
+    <p style="color:#666;font-size:10px;text-align:center;">字数统计中...</p>
+  `;
+  
+  document.getElementById('preview').innerHTML = html;
+  
+  // Calculate word count
+  const text = html.replace(/<[^>]*>/g, '').replace(/\s/g, '');
+  const count = text.length;
+  document.getElementById('wordCount').textContent = `字数：${count}`;
+}
+
+function exportHTML() {
+  const preview = document.getElementById('preview').innerHTML;
+  const name = document.getElementById('userName').value || '[你的姓名]';
+  const product = document.getElementById('productName').value;
+  const fullHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>课题一+${name}+${product}</title><style>body{font-family:'Microsoft YaHei',sans-serif;max-width:800px;margin:30px auto;padding:20px;color:#333;font-size:13px;line-height:1.8}h1{color:#222;border-bottom:2px solid #4CAF50;padding-bottom:10px;font-size:20px}h2{color:#333;border-left:4px solid #4CAF50;padding-left:12px;font-size:16px;margin-top:20px}h3{color:#444;font-size:14px;margin-top:15px}blockquote{border-left:3px solid #FF9800;padding:10px 15px;background:#fff8e1;margin:10px 0;font-style:italic}.rule{background:#ffebee;padding:10px;margin:8px 0;border-radius:4px;border-left:3px solid #f44336}.step{background:#f5f5f5;padding:10px;margin:8px 0;border-radius:4px;border-left:3px solid #4CAF50}table{border-collapse:collapse;width:100%;margin:10px 0}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background:#f5f5f5}</style></head><body>${preview}</body></html>`;
+  
+  const blob = new Blob([fullHTML], {type: 'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `课题一+${name}+${product}.html`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportMarkdown() {
+  // This would generate markdown - simplified for now
+  alert('Markdown导出功能待完善，请先使用HTML导出');
+}
+
+function resetForm() {
+  if(confirm('确定要重置所有内容吗？')) {
+    location.reload();
+  }
+}
+
+// Initialize
+updatePreview();
+</script>
+</body>
+</html>

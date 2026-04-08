@@ -6,7 +6,6 @@ extends CanvasLayer
 
 func _ready() -> void:
 	flash_rect.color = Color(1, 0, 0, 0)
-	flash_rect.size = get_viewport().size
 
 func flash_red(intensity: float = 0.5, duration: float = 0.3) -> void:
 	_flash_color(Color(1, 0, 0, intensity), duration)

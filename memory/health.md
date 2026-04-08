@@ -1,6 +1,6 @@
 # Agent Health Dashboard
 
-**Last Updated**: 2026-04-04 12:49 PM (Asia/Shanghai)  
+**Last Updated**: 2026-04-08 07:40 PM (Asia/Shanghai)  
 **Agent**: Nova (main)  
 **Session**: agent:main:main
 
@@ -20,6 +20,7 @@
 | WeChat | ✅ Active | — | Plugin installed |
 | **MCP Servers** | ✅ **None** | 2026-03-29 19:58 | Using native tools |
 | **Cron Jobs** | ✅ Active | 2026-04-01 10:06 | OpenFang check scheduled May 1 |
+| **Session Lifetime** | ✅ Updated | 2026-04-08 12:24 | Extended: 24h → 7 days |
 
 ---
 
@@ -31,7 +32,7 @@ This section is the "save game" state. Read on every session start to resume wor
 
 ### Current Tasks
 
-*(none active)*
+*(none active — AI wallet report completed 2026-04-08)*
 
 ### Upcoming Tasks
 
@@ -100,6 +101,9 @@ This section is the "save game" state. Read on every session start to resume wor
 
 | Event | Time | Details |
 |-------|------|---------|
+| **AI Wallet Report** | 2026-04-08 14:15 | Tencent大作业定稿 — 接力钱包(RelayWallet AI), ~920字 |
+| **npm Consolidation** | 2026-04-08 12:30 | All packages moved to `~/.npm-global/` |
+| **Session Config** | 2026-04-08 12:24 | Lifetime extended: 24h → 7 days |
 | **Browser MCP** | 2026-04-01 09:58 | Reconnected, Tencent camp explored |
 | **Exec Config** | 2026-04-01 08:27 | `ask=off` + allowlist configured |
 | ACP Configuration | 2026-03-29 21:35 | Enabled acpx backend, Claude default |

@@ -17,6 +17,8 @@ func _create_particle_system() -> GPUParticles2D:
 	particles.emitting = false
 	particles.one_shot = true
 	particles.explosiveness = 1.0
+	if particle_texture:
+		particles.texture = particle_texture
 
 	var material = ParticleProcessMaterial.new()
 	particles.process_material = material

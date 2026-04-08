@@ -191,6 +191,13 @@ func _save_save_data() -> void:
 		file.store_string(JSON.stringify(_save_data, "\t"))
 		file.close()
 
+func get_save_data() -> Dictionary:
+	return _save_data.duplicate(true)
+
+func set_save_data(data: Dictionary) -> void:
+	_save_data = data.duplicate(true)
+	_save_save_data()
+
 func reset_all_progress() -> void:
 	_save_data = {
 		"highest_level_unlocked": 1,

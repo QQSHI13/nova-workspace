@@ -70,13 +70,14 @@ func add_note(task_name: String, battery_save: int, note_type: String = "task") 
 	battery_label.add_theme_color_override("font_color", Color("#1565c0"))
 	note.add_child(battery_label)
 
-	# Make clickable
-	var btn = Button.new()
-	btn.flat = true
-	btn.size = Vector2(280, 160)
-	btn.pressed.connect(_on_note_clicked.bind(note_id, task_name))
-	btn.mouse_entered.connect(_on_note_hover.bind(task_name))
-	note.add_child(btn)
+	# Add click handling to make note interactive
+	var click_area = Button.new()
+	click_area.name = "ClickArea"
+	click_area.set_anchors_preset(Control.PRESET_FULL_RECT)
+	click_area.flat = true
+	click_area.pressed.connect(_on_note_clicked.bind(note_id, task_name))
+	click_area.mouse_entered.connect(_on_note_hover.bind(task_name))
+	note.add_child(click_area)
 
 	notes_container.add_child(note)
 	_notes[note_id] = {"panel": note, "task_name": task_name, "battery": battery_save}

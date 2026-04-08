@@ -14,13 +14,13 @@ const TUTORIAL_STEPS = [
 	},
 	{
 		"title": "Post-It Notes",
-		"text": "Click these notes to complete tasks. Each task takes time and battery.",
+		"text": "These notes show your tasks. Each task takes time and battery.",
 		"highlight": "post_it",
 		"position": Vector2(1400, 300)
 	},
 	{
 		"title": "Device Screen",
-		"text": "Or click app icons directly. Try clicking Chrome to close tabs!",
+		"text": "Click app icons directly. Try clicking Chrome or VS Code: to do tasks!",
 		"highlight": "device",
 		"position": Vector2(600, 400)
 	},
@@ -124,9 +124,23 @@ func _complete_tutorial() -> void:
 
 func _hide_tutorial() -> void:
 	AnimationManager.fade_out(panel)
-	await get_tree().create_timer(0.3).timeout
+	await get_tree().create_timer(0.3, true).timeout
 	visible = false
 	_is_active = false
 
 func is_active() -> bool:
 	return _is_active
+
+func _input(event: InputEvent) -> void:
+	if not _is_active:
+		return
+	if not event is InputEventKey:
+		return
+	if event.is_echo():
+		return
+	if event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_cancel"):
+		accept_event()
+		if event.is_action_pressed("ui_cancel"):
+			_on_skip()
+		else:
+			_on_next()

@@ -194,11 +194,15 @@ func play_sfx(sound_name: String) -> void:
 func play_sfx_random_pitch(sound_name: String, min_pitch: float = 0.9, max_pitch: float = 1.1) -> void:
 	if _sfx_players.has(sound_name):
 		var player = _sfx_players[sound_name]
+		var cb = _on_player_finished_reset_pitch.bind(player)
+		if player.finished.is_connected(cb):
+			player.finished.disconnect(cb)
 		player.pitch_scale = randf_range(min_pitch, max_pitch)
 		player.play()
-		# Reset pitch after playing
-		await player.finished
-		player.pitch_scale = 1.0
+		player.finished.connect(cb, CONNECT_ONE_SHOT)
+
+func _on_player_finished_reset_pitch(player: AudioStreamPlayer) -> void:
+	player.pitch_scale = 1.0
 
 func play_music(track_name: String, fade_duration: float = 1.0) -> void:
 	if track_name == _current_music_track:

@@ -15,6 +15,7 @@ signal app_opened(app_name: String)
 
 # Interactive elements
 var _interactive_elements: Dictionary = {}
+var _hover_tweens: Dictionary = {}
 
 func _ready() -> void:
 	_apply_theme()
@@ -89,7 +90,11 @@ func _on_app_clicked(app_name: String) -> void:
 	app_opened.emit(app_name)
 
 func _on_btn_hover(btn: Button, is_hovering: bool) -> void:
+	var key = btn.get_instance_id()
+	if _hover_tweens.has(key) and _hover_tweens[key]:
+		_hover_tweens[key].kill()
 	var tween = create_tween()
+	_hover_tweens[key] = tween
 	if is_hovering:
 		tween.tween_property(btn, "scale", Vector2(1.1, 1.1), 0.15)
 		SoundManager.play_sfx("button_hover")

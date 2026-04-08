@@ -11,6 +11,8 @@ signal quit_pressed
 @onready var music_slider = $Panel/VBoxContainer/MusicSlider
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
 	# Connect buttons
 	$Panel/VBoxContainer/ResumeButton.pressed.connect(_on_resume)
 	$Panel/VBoxContainer/RestartButton.pressed.connect(_on_restart)
@@ -26,11 +28,14 @@ func _ready() -> void:
 func show_pause_menu() -> void:
 	visible = true
 	get_tree().paused = true
-	AnimationManager.fade_in(panel, 0.2)
+	panel.modulate.a = 0.0
+	var tween = create_tween()
+	tween.tween_property(panel, "modulate:a", 1.0, 0.2)
 
 func hide_pause_menu() -> void:
-	AnimationManager.fade_out(panel, 0.2)
-	await get_tree().create_timer(0.2).timeout
+	var tween = create_tween()
+	tween.tween_property(panel, "modulate:a", 0.0, 0.2)
+	await tween.finished
 	visible = false
 	get_tree().paused = false
 

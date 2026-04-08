@@ -128,7 +128,7 @@ static func get_tips_for_level(level: int) -> Array:
 		3:  # Library (quiet mode)
 			return TIPS_BY_CATEGORY["display"] + TIPS_BY_CATEGORY["hardware"]
 		_:
-			return get_random_tip()
+			return [get_random_tip()]
 
 # Fun facts about batteries
 const BATTERY_FACTS = [

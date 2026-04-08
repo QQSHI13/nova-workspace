@@ -36,7 +36,11 @@ func _populate_levels() -> void:
 
 	# Then animate them with stagger using individual tweens
 	for i in range(buttons.size()):
+		if not is_inside_tree():
+			return
 		await get_tree().create_timer(0.08).timeout
+		if not is_inside_tree():
+			return
 		var tween = create_tween()
 		tween.tween_property(buttons[i], "modulate:a", 1.0, 0.25)
 

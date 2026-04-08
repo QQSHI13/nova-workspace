@@ -6,13 +6,15 @@ extends Node
 func screen_shake(node: Node2D, intensity: float = 10.0, duration: float = 0.5) -> void:
 	var tween = create_tween()
 	var original_pos = node.position
+	var steps = max(8, int(duration * 20))
+	var step_duration = duration / steps
 
-	for i in range(int(duration * 60)):
+	for i in range(steps):
 		var offset = Vector2(
 			randf_range(-intensity, intensity),
 			randf_range(-intensity, intensity)
 		)
-		tween.tween_property(node, "position", original_pos + offset, 0.016)
+		tween.tween_property(node, "position", original_pos + offset, step_duration)
 
 	tween.tween_property(node, "position", original_pos, 0.1)
 
@@ -44,19 +46,19 @@ func slide_in(node: Control, from_right: bool = true, duration: float = 0.5) -> 
 		start_pos.x -= 200
 
 	node.position = start_pos
-	tween.tween_property(node, "position", target_pos, duration)
 	tween.set_ease(Tween.EASE_OUT)
 	tween.set_trans(Tween.TRANS_BACK)
+	tween.tween_property(node, "position", target_pos, duration)
 
 # Bounce effect
 func bounce(node: Control, height: float = 20.0, duration: float = 0.4) -> void:
 	var tween = create_tween()
 	var original_pos = node.position
 
-	tween.tween_property(node, "position:y", original_pos.y - height, duration * 0.4)
-	tween.tween_property(node, "position:y", original_pos.y, duration * 0.6)
 	tween.set_ease(Tween.EASE_OUT)
 	tween.set_trans(Tween.TRANS_BOUNCE)
+	tween.tween_property(node, "position:y", original_pos.y - height, duration * 0.4)
+	tween.tween_property(node, "position:y", original_pos.y, duration * 0.6)
 
 # Fade in/out - works with CanvasItem or CanvasLayer
 func fade_in(node: Node, duration: float = 0.3) -> void:

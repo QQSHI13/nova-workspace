@@ -152,14 +152,14 @@ func unlock(achievement_id: String) -> bool:
 		return false
 
 	# Save to LevelManager's save data
-	var save_data = _get_save_data()
+	var save_data = LevelManager.get_save_data()
 	if not save_data.has("achievements"):
 		save_data["achievements"] = {}
 
 	save_data.achievements[achievement_id] = {
 		"unlocked_at": Time.get_unix_time_from_system()
 	}
-	_save_save_data(save_data)
+	LevelManager.set_save_data(save_data)
 
 	var achievement = ACHIEVEMENTS[achievement_id]
 	achievement_unlocked.emit(achievement_id, achievement)
@@ -203,7 +203,7 @@ func set_progress(achievement_id: String, value: int) -> bool:
 # Queries
 
 func is_unlocked(achievement_id: String) -> bool:
-	var save_data = _get_save_data()
+	var save_data = LevelManager.get_save_data()
 	if not save_data.has("achievements"):
 		return false
 	return save_data.achievements.has(achievement_id)
@@ -216,7 +216,7 @@ func get_all_achievements() -> Dictionary:
 
 func get_unlocked_achievements() -> Array:
 	var unlocked = []
-	var save_data = _get_save_data()
+	var save_data = LevelManager.get_save_data()
 	if not save_data.has("achievements"):
 		return unlocked
 
@@ -227,7 +227,7 @@ func get_unlocked_achievements() -> Array:
 
 func get_locked_achievements() -> Array:
 	var locked = []
-	var save_data = _get_save_data()
+	var save_data = LevelManager.get_save_data()
 	var unlocked_ids = save_data.get("achievements", {}).keys()
 
 	for id in ACHIEVEMENTS.keys():
@@ -236,7 +236,7 @@ func get_locked_achievements() -> Array:
 	return locked
 
 func get_completion_percentage() -> float:
-	var save_data = _get_save_data()
+	var save_data = LevelManager.get_save_data()
 	var unlocked_count = save_data.get("achievements", {}).size()
 	return float(unlocked_count) / ACHIEVEMENTS.size() * 100.0
 
@@ -271,7 +271,7 @@ func check_level_completion(level_id: int, stars: int) -> void:
 		unlock("perfect_run")
 
 	# Check if all levels completed
-	var save_data = _get_save_data()
+	var save_data = LevelManager.get_save_data()
 	var level_scores = save_data.get("level_scores", {})
 	var all_completed = true
 	for i in range(1, 6):
@@ -281,26 +281,8 @@ func check_level_completion(level_id: int, stars: int) -> void:
 	if all_completed:
 		unlock("all_levels")
 
-# Save/Load helpers
-
-func _get_save_data() -> Dictionary:
-	var file = FileAccess.open("user://battery_panic_save.json", FileAccess.READ)
-	if file:
-		var json = JSON.new()
-		var error = json.parse(file.get_as_text())
-		file.close()
-		if error == OK:
-			return json.data
-	return {}
-
-func _save_save_data(data: Dictionary) -> void:
-	var file = FileAccess.open("user://battery_panic_save.json", FileAccess.WRITE)
-	if file:
-		file.store_string(JSON.stringify(data, "\t"))
-		file.close()
-
 func reset_achievements() -> void:
 	_session_progress.clear()
-	var save_data = _get_save_data()
+	var save_data = LevelManager.get_save_data()
 	save_data.achievements = {}
-	_save_save_data(save_data)
+	LevelManager.set_save_data(save_data)

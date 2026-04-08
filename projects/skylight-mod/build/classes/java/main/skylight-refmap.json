@@ -1,0 +1,84 @@
+{
+  "mappings": {
+    "com/qq/skylight/mixin/CameraMixin": {
+      "getPos": "Lnet/minecraft/class_4184;method_19326()Lnet/minecraft/class_243;",
+      "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
+    },
+    "com/qq/skylight/mixin/ClientJoinMixin": {
+      "onGameJoin": "Lnet/minecraft/class_634;method_11120(Lnet/minecraft/class_2678;)V"
+    },
+    "com/qq/skylight/mixin/ClientWorldMixin": {
+      "tickEntities": "Lnet/minecraft/class_638;method_18116()V"
+    },
+    "com/qq/skylight/mixin/GameRendererMixin": {
+      "renderWorld": "Lnet/minecraft/class_757;method_3188(Lnet/minecraft/class_9779;)V"
+    },
+    "com/qq/skylight/mixin/HungerManagerMixin": {
+      "addExhaustion": "Lnet/minecraft/class_1702;method_7583(F)V",
+      "update": "Lnet/minecraft/class_1702;method_7588(Lnet/minecraft/class_1657;)V"
+    },
+    "com/qq/skylight/mixin/InGameHudMixin": {
+      "render": "Lnet/minecraft/class_329;method_1753(Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V"
+    },
+    "com/qq/skylight/mixin/MinecraftClientMixin": {
+      "render": "Lnet/minecraft/class_310;method_1523(Z)V"
+    },
+    "com/qq/skylight/mixin/MouseMixin": {
+      "updateMouse": "Lnet/minecraft/class_312;method_1606(D)V"
+    },
+    "com/qq/skylight/mixin/PlayerJoinMixin": {
+      "onPlayerConnect": "Lnet/minecraft/class_3324;method_14570(Lnet/minecraft/class_2535;Lnet/minecraft/class_3222;Lnet/minecraft/class_8792;)V"
+    },
+    "com/qq/skylight/mixin/ServerPlayerEntityMixin": {
+      "onSpawn": "Lnet/minecraft/class_3222;method_34225()V"
+    },
+    "com/qq/skylight/mixin/SoundSystemMixin": {
+      "play(Lnet/minecraft/client/sound/SoundInstance;)V": "Lnet/minecraft/class_1140;method_4854(Lnet/minecraft/class_1113;)V"
+    },
+    "com/qq/skylight/mixin/TimePauseMixin": {
+      "tick": "Lnet/minecraft/class_310;method_1574()V"
+    }
+  },
+  "data": {
+    "named:intermediary": {
+      "com/qq/skylight/mixin/CameraMixin": {
+        "getPos": "Lnet/minecraft/class_4184;method_19326()Lnet/minecraft/class_243;",
+        "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
+      },
+      "com/qq/skylight/mixin/ClientJoinMixin": {
+        "onGameJoin": "Lnet/minecraft/class_634;method_11120(Lnet/minecraft/class_2678;)V"
+      },
+      "com/qq/skylight/mixin/ClientWorldMixin": {
+        "tickEntities": "Lnet/minecraft/class_638;method_18116()V"
+      },
+      "com/qq/skylight/mixin/GameRendererMixin": {
+        "renderWorld": "Lnet/minecraft/class_757;method_3188(Lnet/minecraft/class_9779;)V"
+      },
+      "com/qq/skylight/mixin/HungerManagerMixin": {
+        "addExhaustion": "Lnet/minecraft/class_1702;method_7583(F)V",
+        "update": "Lnet/minecraft/class_1702;method_7588(Lnet/minecraft/class_1657;)V"
+      },
+      "com/qq/skylight/mixin/InGameHudMixin": {
+        "render": "Lnet/minecraft/class_329;method_1753(Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V"
+      },
+      "com/qq/skylight/mixin/MinecraftClientMixin": {
+        "render": "Lnet/minecraft/class_310;method_1523(Z)V"
+      },
+      "com/qq/skylight/mixin/MouseMixin": {
+        "updateMouse": "Lnet/minecraft/class_312;method_1606(D)V"
+      },
+      "com/qq/skylight/mixin/PlayerJoinMixin": {
+        "onPlayerConnect": "Lnet/minecraft/class_3324;method_14570(Lnet/minecraft/class_2535;Lnet/minecraft/class_3222;Lnet/minecraft/class_8792;)V"
+      },
+      "com/qq/skylight/mixin/ServerPlayerEntityMixin": {
+        "onSpawn": "Lnet/minecraft/class_3222;method_34225()V"
+      },
+      "com/qq/skylight/mixin/SoundSystemMixin": {
+        "play(Lnet/minecraft/client/sound/SoundInstance;)V": "Lnet/minecraft/class_1140;method_4854(Lnet/minecraft/class_1113;)V"
+      },
+      "com/qq/skylight/mixin/TimePauseMixin": {
+        "tick": "Lnet/minecraft/class_310;method_1574()V"
+      }
+    }
+  }
+}

@@ -10,17 +10,20 @@ signal battery_clicked
 
 @onready var battery_icon = $BatteryIcon
 @onready var battery_label = $BatteryLabel
+@onready var click_area = $ClickArea
 
 var _actual_battery: float = 100.0
 var _displayed_battery: float = 100.0
 var _warning_tween: Tween = null
+var _battery_tween: Tween = null
 
 func _ready() -> void:
 	_position_for_os()
 	update_battery(100.0)
 
 	# Connect click area
-	$ClickArea.pressed.connect(_on_battery_clicked)
+	if click_area:
+		click_area.pressed.connect(_on_battery_clicked)
 
 func _position_for_os() -> void:
 	# Position based on OS style - Full HD coordinates
@@ -50,8 +53,16 @@ func update_battery(actual_percent: float) -> void:
 	_displayed_battery = clampf(_displayed_battery, 0.0, 100.0)
 
 	if show_percentage:
-		# Animate number change
-		_animate_battery_number(int(old_battery), int(_displayed_battery))
+		# Animate number change, killing old tween
+		if _battery_tween and _battery_tween.is_valid():
+			_battery_tween.kill()
+		_battery_tween = create_tween()
+		_battery_tween.tween_method(
+			func(val: int): battery_label.text = "%d%%" % val,
+			int(old_battery),
+			int(_displayed_battery),
+			0.3
+		)
 
 	# Update icon color based on displayed level
 	var color = _get_battery_color(_displayed_battery)
@@ -64,15 +75,6 @@ func update_battery(actual_percent: float) -> void:
 		_start_low_warning()
 	else:
 		_stop_warning()
-
-func _animate_battery_number(from_val: int, to_val: int) -> void:
-	var tween = create_tween()
-	tween.tween_method(
-		func(val: int): battery_label.text = "%d%%" % val,
-		from_val,
-		to_val,
-		0.3
-	)
 
 func _get_battery_color(percent: float) -> Color:
 	if percent > 50:

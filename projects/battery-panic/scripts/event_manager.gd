@@ -141,7 +141,7 @@ func _trigger_event(event: Dictionary) -> void:
 
 	_active_events[event_id] = event
 
-	emit_signal("event_triggered", event["name"], event)
+	event_triggered.emit(event["name"], event)
 
 	print("[EVENT] " + event["message"])
 
@@ -149,7 +149,7 @@ func resolve_event(event_id: int) -> void:
 	if _active_events.has(event_id):
 		var event = _active_events[event_id]
 		_active_events.erase(event_id)
-		emit_signal("event_resolved", event["name"])
+		event_resolved.emit(event["name"])
 
 func get_active_events() -> Dictionary:
 	return _active_events

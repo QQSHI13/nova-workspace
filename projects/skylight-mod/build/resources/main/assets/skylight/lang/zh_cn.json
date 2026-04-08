@@ -1,0 +1,36 @@
+{
+  "key.skylight.mode": "切换天光模式",
+  "key.skylight.freecam": "切换自由相机",
+  "key.skylight.timepause": "切换时间静止",
+  "key.skylight.screenshot": "天光截图",
+  "category.skylight.general": "天光",
+  "category.skylight.photography": "天光摄影",
+  
+  "message.skylight.mode.enabled": "天光模式已开启（和平模式+特效）",
+  "message.skylight.mode.enabled_no_difficulty": "天光模式已开启（仅特效-难度已锁定）",
+  "message.skylight.mode.disabled": "天光模式已关闭",
+  
+  "message.skylight.freecam.enabled": "自由相机已开启 - 使用WASD飞行",
+  "message.skylight.freecam.disabled": "自由相机已关闭",
+  "message.skylight.freecam.disabled_config": "自由相机已在配置中禁用",
+  
+  "message.skylight.timepause.enabled": "时间已暂停 - 世界冻结",
+  "message.skylight.timepause.disabled": "时间已恢复",
+  "message.skylight.timepause.disabled_config": "时间静止已在配置中禁用",
+  
+  "message.skylight.screenshot.saved": "截图已保存: %s",
+  "message.skylight.screenshot.failed": "截图失败: %s",
+  "message.skylight.screenshot.disabled_config": "天光截图已在配置中禁用",
+  
+  "createWorld.skylight.toggle": "天光世界",
+  "createWorld.skylight.toggle.tooltip": "和平模式，无饥饿，免费鞘翅+烟花+船",
+  
+  "config.skylight.option.enablePeacefulOnToggle": "切换时启用和平模式",
+  "config.skylight.option.enablePeacefulOnToggle.tooltip": "启用后，天光模式将尝试设置为和平难度",
+  
+  "config.skylight.photography.enableFreeCam": "启用自由相机",
+  "config.skylight.photography.enableTimePause": "启用时间静止",
+  "config.skylight.photography.enableScreenshot": "启用天光截图",
+  "config.skylight.photography.freeCamSpeed": "自由相机速度",
+  "config.skylight.photography.freeCamSprintSpeed": "自由相机冲刺速度"
+}
