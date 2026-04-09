@@ -34,6 +34,12 @@
 | **Battery Panic (1%)** | 🔄 Design Phase | `projects/battery-panic/` |
 | **Skylight Mod** | 🧪 Testing | `projects/skylight-mod/` - Fixed crash, awaiting test |
 
+## Published Skills (ClawHub)
+
+| Skill | Version | Description |
+|-------|---------|-------------|
+| **WinControl** | 1.0.0 | AI remote control for Windows - capture screenshots, control mouse/keyboard via HTTP API |
+
 ---
 
 ## Recently Completed (Last 30 Days)
@@ -43,6 +49,7 @@
 | 2026-04-08 | **AI专属钱包报告** ✅ | Tencent大作业完成 — 接力钱包(RelayWallet AI)概念, ~920字 |
 | 2026-04-08 | **npm Global Consolidation** | All packages moved to `~/.npm-global/` |
 | 2026-04-08 | **Session Config** | Lifetime extended: 24h → 7 days |
+| 2026-04-09 | **WinControl Skill** ✅ | Published to ClawHub - Windows desktop automation via HTTP API |
 | 2026-04-06 | **Desktop Remote Control** ✅ | Browser-based Win remote desktop at ~7 FPS |
 | 2026-04-06 | **Tencent Camp Practice** | Exam scores: 73/100 → 82/100 (improvement!) |
 | 2026-04-05 | **Skylight Mod Fix** | Fixed PlayerJoinMixin crash for 1.21.1 |
