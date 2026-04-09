@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI专属钱包报告编辑器 - 精简版</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f7fa; }
+.container { display: flex; height: 100vh; }
+.editor { width: 50%; background: #fff; padding: 15px; overflow-y: auto; border-right: 2px solid #e8e8e8; }
+.preview { width: 50%; padding: 15px; overflow-y: auto; background: #f5f7fa; }
+h1 { font-size: 16px; color: #333; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #4CAF50; }
+h2 { font-size: 14px; color: #4CAF50; margin: 15px 0 10px; }
+.section { margin-bottom: 15px; padding: 12px; background: #fafafa; border-radius: 6px; border: 1px solid #e8e8e8; }
+.section-title { font-size: 13px; font-weight: 600; color: #4CAF50; margin-bottom: 8px; }
+label { display: block; font-size: 11px; color: #666; margin-bottom: 3px; margin-top: 8px; }
+input[type="text"], textarea, select { width: 100%; padding: 6px 10px; border: 1px solid #d9d9d9; border-radius: 4px; font-size: 12px; font-family: inherit; }
+textarea { min-height: 80px; resize: vertical; }
+input:focus, textarea:focus { border-color: #4CAF50; outline: none; }
+.btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; margin-right: 8px; margin-top: 8px; }
+.btn-primary { background: #4CAF50; color: white; }
+.btn-secondary { background: #fff; color: #4CAF50; border: 1px solid #4CAF50; }
+.report-preview { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 800px; margin: 0 auto; font-size: 13px; line-height: 1.8; }
+.report-preview h2 { color: #333; border-left: 4px solid #4CAF50; padding-left: 12px; font-size: 15px; margin-top: 20px; }
+.report-preview h3 { color: #444; font-size: 13px; margin-top: 15px; }
+.report-preview p { margin: 10px 0; }
+.word-count { position: fixed; bottom: 15px; right: 15px; background: #4CAF50; color: white; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+.step { background: #f5f5f5; padding: 10px; margin: 8px 0; border-radius: 4px; border-left: 3px solid #4CAF50; }
+.rule { background: #ffebee; padding: 10px; margin: 8px 0; border-radius: 4px; border-left: 3px solid #f44336; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="editor">
+    <h1>📝 AI钱包报告编辑器（精简版）</h1>
+    
+    <div class="section">
+      <div class="section-title">基本信息</div>
+      <label>你的姓名</label>
+      <input type="text" id="userName" placeholder="输入你的姓名" oninput="updatePreview()">
+      <label>产品名称</label>
+      <input type="text" id="productName" value="智付伙伴" oninput="updatePreview()">
+      <label>英文名称</label>
+      <input type="text" id="productNameEn" value="PayMate AI" oninput="updatePreview()">
+    </div>
+
+    <div class="section">
+      <div class="section-title">一、产品名字与介绍</div>
+      <label>产品一句话介绍</label>
+      <textarea id="productIntro" oninput="updatePreview()">智付伙伴（PayMate AI）是一个可协商的消费执行伙伴。用户设定规则后，AI在授权范围内拥有有限决策权，依据预算、消费习惯、场景智能判断是否执行，让用户既省心又放心。</textarea>
+      <label>核心定位</label>
+      <input type="text" id="positioning" value="可协商的消费执行伙伴" oninput="updatePreview()">
+    </div>
+
+    <div class="section">
+      <div class="section-title">二、选择的人群与核心痛点</div>
+      <label>目标用户画像</label>
+      <input type="text" id="userProfile" value="初入职场、追求效率与生活品质的年轻白领（22-28岁）" oninput="updatePreview()">
+      <label>痛点1（希望AI解决什么）</label>
+      <textarea id="pain1" oninput="updatePreview()">订阅陷阱：每个月被各种自动续费悄悄扣钱——视频会员、音乐会员、网盘会员、健身卡...等到发现时已经扣了好几个月。想取消时却找不到入口，或者忘了这回事。</textarea>
+      <label>痛点2（授权AI的顾虑）</label>
+      <textarea id="pain2" oninput="updatePreview()">失控焦虑：怕AI不理解我"省钱"的潜台词，在我冲动时依然执行消费指令。比如深夜刷到直播间促销，当时觉得超值，第二天早上就后悔。AI应该在我非理性时帮我踩刹车，而不是推波助澜。</textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-title">三、AI解决方案和核心功能</div>
+      <label>解决方案概述</label>
+      <textarea id="solution" oninput="updatePreview()">双层架构设计：
+• 下层（安全执行层）：资金托管、定时任务、异常监测、地理位置校验、紧急制动
+• 上层（决策交互层）：意图理解、动态阈值调整、协商决策、习惯学习优化</textarea>
+      <label>执行策略（三层）</label>
+      <textarea id="strategy" oninput="updatePreview()">• 小额自动层：AI直接执行（低金额日常消费）
+• 协商确认层：AI反问后执行（中等金额消费）
+• 辩论说服层：用户需说服AI（大额消费）</textarea>
+      <label>核心协作场景</label>
+      <textarea id="scenario" oninput="updatePreview()">周五晚餐策划：小李说"帮我安排今晚7点的聚餐，4个人，预算人均150，想吃火锅，记得用优惠"
+
+AI同时执行：
+① 打开美团搜索"火锅4人套餐"
+② 启动订阅体检 → 发现优酷会员30天未使用
+③ 自动领取新客券30元 + 店铺满减50元
+④ 推荐最优方案：B餐厅原价580，用券后500，人均125，省100元
+
+AI协商："推荐B餐厅500元（已用券80元），人均125比你预算省25元。同时发现优酷会员30天未用，建议取消年省300元。确认订B餐厅？"
+
+支付执行：
+• 资金来源：AI小金库（聚餐预算剩余1200元）
+• 支付方式：美团预付，小金库自动扣款500元
+• 平台服务费：500 × 0.5% = 2.5元
+• 实际扣除：502.5元
+• 通知朋友：发群消息含地址、人均费用、出发建议时间</textarea>
+      <label>产品界面草图描述</label>
+      <textarea id="uiSketch" oninput="updatePreview()">【设置页】
+顶部：月度预算分配滑块（AI小金库/强制储蓄/自留）
+中部：三层执行阈值设定（小额/协商/辩论）
+底部：特殊规则开关（深夜冷静期、订阅体检提醒）
+
+【协商对话页】
+聊天界面风格，AI消息带思考过程（"检测到你想买键盘899元，现在是深夜23点，你过去3个月有2次深夜消费后悔记录，建议设置12小时冷静期"），用户可一键确认、修改、延期、拒绝
+
+【每周报告页】
+本周消费总额、节省金额、预算使用率折线图、下周消费建议、成就系统（省钱达人、理性消费勋章）</textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-title">四、遵循的安全规则</div>
+      <label>规则1</label>
+      <input type="text" id="rule1" value="绝对禁止借贷投资：AI只能操作小金库内现有资金，不可透支、借贷或投资，小金库与主账户隔离" oninput="updatePreview()">
+      <label>规则2</label>
+      <input type="text" id="rule2" value="大额强制手动确认：单笔超过2500元必须用户手动确认，AI无权自动执行" oninput="updatePreview()">
+      <label>规则3</label>
+      <input type="text" id="rule3" value="紧急制动按钮：用户可随时一键冻结AI账户，资金秒级退回，解冻需二次验证" oninput="updatePreview()">
+      <label>风控措施</label>
+      <textarea id="riskControl" oninput="updatePreview()">• 异常模式监测：非常规时间、异常地点或高频交易自动冻结
+• 地理位置校验：大额消费需匹配GPS位置
+• 周度锁定期：每周必须查看报告确认后方可解锁下周额度</textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-title">操作</div>
+      <button class="btn btn-primary" onclick="exportHTML()">导出HTML</button>
+      <button class="btn btn-secondary" onclick="window.print()">打印/PDF</button>
+    </div>
+  </div>
+
+  <div class="preview">
+    <div class="report-preview" id="preview"></div>
+  </div>
+</div>
+
+<div class="word-count" id="wordCount">字数：0</div>
+
+<script>
+function updatePreview() {
+  const fields = {};
+  const fieldIds = ['userName', 'productName', 'productNameEn', 'positioning', 'productIntro',
+    'userProfile', 'pain1', 'pain2', 'solution', 'strategy', 'scenario', 'uiSketch',
+    'rule1', 'rule2', 'rule3', 'riskControl'];
+  
+  fieldIds.forEach(id => {
+    const el = document.getElementById(id);
+    fields[id] = el ? el.value : '';
+  });
+  
+  const html = `
+    <h1 style="color:#222;border-bottom:2px solid #4CAF50;padding-bottom:10px;font-size:20px;">AI专属钱包产品方案报告</h1>
+    <p style="color:#666;font-size:11px;">课题一+${fields.userName || '[你的姓名]'}+${fields.productName}</p>
+    <hr style="border:none;border-top:1px solid #ddd;margin:15px 0;">
+    
+    <h2>一、产品名字与介绍</h2>
+    <p><strong>产品名称</strong>：${fields.productName}（${fields.productNameEn}）</p>
+    <p><strong>核心定位</strong>："${fields.positioning}"</p>
+    <p>${fields.productIntro.replace(/\n/g, '<br>')}</p>
+    
+    <h2>二、选择的人群与核心痛点</h2>
+    <h3>目标用户</h3>
+    <p>${fields.userProfile}</p>
+    
+    <h3>核心痛点</h3>
+    <div class="step">
+      <strong>痛点1：希望AI解决什么</strong><br>
+      ${fields.pain1.replace(/\n/g, '<br>')}
+    </div>
+    <div class="step">
+      <strong>痛点2：授权AI的顾虑</strong><br>
+      ${fields.pain2.replace(/\n/g, '<br>')}
+    </div>
+    
+    <h2>三、AI解决方案和核心功能</h2>
+    <h3>解决方案</h3>
+    <p>${fields.solution.replace(/\n/g, '<br>')}</p>
+    
+    <h3>执行策略</h3>
+    <p>${fields.strategy.replace(/\n/g, '<br>')}</p>
+    
+    <h3>核心协作场景</h3>
+    <div class="step">${fields.scenario.replace(/\n/g, '<br>')}</div>
+    
+    <h3>产品界面草图</h3>
+    <p>${fields.uiSketch.replace(/\n/g, '<br>')}</p>
+    
+    <h2>四、遵循的安全规则</h2>
+    <div class="rule"><strong>规则1：</strong>${fields.rule1}</div>
+    <div class="rule"><strong>规则2：</strong>${fields.rule2}</div>
+    <div class="rule"><strong>规则3：</strong>${fields.rule3}</div>
+    
+    <h3>风控措施</h3>
+    <p>${fields.riskControl.replace(/\n/g, '<br>')}</p>
+    
+    <hr style="border:none;border-top:1px solid #ddd;margin:15px 0;">
+    <p style="color:#666;font-size:10px;text-align:center;">字数统计中...</p>
+  `;
+  
+  document.getElementById('preview').innerHTML = html;
+  
+  // Calculate word count (Chinese characters only)
+  const text = html.replace(/<[^>]*>/g, '').replace(/\s/g, '');
+  const chineseChars = text.match(/[\u4e00-\u9fa5]/g) || [];
+  const count = chineseChars.length;
+  const displayCount = text.length;
+  
+  const wcEl = document.getElementById('wordCount');
+  wcEl.textContent = `中文字数：${count} | 总字符：${displayCount}`;
+  
+  if (count > 1000) {
+    wcEl.style.background = '#ff4d4f';
+    wcEl.textContent += ' ⚠️ 超出1000字限制';
+  } else {
+    wcEl.style.background = '#4CAF50';
+  }
+}
+
+function exportHTML() {
+  const preview = document.getElementById('preview').innerHTML;
+  const name = document.getElementById('userName').value || '[你的姓名]';
+  const product = document.getElementById('productName').value;
+  const fullHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>课题一+${name}+${product}</title><style>body{font-family:'Microsoft YaHei',sans-serif;max-width:800px;margin:30px auto;padding:20px;color:#333;font-size:13px;line-height:1.8}h1{color:#222;border-bottom:2px solid #4CAF50;padding-bottom:10px;font-size:20px}h2{color:#333;border-left:4px solid #4CAF50;padding-left:12px;font-size:16px;margin-top:20px}h3{color:#444;font-size:14px;margin-top:15px}.rule{background:#ffebee;padding:10px;margin:8px 0;border-radius:4px;border-left:3px solid #f44336}.step{background:#f5f5f5;padding:10px;margin:8px 0;border-radius:4px;border-left:3px solid #4CAF50}</style></head><body>${preview}</body></html>`;
+  
+  const blob = new Blob([fullHTML], {type: 'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `课题一+${name}+${product}.html`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Initialize
+updatePreview();
+</script>
+</body>
+</html>
