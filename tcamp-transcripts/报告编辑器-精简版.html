@@ -38,7 +38,7 @@ input:focus, textarea:focus { border-color: #4CAF50; outline: none; }
     <div class="section">
       <div class="section-title">基本信息</div>
       <label>你的姓名</label>
-      <input type="text" id="userName" placeholder="输入你的姓名" oninput="updatePreview()">
+      <input type="text" id="userName" value="施清荃" oninput="updatePreview()">
       <label>产品名称</label>
       <input type="text" id="productName" value="智付伙伴" oninput="updatePreview()">
       <label>英文名称</label>
@@ -67,7 +67,7 @@ input:focus, textarea:focus { border-color: #4CAF50; outline: none; }
       <div class="section-title">三、AI解决方案和核心功能</div>
       <label>解决方案概述</label>
       <textarea id="solution" oninput="updatePreview()">双层架构设计：
-• 下层（安全执行层）：资金托管、定时任务、异常监测、地理位置校验、紧急制动
+• 下层（安全执行层）：资金托管、定时任务、异常监测
 • 上层（决策交互层）：意图理解、动态阈值调整、协商决策、习惯学习优化</textarea>
       <label>执行策略（三层）</label>
       <textarea id="strategy" oninput="updatePreview()">• 小额自动层：AI直接执行（低金额日常消费）
