@@ -143,20 +143,14 @@ th { background: #f5f5f5; }
     </div>
 
     <div class="section">
-      <div class="section-title">四、画蓝图 - 规则与界面</div>
+      <div class="section-title">四、画蓝图 - 执行规则</div>
       <label>资金分流规则</label>
       <input type="text" id="fundRule" value="每月发薪日自动分流：AI小金库（如¥3000）+ 强制储蓄（如¥2000）+ 自留" oninput="updatePreview()">
       <label>执行阈值规则（AI可根据情况动态调整）</label>
       <textarea id="thresholdRule" oninput="updatePreview()">小额自动层：AI直接执行（默认¥80以下，AI可根据用户消费习惯调整）
-协商确认层：AI反问后执行（默认¥80-1000，AI可根据预算紧张程度调整冷却时间）
-辩论说服层：用户需说服AI（默认¥1000以上，AI可根据消费类别调整辩论难度）
+协商确认层：AI反问后执行（默认¥80-2500，AI可根据预算紧张程度调整冷却时间）
+辩论说服层：用户需说服AI（默认¥2500以上，AI可根据消费类别调整辩论难度）
 特殊时段：深夜消费AI可自动增加冷静期</textarea>
-      <label>设置页描述</label>
-      <input type="text" id="uiSettings" value="顶部：月度预算分配滑块；中部：三层执行阈值设定；底部：特殊规则开关" oninput="updatePreview()">
-      <label>协商页描述</label>
-      <input type="text" id="uiChat" value="聊天界面风格，AI消息带思考过程，用户可一键确认、修改、延期、拒绝" oninput="updatePreview()">
-      <label>报告页描述</label>
-      <input type="text" id="uiReport" value="本周消费总额、节省金额、预算使用率、图表、下周建议、成就系统" oninput="updatePreview()">
     </div>
 
     <div class="section">
@@ -168,7 +162,7 @@ th { background: #f5f5f5; }
       <label>规则2标题</label>
       <input type="text" id="rule2Title" value="大额强制手动确认" oninput="updatePreview()">
       <label>规则2内容</label>
-      <input type="text" id="rule2Content" value="单笔超过¥1000必须用户手动确认，AI无权自动执行" oninput="updatePreview()">
+      <input type="text" id="rule2Content" value="单笔超过¥2500必须用户手动确认，AI无权自动执行" oninput="updatePreview()">
       <label>规则3标题</label>
       <input type="text" id="rule3Title" value="紧急制动按钮" oninput="updatePreview()">
       <label>规则3内容</label>
@@ -217,9 +211,9 @@ function updatePreview() {
   const fields = {};
   const fieldIds = ['userName', 'productName', 'productNameEn', 'positioning', 'backgroundDesc', 'background',
     'userProfile', 'userTraits', 'pain1Question', 'pain1Content', 'pain2Question', 'pain2Content',
-    'strategyDesc', 'diffTraditional', 'diffProduct', 'lowerLayer', 'upperLayer', 'archDesc',
+    'strategyDesc', 'lowerLayer', 'upperLayer', 'archDesc',
     'sceneName', 'sceneBg', 'sceneStep1', 'sceneStep2', 'sceneStep3', 'sceneStep4',
-    'fundRule', 'thresholdRule', 'uiSettings', 'uiChat', 'uiReport',
+    'fundRule', 'thresholdRule',
     'rule1Title', 'rule1Content', 'rule2Title', 'rule2Content', 'rule3Title', 'rule3Content',
     'riskControl', 'businessModel', 'conclusion'];
   
@@ -277,7 +271,11 @@ function updatePreview() {
     <h3>3.2 差异化</h3>
     <table>
       <tr><th>维度</th><th>传统移动支付</th><th>${fields.productName}</th></tr>
-      <tr><td>决策模式</td><td>${fields.diffTraditional}</td><td>${fields.diffProduct}</td></tr>
+      <tr><td>决策模式</td><td>用户100%决策，每笔手动确认</td><td>AI在规则内拥有有限决策权</td></tr>
+      <tr><td>执行效率</td><td>用户需打开APP、找优惠、下单</td><td>一句话指令，AI自动比价用券执行</td></tr>
+      <tr><td>省钱能力</td><td>用户自己找优惠，容易遗漏</td><td>AI自动获取最优优惠券，监控订阅浪费</td></tr>
+      <tr><td>风险控制</td><td>完全依赖用户自我约束</td><td>AI主动协商，大额强制确认，异常自动冻结</td></tr>
+      <tr><td>协作关系</td><td>工具与用户的关系</td><td>可协商的伙伴关系</td></tr>
     </table>
     
     <p><strong>真正的不同不在于付钱更快，而在于谁拥有决策权，以及决策的依据是什么。</strong></p>
@@ -315,11 +313,6 @@ function updatePreview() {
     <p><strong>资金分流规则</strong>：${fields.fundRule}</p>
     <p><strong>执行阈值规则</strong>：</p>
     <ul>${thresholdRules.map(r => `<li>${r}</li>`).join('')}</ul>
-    
-    <h3>4.4 产品界面草图</h3>
-    <p><strong>设置页</strong>：${fields.uiSettings}</p>
-    <p><strong>协商对话页</strong>：${fields.uiChat}</p>
-    <p><strong>每周报告页</strong>：${fields.uiReport}</p>
     
     <h2>五、守边界</h2>
     <h3>5.1 硬性规则</h3>
