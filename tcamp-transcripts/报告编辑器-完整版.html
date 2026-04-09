@@ -164,9 +164,9 @@ th { background: #f5f5f5; }
       <label>资金分流规则</label>
       <input type="text" id="fundRule" value="每月发薪日自动分流：AI小金库（如¥3000）+ 强制储蓄（如¥2000）+ 自留" oninput="updatePreview()">
       <label>执行阈值规则（AI可根据情况动态调整）</label>
-      <textarea id="thresholdRule" oninput="updatePreview()">小额自动层：AI直接执行（默认¥80以下，AI可根据用户消费习惯调整）
-协商确认层：AI反问后执行（默认¥80-2500，AI可根据预算紧张程度调整冷却时间）
-辩论说服层：用户需说服AI（默认¥2500以上，AI可根据消费类别调整辩论难度）
+      <textarea id="thresholdRule" oninput="updatePreview()">小额自动层：AI直接执行（低金额日常消费，AI可根据用户消费习惯动态调整阈值）
+协商确认层：AI反问后执行（中等金额消费，AI可根据预算紧张程度调整协商策略）
+辩论说服层：用户需说服AI（大额消费，AI可根据消费类别调整辩论难度）
 特殊时段：深夜消费AI可自动增加冷静期</textarea>
     </div>
 
@@ -257,7 +257,7 @@ function updatePreview() {
     <blockquote>${fields.background}</blockquote>
     <p><strong>${fields.productName}</strong>就是要让AI能安全地跑完最后一棒，实现从"想到"到"做到"的完整闭环。</p>
     
-    <h3>1.3 核心定位</h3>
+    <h3>核心定位</h3>
     <p><strong>"${fields.positioning}"</strong>——不是无脑执行支付，而是在规则内自主决策，关键时刻与用户协商。</p>
     
     <h2>二、找需求</h2>
