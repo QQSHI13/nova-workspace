@@ -130,8 +130,6 @@ function updatePreview() {
   });
   
   const html = `
-    <hr style="border:none;border-top:1px solid #ddd;margin:15px 0;">
-    
     <h2>一、产品名字与介绍</h2>
     <p><strong>产品名称</strong>：${fields.productName}（${fields.productNameEn}）</p>
     <p><strong>核心定位</strong>："${fields.positioning}"</p>
@@ -151,7 +149,7 @@ function updatePreview() {
       ${fields.pain2.replace(/\n/g, '<br>')}
     </div>
     
-    <h2>三、AI解决方案和核心功能</h2>
+    <h2>三、解决方案和核心功能</h2>
     <h3>解决方案</h3>
     <p>${fields.solution.replace(/\n/g, '<br>')}</p>
     
@@ -171,8 +169,6 @@ function updatePreview() {
     
     <p><em>${fields.riskControl.replace(/\n/g, '<br>')}</em></p>
     
-    <hr style="border:none;border-top:1px solid #ddd;margin:15px 0;">
-    <p style="color:#666;font-size:10px;text-align:center;">字数统计中...</p>
   `;
   
   document.getElementById('preview').innerHTML = html;
