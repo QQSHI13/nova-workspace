@@ -209,7 +209,7 @@ class ActionHandler(BaseHTTPRequestHandler):
         result = {"ok": False, "error": "Unknown endpoint"}
         
         if path == '/capture':
-            # Trigger a capture and return file path
+            # Trigger a capture and return file path + screen info
             cap_result = capture()
             if cap_result.get("ok"):
                 # Convert Windows path to WSL path for response
@@ -217,7 +217,8 @@ class ActionHandler(BaseHTTPRequestHandler):
                 result = {
                     "ok": True,
                     "path": wsl_path,
-                    "frame": cap_result["frame"]
+                    "frame": cap_result["frame"],
+                    "screen": {"width": screen_w, "height": screen_h}
                 }
             else:
                 result = cap_result
@@ -242,33 +243,18 @@ class ActionHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         path = urlparse(self.path).path
         
-        if path == '/screen':
-            self._send_json({"width": screen_w, "height": screen_h})
-        elif path == '/ping':
+        if path == '/ping':
             self._send_json({"ok": True})
-        elif path == '/frames':
-            # List available frames
-            try:
-                files = sorted([f for f in os.listdir(FRAME_DIR) if f.endswith('.jpg')])
-                self._send_json({
-                    "count": len(files),
-                    "frames": files[-10:],  # Last 10
-                    "directory": "/tmp/wincontrol"
-                })
-            except Exception as e:
-                self._send_json({"ok": False, "error": str(e)})
         else:
             self._send_json({"endpoints": [
-                "POST /capture     - Capture screen, returns {path, frame}",
+                "POST /capture     - Capture screen, returns {path, frame, screen}",
                 "POST /click       - {x, y, button?}",
                 "POST /drag        - {x1, y1, x2, y2, button?}",
                 "POST /scroll      - {x, y, direction?, amount?}",
                 "POST /type        - {text}",
                 "POST /key         - {key}",
                 "POST /combo       - {keys: []}",
-                "GET  /screen      - Get screen dimensions",
-                "GET  /ping        - Health check",
-                "GET  /frames      - List available frames"
+                "GET  /ping        - Health check"
             ]})
     
     def log_message(self, *args): pass

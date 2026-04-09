@@ -20,9 +20,9 @@ Verify it's working:
 ```bash
 curl http://localhost:8767/ping
 
-# Capture a screenshot (returns file path)
+# Capture a screenshot (returns file path + screen info)
 curl -X POST http://localhost:8767/capture
-# Output: {"ok": true, "path": "/tmp/wincontrol/frame_000001.jpg", "frame": 1}
+# Output: {"ok": true, "path": "/tmp/wincontrol/frame_000001.jpg", "frame": 1, "screen": {"width": 1280, "height": 720}}
 ```
 
 ## File Structure
@@ -54,9 +54,9 @@ Frames:         /tmp/wincontrol/
 ### Capturing Screenshots
 
 ```bash
-# Capture and get file path
+# Capture and get file path + screen dimensions
 curl -X POST http://localhost:8767/capture
-# Returns: {"ok": true, "path": "/tmp/wincontrol/frame_000001.jpg", "frame": 1}
+# Returns: {"ok": true, "path": "/tmp/wincontrol/frame_000001.jpg", "frame": 1, "screen": {"width": 1280, "height": 720}}
 
 # View the captured frame
 read /tmp/wincontrol/frame_000001.jpg
@@ -68,19 +68,11 @@ read "$FILE"
 
 ### API Endpoints
 
-#### GET Endpoints
+#### Endpoints
 
-| Endpoint | Description |
-|----------|-------------|
-| `GET /ping` | Check if server is running |
-| `GET /screen` | Get screen dimensions `{width, height}` |
-| `GET /frames` | List available frames `{count, frames[], directory}` |
-
-#### POST Endpoints
-
-| Endpoint | Body | Description |
-|----------|------|-------------|
-| `POST /capture` | (none) | Capture screen, returns `{ok, path, frame}` |
+| Method | Path | Body | Description |
+|--------|------|------|-------------|
+| `POST` | `/capture` | (none) | Capture screen, returns `{ok, path, frame, screen}` |
 | `POST /click` | `{"x": 100, "y": 200, "button": "left"}` | Click at coordinates |
 | `POST /drag` | `{"x1": 100, "y1": 200, "x2": 300, "y2": 400}` | Drag from A to B |
 | `POST /scroll` | `{"x": 100, "y": 200, "direction": "down", "amount": 3}` | Scroll wheel |
@@ -91,11 +83,8 @@ read "$FILE"
 ### Example Commands
 
 ```bash
-# Capture screenshot
+# Capture screenshot (includes screen dimensions)
 curl -X POST http://localhost:8767/capture
-
-# Get screen size
-curl http://localhost:8767/screen
 
 # Click at position (500, 300)
 curl -X POST http://localhost:8767/click \
