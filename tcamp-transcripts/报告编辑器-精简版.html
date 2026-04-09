@@ -69,10 +69,6 @@ input:focus, textarea:focus { border-color: #4CAF50; outline: none; }
       <textarea id="solution" oninput="updatePreview()">双层架构设计：
 • 下层（安全执行层）：资金托管、定时任务执行、异常监测、操作日志记录
 • 上层（主动决策层）：习惯学习、需求预判、主动推荐、财务日志生成与同步</textarea>
-      <label>执行策略（三层）</label>
-      <textarea id="strategy" oninput="updatePreview()">• 主动预判层：AI基于历史习惯主动推荐并执行日常消费（午餐、咖啡、日用品补货）
-• 协商确认层：涉及预算调整或新类别消费时，AI主动汇报并请求确认
-• 日志同步层：所有执行自动生成财务日志，定期汇总汇报，保持信息透明</textarea>
       <label>核心协作场景</label>
       <textarea id="scenario" oninput="updatePreview()">周二上午10点，小李正在开会，手机震动收到智付伙伴消息："根据你过去两周午餐记录，今天建议尝试楼下新开的轻食店，使用新人券后28元，比你常去的店省7元。已预留12:30取餐时间，确认下单？"
 
@@ -86,7 +82,7 @@ input:focus, textarea:focus { border-color: #4CAF50; outline: none; }
 小李从未主动发出过指令。智付伙伴通过持续学习他的作息、偏好和财务状况，将必要的消费决策从"待办事项"变为"已完成的背景任务"。</textarea>
       <label>产品界面草图描述</label>
       <textarea id="uiSketch" oninput="updatePreview()">• 主界面：时间线形式展示今日已完成的主动服务（午餐已订/咖啡已补货/报销款已分流）
-• 通知中心：集中显示AI的主动建议和执行日志，支持一键确认或查看详情
+• 对话中心：AI以对话形式发送建议和执行结果，用户可在同一界面快速反馈（确认、修改、延期），所有交互记录形成完整上下文
 • 财务日志：按日/周/月自动汇总的消费与执行记录，可导出或同步至记账软件</textarea>
     </div>
 
@@ -120,7 +116,7 @@ input:focus, textarea:focus { border-color: #4CAF50; outline: none; }
 function updatePreview() {
   const fields = {};
   const fieldIds = ['userName', 'productName', 'productNameEn', 'positioning', 'productIntro',
-    'userProfile', 'pain1', 'pain2', 'solution', 'strategy', 'scenario', 'uiSketch',
+    'userProfile', 'pain1', 'pain2', 'solution', 'scenario', 'uiSketch',
     'rule1', 'rule2', 'rule3', 'riskControl'];
   
   fieldIds.forEach(id => {
