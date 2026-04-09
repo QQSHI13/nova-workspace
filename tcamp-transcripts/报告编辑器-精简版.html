@@ -48,47 +48,46 @@ input:focus, textarea:focus { border-color: #4CAF50; outline: none; }
     <div class="section">
       <div class="section-title">一、产品名字与介绍</div>
       <label>产品一句话介绍</label>
-      <textarea id="productIntro" oninput="updatePreview()">智付伙伴（PayMate AI）是一个可协商的消费执行伙伴。用户设定规则后，AI在授权范围内拥有有限决策权，依据预算、消费习惯、场景智能判断是否执行，让用户既省心又放心。</textarea>
+      <textarea id="productIntro" oninput="updatePreview()">智付伙伴（PayMate AI）是一个主动式消费执行助理。它持续学习用户习惯，主动预判日常消费需求（午餐、咖啡、日用品补货等），自动完成执行并生成财务日志，将必要的消费决策从待办事项转化为已完成的背景任务，让用户专注于更重要的工作。</textarea>
       <label>核心定位</label>
-      <input type="text" id="positioning" value="可协商的消费执行伙伴" oninput="updatePreview()">
+      <input type="text" id="positioning" value="主动式消费执行助理" oninput="updatePreview()">
     </div>
 
     <div class="section">
       <div class="section-title">二、选择的人群与核心痛点</div>
       <label>目标用户画像</label>
       <input type="text" id="userProfile" value="初入职场、追求效率与生活品质的年轻白领（22-28岁）" oninput="updatePreview()">
-      <label>痛点1（希望AI解决什么）</label>
-      <textarea id="pain1" oninput="updatePreview()">订阅陷阱：每个月被各种自动续费悄悄扣钱——视频会员、音乐会员、网盘会员、健身卡...等到发现时已经扣了好几个月。想取消时却找不到入口，或者忘了这回事。</textarea>
-      <label>痛点2（授权AI的顾虑）</label>
-      <textarea id="pain2" oninput="updatePreview()">失控焦虑：怕AI不理解我"省钱"的潜台词，在我冲动时依然执行消费指令。比如深夜刷到直播间促销，当时觉得超值，第二天早上就后悔。AI应该在我非理性时帮我踩刹车，而不是推波助澜。</textarea>
+      <label>痛点（希望产品解决什么）</label>
+      <textarea id="pain1" oninput="updatePreview()">时间黑洞：每天都要花心思处理必要但琐碎的消费决策——午饭吃什么、咖啡点哪家、日用品何时补货。这些任务占据大量认知资源，分散工作注意力。</textarea>
+      <label>痛点（授权自动化时的顾虑）</label>
+      <textarea id="pain2" oninput="updatePreview()">缺乏主动服务：现有工具都是被动等待指令，无法像真正的执行助理一样主动学习习惯、预判需求、自动完成常规任务并汇报日志。</textarea>
     </div>
 
     <div class="section">
       <div class="section-title">三、AI解决方案和核心功能</div>
       <label>解决方案概述</label>
       <textarea id="solution" oninput="updatePreview()">双层架构设计：
-• 下层（安全执行层）：资金托管、定时任务、异常监测
-• 上层（决策交互层）：意图理解、动态阈值调整、协商决策、习惯学习优化</textarea>
+• 下层（安全执行层）：资金托管、定时任务执行、异常监测、操作日志记录
+• 上层（主动决策层）：习惯学习、需求预判、主动推荐、财务日志生成与同步</textarea>
       <label>执行策略（三层）</label>
-      <textarea id="strategy" oninput="updatePreview()">• 小额自动层：AI直接执行（低金额日常消费）
-• 协商确认层：AI反问后执行（中等金额消费）
-• 辩论说服层：用户需说服AI（大额消费）</textarea>
+      <textarea id="strategy" oninput="updatePreview()">• 主动预判层：AI基于历史习惯主动推荐并执行日常消费（午餐、咖啡、日用品补货）
+• 协商确认层：涉及预算调整或新类别消费时，AI主动汇报并请求确认
+• 日志同步层：所有执行自动生成财务日志，定期汇总汇报，保持信息透明</textarea>
       <label>核心协作场景</label>
-      <textarea id="scenario" oninput="updatePreview()">周五下午4点，小李正头疼晚上聚餐的事。3个朋友已经答应，但找餐厅、比价格、凑优惠这些琐事让他烦躁。
+      <textarea id="scenario" oninput="updatePreview()">周二上午10点，小李正在开会，手机震动收到智付伙伴消息："根据你过去两周午餐记录，今天建议尝试楼下新开的轻食店，使用新人券后28元，比你常去的店省7元。已预留12:30取餐时间，确认下单？"
 
-他对智付伙伴说："帮我安排今晚7点的聚餐，4个人，预算人均150，想吃火锅，记得用优惠。"
+小李看一眼，点击确认，继续开会。
 
-AI没有立刻执行。它知道小李上周刚冲动买了键盘后悔，也知道这个月聚餐预算已用掉60%。但它也发现：小李确实需要聚餐，B餐厅的优惠是真实的，人均125在预算内。
+这是智付伙伴本周第三次主动服务：
+• 周一早晨：检测到咖啡库存不足，自动补货咖啡豆并同步到家庭共享清单
+• 周一下午：发现上季度报销款到账，自动分流到储蓄账户并生成简要财务日志
+• 周二上午：基于午餐习惯和消费记录，主动推荐更优选择
 
-于是AI问："推荐B餐厅，用券后500元，人均125比你预算省25元。不过本月聚餐预算已用60%，确定要订吗？"
-
-小李确认。AI才执行预订，并自动通知朋友。
-
-整个过程，小李只说了1句话，省了100元，且完全掌控最终决定权。</textarea>
+小李从未主动发出过指令。智付伙伴通过持续学习他的作息、偏好和财务状况，将必要的消费决策从"待办事项"变为"已完成的背景任务"。</textarea>
       <label>产品界面草图描述</label>
-      <textarea id="uiSketch" oninput="updatePreview()">• 顶部栏：左侧设置按钮，右侧用户头像
-• 中部标签：「统计」「资金」「成就」三个标签可左右滑动切换，分别显示预算统计、资金余额与交易记录、成就勋章与目标进度
-• 底部输入框：固定显示「有什么需要我帮忙的？」提示文字，点击后标签隐藏进入对话模式</textarea>
+      <textarea id="uiSketch" oninput="updatePreview()">• 主界面：时间线形式展示今日已完成的主动服务（午餐已订/咖啡已补货/报销款已分流）
+• 通知中心：集中显示AI的主动建议和执行日志，支持一键确认或查看详情
+• 财务日志：按日/周/月自动汇总的消费与执行记录，可导出或同步至记账软件</textarea>
     </div>
 
     <div class="section">
