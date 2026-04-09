@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "updatedAt": "2026-04-09T11:47:41.649Z",
+  "entries": {
+    "memory:memory/2026-04-01.md:43:81": {
+      "key": "memory:memory/2026-04-01.md:43:81",
+      "path": "memory/2026-04-01.md",
+      "startLine": 43,
+      "endLine": 81,
+      "source": "memory",
+      "snippet": "| **Status** | Online camp, ongoing | | **Period** | Mar 16 - Apr 17, 2026 | | **Progress** | **30/31 completed** (97%!) | ### Remaining Task - **意向岗位志愿（二次填报）** (Career Intention Application - 2nd submission) - **Status**: Locked until Apr 3, 2026 19:00 - **Type**: Assignment (作业) --- ## Environment Check (Pre-Update) | Check | Status | |-------|--------| | **Disk** | 913G free / 1007G total (91% available) ✅ | | **Memory** | 7.8Gi total, 1.5Gi free, 2.7Gi buff/cache ✅ | | **Git Status** | Multiple modified files (see below) | | **Uncommitted** | New memory files, Battery Panic progress, Weixia archive | ### Pending Git Changes - **Modified**: AGENTS.md, MEMORY.md, memory/health.md, Bat",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4263559699058532,
+      "maxScore": 0.4263559699058532,
+      "firstRecalledAt": "2026-04-09T11:47:41.649Z",
+      "lastRecalledAt": "2026-04-09T11:47:41.649Z",
+      "queryHashes": [
+        "ebb5d4d70c0f"
+      ],
+      "recallDays": [
+        "2026-04-09"
+      ],
+      "conceptTags": [
+        "30/31",
+        "pre-update",
+        "7.8gi",
+        "1.5gi",
+        "2.7gi",
+        "buff/cache",
+        "agents.md",
+        "memory.md"
+      ]
+    },
+    "memory:memory/2026-04-02.md:1:53": {
+      "key": "memory:memory/2026-04-02.md:1:53",
+      "path": "memory/2026-04-02.md",
+      "startLine": 1,
+      "endLine": 53,
+      "source": "memory",
+      "snippet": "# 2026-04-02 - Tencent Camp Transcript Extraction **Time**: Morning (08:00-09:00 AM) **Focus**: Attempting to extract all Tencent Camp transcripts --- ## Session Start QQ started a new session. I read SOUL.md, USER.md, health.md, 2026-04-01.md, and MEMORY.md as part of startup sequence. --- ## Tencent Camp Transcript Extraction Attempt ### Status Update from QQ - Working on Tencent Camp transcripts - QQ will update templates themselves - Browser control available for extraction ### Extraction Attempts **Attempt 1: Direct Browser Navigation** - Tried navigating to lesson pages - Hit verification popup blocking automation - Clicks timing out after 30 seconds **Attempt 2: Subagent Bat",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4104244261980057,
+      "maxScore": 0.4104244261980057,
+      "firstRecalledAt": "2026-04-09T11:47:41.649Z",
+      "lastRecalledAt": "2026-04-09T11:47:41.649Z",
+      "queryHashes": [
+        "ebb5d4d70c0f"
+      ],
+      "recallDays": [
+        "2026-04-09"
+      ],
+      "conceptTags": [
+        "00-09",
+        "soul.md",
+        "user.md",
+        "health.md",
+        "memory.md",
+        "tencent",
+        "camp",
+        "transcript"
+      ]
+    }
+  }
+}
