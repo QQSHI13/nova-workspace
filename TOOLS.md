@@ -313,7 +313,21 @@ curl -X POST http://localhost:8767/combo \
 `Ctrl`, `Control`, `Alt`, `Shift`, `Win`, `Windows`
 
 **View Desktop:**
-Open `http://localhost:8766` in browser to see live desktop view.
+
+Fast method (curl + read):
+```bash
+# Download screenshot
+curl -s http://localhost:8766/frame -o /tmp/screen.jpg
+
+# View it (as image attachment)
+read /tmp/screen.jpg
+```
+
+Browser method (slower):
+```bash
+openclaw browser open http://localhost:8766
+openclaw browser screenshot
+```
 
 **Display in Canvas:**
 ```javascript

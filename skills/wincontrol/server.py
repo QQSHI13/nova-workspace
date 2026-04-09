@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-WinControl Server - Display + Actions Separation
-Port 8766: Display (HTTP view only)
+WinControl - Frame Capture + Actions API
+Saves frames to /tmp/wincontrol/ for AI consumption
 Port 8767: Actions (HTTP API for control)
 """
 
 import asyncio
 import json
-import base64
-import io
+import os
 import threading
+import time
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import parse_qs, urlparse
 
@@ -20,26 +20,57 @@ from PIL import Image
 
 # Config
 QUALITY = 90      # High quality for clear UI text
-FPS = 5           # Low FPS is fine for AI control
-DISPLAY_PORT = 8766
+FPS = 5           # Frames per second
 ACTION_PORT = 8767
+FRAME_DIR = r'\\wsl$\Ubuntu\tmp\wincontrol'  # WSL path from Windows
+
+# Ensure frame directory exists
+os.makedirs(FRAME_DIR, exist_ok=True)
 
 # Screen dimensions
 screen_w = win32api.GetSystemMetrics(0)
 screen_h = win32api.GetSystemMetrics(1)
 
+# Frame counter
+frame_count = 0
+
 def capture():
-    """Capture screen as JPEG bytes"""
+    """Capture screen and save to /tmp/wincontrol/"""
+    global frame_count
     try:
         with mss.mss() as sct:
             img = sct.grab(sct.monitors[1])
             im = Image.frombytes("RGB", img.size, img.bgra, "raw", "BGRX")
-            buf = io.BytesIO()
-            im.save(buf, format='JPEG', quality=QUALITY, optimize=True)
-            return buf.getvalue()
+            
+            frame_count += 1
+            frame_path = os.path.join(FRAME_DIR, f"frame_{frame_count:06d}.jpg")
+            
+            im.save(frame_path, format='JPEG', quality=QUALITY, optimize=True)
+            
+            # Keep only last 30 frames (6 seconds at 5 FPS)
+            cleanup_old_frames()
+            
+            return {"ok": True, "frame": frame_count, "path": frame_path}
     except Exception as e:
         print(f"Capture error: {e}")
-        return None
+        return {"ok": False, "error": str(e)}
+
+def cleanup_old_frames():
+    """Remove old frames, keep only last 30"""
+    try:
+        files = sorted([
+            f for f in os.listdir(FRAME_DIR)
+            if f.startswith('frame_') and f.endswith('.jpg')
+        ])
+        
+        # Remove all but last 30
+        for old_file in files[:-30]:
+            try:
+                os.remove(os.path.join(FRAME_DIR, old_file))
+            except:
+                pass
+    except:
+        pass
 
 # ========== ACTION HANDLERS ==========
 
@@ -71,7 +102,6 @@ def handle_drag(x1, y1, x2, y2, button="left"):
         down_flag = win32con.MOUSEEVENTF_LEFTDOWN if button == "left" else win32con.MOUSEEVENTF_RIGHTDOWN
         up_flag = win32con.MOUSEEVENTF_LEFTUP if button == "left" else win32con.MOUSEEVENTF_RIGHTUP
         
-        # Move to start, press, drag to end, release
         win32api.mouse_event(win32con.MOUSEEVENTF_ABSOLUTE | win32con.MOUSEEVENTF_MOVE, nx1, ny1, 0, 0)
         win32api.mouse_event(down_flag, nx1, ny1, 0, 0)
         win32api.mouse_event(win32con.MOUSEEVENTF_ABSOLUTE | win32con.MOUSEEVENTF_MOVE, nx2, ny2, 0, 0)
@@ -97,7 +127,7 @@ def handle_type(text):
     try:
         for char in text:
             if char == ' ':
-                vk = 0x20  # Space
+                vk = 0x20
                 win32api.keybd_event(vk, 0, 0, 0)
                 win32api.keybd_event(vk, 0, win32con.KEYEVENTF_KEYUP, 0)
             elif char.isupper():
@@ -164,10 +194,8 @@ def handle_combo(keys):
             elif len(k) == 1:
                 vks.append(win32api.VkKeyScan(k) & 0xFF)
         
-        # Press all
         for vk in vks:
             win32api.keybd_event(vk, 0, 0, 0)
-        # Release all
         for vk in reversed(vks):
             win32api.keybd_event(vk, 0, win32con.KEYEVENTF_KEYUP, 0)
         
@@ -226,103 +254,41 @@ class ActionHandler(BaseHTTPRequestHandler):
         path = urlparse(self.path).path
         
         if path == '/screen':
-            # Return screen dimensions
             self._send_json({"width": screen_w, "height": screen_h})
         elif path == '/ping':
             self._send_json({"ok": True})
+        elif path == '/frame':
+            # Trigger a capture and return info
+            result = capture()
+            self._send_json(result)
+        elif path == '/frames':
+            # List available frames
+            try:
+                files = sorted([f for f in os.listdir(FRAME_DIR) if f.endswith('.jpg')])
+                self._send_json({
+                    "count": len(files),
+                    "frames": files[-10:],  # Last 10
+                    "directory": "/tmp/wincontrol"
+                })
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)})
         else:
-            self._send_json({"endpoints": ["/click", "/drag", "/scroll", "/type", "/key", "/combo", "/screen", "/ping"]})
+            self._send_json({"endpoints": [
+                "/click", "/drag", "/scroll", "/type", "/key", "/combo",
+                "/screen", "/ping", "/frame", "/frames"
+            ]})
     
     def log_message(self, *args): pass
+
+def capture_loop():
+    """Continuously capture screen in background"""
+    while True:
+        capture()
+        time.sleep(1 / FPS)
 
 def action_server():
     server = HTTPServer(('localhost', ACTION_PORT), ActionHandler)
     print(f"Action API: http://localhost:{ACTION_PORT}")
-    server.serve_forever()
-
-# ========== DISPLAY SERVER ==========
-
-# Global frame cache
-latest_frame = None
-
-def capture_loop():
-    """Continuously capture screen in background"""
-    global latest_frame
-    import time
-    while True:
-        latest_frame = capture()
-        time.sleep(1 / FPS)
-
-DISPLAY_HTML = '''<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>WinControl Display</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
-        #desktop { 
-            display: block; width: 100%; height: 100%; object-fit: contain;
-        }
-        #info {
-            position: fixed; bottom: 10px; right: 10px;
-            background: rgba(0,0,0,0.7); color: #888;
-            padding: 5px 10px; border-radius: 4px;
-            font-family: monospace; font-size: 11px;
-        }
-    </style>
-</head>
-<body>
-    <img id="desktop" alt="Desktop" />
-    <div id="info">Loading...</div>
-    
-    <script>
-        const img = document.getElementById('desktop');
-        const info = document.getElementById('info');
-        let lastFrame = 0;
-        
-        function update() {
-            // Add timestamp to prevent caching
-            img.src = '/frame?t=' + Date.now();
-            lastFrame++;
-            info.textContent = 'Frame: ' + lastFrame;
-        }
-        
-        // Update at FPS rate
-        setInterval(update, 1000 / 5);  // 5 FPS
-        update();  // Initial frame
-    </script>
-</body>
-</html>'''
-
-class DisplayHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        path = urlparse(self.path).path
-        
-        if path in ('/', '/index.html'):
-            self.send_response(200)
-            self.send_header('Content-Type', 'text/html')
-            self.end_headers()
-            self.wfile.write(DISPLAY_HTML.encode())
-        
-        elif path == '/frame':
-            if latest_frame:
-                self.send_response(200)
-                self.send_header('Content-Type', 'image/jpeg')
-                self.send_header('Cache-Control', 'no-cache')
-                self.end_headers()
-                self.wfile.write(latest_frame)
-            else:
-                self.send_error(503, "Frame not ready")
-        
-        else:
-            self.send_error(404)
-    
-    def log_message(self, *args): pass
-
-def display_server():
-    server = HTTPServer(('localhost', DISPLAY_PORT), DisplayHandler)
-    print(f"Display: http://localhost:{DISPLAY_PORT}")
     server.serve_forever()
 
 # ========== MAIN ==========
@@ -330,13 +296,11 @@ def display_server():
 if __name__ == "__main__":
     print(f"WinControl Server")
     print(f"Screen: {screen_w}x{screen_h} @ {QUALITY}% quality, {FPS} FPS")
+    print(f"Frames: {FRAME_DIR}")
     print("")
     
     # Start capture thread
     threading.Thread(target=capture_loop, daemon=True).start()
     
-    # Start action server thread
-    threading.Thread(target=action_server, daemon=True).start()
-    
-    # Start display server (blocking)
-    display_server()
+    # Start action server (blocking)
+    action_server()
