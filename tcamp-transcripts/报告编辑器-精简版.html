@@ -59,7 +59,7 @@ input:focus, textarea:focus { border-color: #4CAF50; outline: none; }
       <input type="text" id="userProfile" value="初入职场、追求效率与生活品质的年轻白领（22-28岁）" oninput="updatePreview()">
       <label>痛点（希望产品解决什么）</label>
       <textarea id="pain1" oninput="updatePreview()">时间黑洞：每天都要花心思处理必要但琐碎的消费决策——午饭吃什么、咖啡点哪家、日用品何时补货。这些任务占据大量认知资源，分散工作注意力。</textarea>
-      <label>痛点（授权自动化时的顾虑）</label>
+      <label>痛点（时间成本困境）</label>
       <textarea id="pain2" oninput="updatePreview()">有钱但缺时间：收入足以覆盖日常消费，但必须亲自花时间处理这些低价值决策——比价、凑单、确认订单。这些任务挤占了本该用于工作或休息的注意力，却无法通过"花钱"来外包。</textarea>
     </div>
 
@@ -143,7 +143,7 @@ function updatePreview() {
       ${fields.pain1.replace(/\n/g, '<br>')}
     </div>
     <div class="step">
-      <strong>痛点2：授权AI的顾虑</strong><br>
+      <strong>痛点2：时间成本困境</strong><br>
       ${fields.pain2.replace(/\n/g, '<br>')}
     </div>
     
