@@ -1,17 +1,14 @@
 #!/usr/bin/env python3
 """
 WinControl - Frame Capture + Actions API
-Saves frames to /tmp/wincontrol/ for AI consumption
+Captures on POST request, returns file location
 Port 8767: Actions (HTTP API for control)
 """
 
-import asyncio
 import json
 import os
-import threading
-import time
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import urlparse
 
 import win32api
 import win32con
@@ -20,7 +17,6 @@ from PIL import Image
 
 # Config
 QUALITY = 90      # High quality for clear UI text
-FPS = 5           # Frames per second
 ACTION_PORT = 8767
 FRAME_DIR = r'\\wsl$\Ubuntu\tmp\wincontrol'  # WSL path from Windows
 
@@ -47,30 +43,10 @@ def capture():
             
             im.save(frame_path, format='JPEG', quality=QUALITY, optimize=True)
             
-            # Keep only last 30 frames (6 seconds at 5 FPS)
-            cleanup_old_frames()
-            
             return {"ok": True, "frame": frame_count, "path": frame_path}
     except Exception as e:
         print(f"Capture error: {e}")
         return {"ok": False, "error": str(e)}
-
-def cleanup_old_frames():
-    """Remove old frames, keep only last 30"""
-    try:
-        files = sorted([
-            f for f in os.listdir(FRAME_DIR)
-            if f.startswith('frame_') and f.endswith('.jpg')
-        ])
-        
-        # Remove all but last 30
-        for old_file in files[:-30]:
-            try:
-                os.remove(os.path.join(FRAME_DIR, old_file))
-            except:
-                pass
-    except:
-        pass
 
 # ========== ACTION HANDLERS ==========
 
@@ -232,7 +208,20 @@ class ActionHandler(BaseHTTPRequestHandler):
         
         result = {"ok": False, "error": "Unknown endpoint"}
         
-        if path == '/click':
+        if path == '/capture':
+            # Trigger a capture and return file path
+            cap_result = capture()
+            if cap_result.get("ok"):
+                # Convert Windows path to WSL path for response
+                wsl_path = "/tmp/wincontrol/" + os.path.basename(cap_result["path"])
+                result = {
+                    "ok": True,
+                    "path": wsl_path,
+                    "frame": cap_result["frame"]
+                }
+            else:
+                result = cap_result
+        elif path == '/click':
             result = handle_click(data.get('x', 0), data.get('y', 0), data.get('button', 'left'))
         elif path == '/drag':
             result = handle_drag(data.get('x1', 0), data.get('y1', 0), 
@@ -257,10 +246,6 @@ class ActionHandler(BaseHTTPRequestHandler):
             self._send_json({"width": screen_w, "height": screen_h})
         elif path == '/ping':
             self._send_json({"ok": True})
-        elif path == '/frame':
-            # Trigger a capture and return info
-            result = capture()
-            self._send_json(result)
         elif path == '/frames':
             # List available frames
             try:
@@ -274,17 +259,19 @@ class ActionHandler(BaseHTTPRequestHandler):
                 self._send_json({"ok": False, "error": str(e)})
         else:
             self._send_json({"endpoints": [
-                "/click", "/drag", "/scroll", "/type", "/key", "/combo",
-                "/screen", "/ping", "/frame", "/frames"
+                "POST /capture     - Capture screen, returns {path, frame}",
+                "POST /click       - {x, y, button?}",
+                "POST /drag        - {x1, y1, x2, y2, button?}",
+                "POST /scroll      - {x, y, direction?, amount?}",
+                "POST /type        - {text}",
+                "POST /key         - {key}",
+                "POST /combo       - {keys: []}",
+                "GET  /screen      - Get screen dimensions",
+                "GET  /ping        - Health check",
+                "GET  /frames      - List available frames"
             ]})
     
     def log_message(self, *args): pass
-
-def capture_loop():
-    """Continuously capture screen in background"""
-    while True:
-        capture()
-        time.sleep(1 / FPS)
 
 def action_server():
     server = HTTPServer(('localhost', ACTION_PORT), ActionHandler)
@@ -295,12 +282,8 @@ def action_server():
 
 if __name__ == "__main__":
     print(f"WinControl Server")
-    print(f"Screen: {screen_w}x{screen_h} @ {QUALITY}% quality, {FPS} FPS")
+    print(f"Screen: {screen_w}x{screen_h} @ {QUALITY}% quality")
     print(f"Frames: {FRAME_DIR}")
     print("")
     
-    # Start capture thread
-    threading.Thread(target=capture_loop, daemon=True).start()
-    
-    # Start action server (blocking)
     action_server()

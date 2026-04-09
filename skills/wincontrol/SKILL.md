@@ -1,10 +1,10 @@
 # WinControl Skill
 
-AI remote control for Windows desktop. Captures screen frames to `/tmp/wincontrol/` and provides an HTTP API for mouse/keyboard actions.
+AI remote control for Windows desktop. Captures screen on-demand via POST request and provides an HTTP API for mouse/keyboard actions.
 
 ## What It Does
 
-- **Frame Capture**: Saves screenshots to `/tmp/wincontrol/frame_XXXXXX.jpg` at 5 FPS
+- **On-Demand Capture**: POST to `/capture` to save screenshot, returns file path
 - **Action API**: Control mouse and keyboard via HTTP endpoints on port 8767
 - **WSL Integration**: Runs on Windows but saves frames to WSL's `/tmp` for easy access
 
@@ -19,7 +19,10 @@ cd ~/.openclaw/workspace/skills/wincontrol
 Verify it's working:
 ```bash
 curl http://localhost:8767/ping
-curl http://localhost:8767/frames
+
+# Capture a screenshot (returns file path)
+curl -X POST http://localhost:8767/capture
+# Output: {"ok": true, "path": "/tmp/wincontrol/frame_000001.jpg", "frame": 1}
 ```
 
 ## File Structure
@@ -29,8 +32,7 @@ skills/wincontrol/
 ├── SKILL.md          # This file
 ├── server.py         # Main server (runs on Windows)
 ├── start.sh          # Start script (WSL)
-├── stop.sh           # Stop script (WSL)
-└── latest-frame.sh   # Get path to latest frame
+└── stop.sh           # Stop script (WSL)
 ```
 
 ## Usage
@@ -49,25 +51,19 @@ Actions API:    http://localhost:8767
 Frames:         /tmp/wincontrol/
 ```
 
-### Viewing the Latest Frame
+### Capturing Screenshots
 
 ```bash
-# Get path to latest frame
-./latest-frame.sh
-# Output: /tmp/wincontrol/frame_000042.jpg
+# Capture and get file path
+curl -X POST http://localhost:8767/capture
+# Returns: {"ok": true, "path": "/tmp/wincontrol/frame_000001.jpg", "frame": 1}
 
-# View in terminal (if supported)
-cat $(./latest-frame.sh)
+# View the captured frame
+read /tmp/wincontrol/frame_000001.jpg
 
-# Or use with other tools
-python3 -c "
-from PIL import Image
-import os
-latest = max([f for f in os.listdir('/tmp/wincontrol') if f.startswith('frame_')])
-img = Image.open(f'/tmp/wincontrol/{latest}')
-print(f'Size: {img.size}')
-img.show()
-"
+# Or capture and view in one go
+FILE=$(curl -s -X POST http://localhost:8767/capture | python3 -c "import sys,json; print(json.load(sys.stdin)['path'])")
+read "$FILE"
 ```
 
 ### API Endpoints
@@ -78,13 +74,13 @@ img.show()
 |----------|-------------|
 | `GET /ping` | Check if server is running |
 | `GET /screen` | Get screen dimensions `{width, height}` |
-| `GET /frame` | Trigger a capture, returns `{ok, frame, path}` |
 | `GET /frames` | List available frames `{count, frames[], directory}` |
 
 #### POST Endpoints
 
 | Endpoint | Body | Description |
 |----------|------|-------------|
+| `POST /capture` | (none) | Capture screen, returns `{ok, path, frame}` |
 | `POST /click` | `{"x": 100, "y": 200, "button": "left"}` | Click at coordinates |
 | `POST /drag` | `{"x1": 100, "y1": 200, "x2": 300, "y2": 400}` | Drag from A to B |
 | `POST /scroll` | `{"x": 100, "y": 200, "direction": "down", "amount": 3}` | Scroll wheel |
@@ -95,6 +91,9 @@ img.show()
 ### Example Commands
 
 ```bash
+# Capture screenshot
+curl -X POST http://localhost:8767/capture
+
 # Get screen size
 curl http://localhost:8767/screen
 
@@ -213,10 +212,13 @@ kill <PID>
 ```python
 import requests
 import time
-import os
-from PIL import Image
 
 API = "http://localhost:8767"
+
+def capture():
+    """Capture screen and return file path"""
+    r = requests.post(f"{API}/capture")
+    return r.json().get("path")
 
 def click(x, y):
     requests.post(f"{API}/click", json={"x": x, "y": y})
@@ -230,20 +232,11 @@ def press(key):
 def combo(keys):
     requests.post(f"{API}/combo", json={"keys": keys})
 
-def get_latest_frame():
-    """Get path to most recent frame"""
-    frames = sorted([
-        f for f in os.listdir('/tmp/wincontrol')
-        if f.startswith('frame_')
-    ])
-    return f"/tmp/wincontrol/{frames[-1]}" if frames else None
-
-def view_frame(path=None):
-    """Open frame in default viewer"""
-    if path is None:
-        path = get_latest_frame()
-    if path:
-        Image.open(path).show()
+# Example: Click, capture, and see result
+click(500, 300)
+time.sleep(0.5)
+frame_path = capture()
+print(f"Screenshot saved to: {frame_path}")
 
 # Example workflow
 def open_notepad():
@@ -260,15 +253,15 @@ if __name__ == "__main__":
 
 ## Frame Management
 
-- **FPS**: 5 frames per second
-- **Retention**: Last 30 frames kept (6 seconds of history)
+- **Capture**: On-demand via `POST /capture`
 - **Quality**: 90% JPEG for clear text/UI
-- **Naming**: `frame_XXXXXX.jpg` (sequential numbering)
+- **Format**: `frame_000001.jpg`, `frame_000002.jpg`, etc.
+- **Location**: `/tmp/wincontrol/`
+- **No auto-cleanup**: Frames persist until manually deleted
 
-To change settings, edit `server.py`:
+To change quality, edit `server.py`:
 ```python
 QUALITY = 90      # 1-100
-FPS = 5           # Frames per second
 ```
 
 ## Stopping the Server
@@ -295,15 +288,16 @@ rm -rf /tmp/wincontrol/*.jpg
 
 ## Integration with OpenClaw
 
-Use with the `browser` tool or `canvas` for visual feedback:
-
 ```javascript
-// View latest frame
-const frame = require('child_process').execSync('./latest-frame.sh').toString().trim();
-read(frame);
+// Capture and view
+const result = exec("curl -s -X POST http://localhost:8767/capture");
+const data = JSON.parse(result.stdout);
+read(data.path);
 
-// Or take action
+// Or take action then capture
 exec("curl -X POST http://localhost:8767/click -d '{\"x\":500,\"y\":300}'");
+exec("sleep 0.5");
+const frame = exec("curl -s -X POST http://localhost:8767/capture");
 ```
 
 ## License
