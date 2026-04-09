@@ -1,6 +1,6 @@
 {
   "name": "wincontrol",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "AI remote control for Windows desktop. Capture screenshots and control mouse/keyboard via HTTP API.",
   "author": "QQSHI13",
   "license": "GPL-3.0",
