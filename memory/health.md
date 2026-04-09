@@ -1,8 +1,9 @@
 # Agent Health Dashboard
 
-**Last Updated**: 2026-04-08 07:40 PM (Asia/Shanghai)  
+**Last Updated**: 2026-04-09 12:38 PM (Asia/Shanghai)  
 **Agent**: Nova (main)  
-**Session**: agent:main:main
+**Session**: agent:main:main  
+**Status**: ✅ Active
 
 ---
 
@@ -14,13 +15,31 @@
 | Web Search | ✅ Active | 2026-03-27 16:14 | DuckDuckGo provider working |
 | Kimi CLI | ✅ Active | 2026-03-27 16:09 | Deep research available |
 | Browser Control | ✅ Active | 2026-03-27 16:27 | Chrome MCP connected |
-| Memory System | ✅ OK | 2026-03-29 21:35 | Files updated |
-| Sub-Agents | ✅ Available | — | Can spawn Claude Code CLI |
+| Memory System | ✅ OK | 2026-04-09 12:38 | Health.md updated |
+| Sub-Agents | ✅ Available | — | **One-shot use only** (see notes below) |
 | **ACP** | ✅ **Enabled** | 2026-03-29 21:35 | acpx backend, Claude default |
 | WeChat | ✅ Active | — | Plugin installed |
 | **MCP Servers** | ✅ **None** | 2026-03-29 19:58 | Using native tools |
-| **Cron Jobs** | ✅ Active | 2026-04-01 10:06 | OpenFang check scheduled May 1 |
+| **Cron Jobs** | ✅ Active | 2026-04-08 22:12 | Git commit/push added to HEARTBEAT |
 | **Session Lifetime** | ✅ Updated | 2026-04-08 12:24 | Extended: 24h → 7 days |
+
+---
+
+## ⚠️ Critical: Session Persistence Behavior
+
+**Windows hibernation kills non-main sessions.** This is the observed behavior:
+
+| Session Type | Persistence | Survives Hibernation? | Use Pattern |
+|--------------|-------------|----------------------|-------------|
+| `agent:main:main` | ✅ Permanent | ✅ Yes | Long-term state, orchestration |
+| Sub-agents (`isolated`) | ❌ Temporary | ❌ No | One-shot tasks only |
+| Thread sessions | ❌ Temporary | ❌ No | Immediate use, don't rely on persistence |
+
+**Implications:**
+- Sub-agents must complete work **immediately** and write results to disk
+- Do not leave state in side sessions expecting to poll later
+- Always write sub-agent results to `memory/subagent-results/` or git commit
+- **This file (health.md) must be updated BEFORE spawning sub-agents** so we can recover if they vanish
 
 ---
 
@@ -32,14 +51,24 @@ This section is the "save game" state. Read on every session start to resume wor
 
 ### Current Tasks
 
-*(none active — AI wallet report completed 2026-04-08)*
+*(none active — workspace synced to GitHub 2026-04-08)*
+
+### Recent Completions (Last 24h)
+
+| Task | Completed | Result | Notes |
+|------|-----------|--------|-------|
+| Git commit/push | 2026-04-08 22:15 | ✅ Success | 635 files, commit `e42f1b0` |
+| JDK cleanup | 2026-04-08 22:15 | ✅ Removed | 80MB .deb deleted from repo |
+| HEARTBEAT.md update | 2026-04-08 22:12 | ✅ Added | Git commit/push task added |
+| Workspace cleanup | 2026-04-08 22:12 | ✅ Done | Removed Zone.Identifier files |
 
 ### Upcoming Tasks
 
 | Task | Due | Priority | Notes |
 |------|-----|----------|-------|
-| Workspace Cleanup | When ready | LOW | ~700-800 MB recoverable |
+| Skylight Mod test | When ready | MEDIUM | PlayerJoinMixin fix needs testing |
 | GitHub Repo Cleanup | Ongoing | MEDIUM | Archive old repos |
+| Battery Panic dev | When ready | LOW | Godot pixel art game |
 
 ---
 
@@ -57,14 +86,14 @@ This section is the "save game" state. Read on every session start to resume wor
 
 | Event | Time | Details |
 |-------|------|---------|
-| **ACP Configuration** | 2026-03-29 21:35 | Enabled acpx backend, Claude default |
-| **Session Cleanup** | 2026-03-29 21:20 | Archived 8+ sessions, fixed sessions.json |
-| MCP Server Cleanup | 2026-03-29 | Removed github + filesystem servers |
-| Blog Writing | 2026-03-29 | Weekly wrap-up blog post completed |
-| Memory Update | 2026-03-29 | Distilled raw logs from March 20-28 |
-| Workspace Cleanup | 2026-03-28 | Archived 9 files, reduced workspace by 76% |
-| SSH Password Testing | 2026-03-28 | Documented in TOOLS.md |
-| OpenClaw Install Job | 2026-03-27 | Earned ¥200 on client PC |
+| **Health.md Update** | 2026-04-09 12:38 | Added session persistence notes |
+| **Git Push** | 2026-04-08 22:15 | Commit `e42f1b0`, removed JDK .deb |
+| **Git Commit** | 2026-04-08 22:12 | 635 files changed, 10,937 insertions |
+| **AI Wallet Report** | 2026-04-08 14:15 | Tencent大作业定稿 — 接力钱包(RelayWallet AI), ~920字 |
+| **npm Consolidation** | 2026-04-08 12:30 | All packages moved to `~/.npm-global/` |
+| **Session Config** | 2026-04-08 12:24 | Lifetime extended: 24h → 7 days |
+| **Browser MCP** | 2026-04-01 09:58 | Reconnected, Tencent camp explored |
+| **Exec Config** | 2026-04-01 08:27 | `ask=off` + allowlist configured |
 
 ---
 
@@ -74,10 +103,11 @@ This section is the "save game" state. Read on every session start to resume wor
 |--------|--------|--------------|
 | `~/.openclaw/openclaw.json` | ✅ Stable | 2026-03-29 (ACP enabled) |
 | `IDENTITY.md` | ✅ Current | 2026-03-27 (fox avatar) |
-| `TOOLS.md` | ✅ Current | 2026-03-28 (SSH docs) |
+| `TOOLS.md` | ✅ Current | 2026-04-08 (WinControl docs) |
 | `SOUL.md` | ✅ Current | Unchanged |
 | `AGENTS.md` | ✅ Current | 2026-03-29 (startup optimized) |
-| `USER.md` | ✅ Current | Unchanged |
+| `USER.md` | ✅ Current | 2026-04-08 |
+| `HEARTBEAT.md` | ✅ Current | 2026-04-08 (git task added) |
 
 ---
 
@@ -89,25 +119,25 @@ This section is the "save game" state. Read on every session start to resume wor
 | `web_fetch` | ✅ Active | Single page fetch |
 | `browser` | ✅ Chrome | Windows MCP |
 | `exec` | ✅ Active | `ask=off` + allowlist configured |
-| `sessions_spawn` | ✅ Available | Can spawn Claude Code |
+| `sessions_spawn` | ✅ Available | **One-shot only** — see Session Persistence notes above |
 | `canvas` | ⚠️ Needs node | No paired device |
 | `tts` | ✅ Available | Text to speech |
-| `cron` | ✅ Available | Scheduled tasks |
+| `cron` | ✅ Active | Scheduled tasks |
 | **ACP** | ✅ **Enabled** | `/acp spawn` works |
 
 ---
 
-## Recent Activity
+## Sub-Agent Activity Log
 
-| Event | Time | Details |
-|-------|------|---------|
-| **AI Wallet Report** | 2026-04-08 14:15 | Tencent大作业定稿 — 接力钱包(RelayWallet AI), ~920字 |
-| **npm Consolidation** | 2026-04-08 12:30 | All packages moved to `~/.npm-global/` |
-| **Session Config** | 2026-04-08 12:24 | Lifetime extended: 24h → 7 days |
-| **Browser MCP** | 2026-04-01 09:58 | Reconnected, Tencent camp explored |
-| **Exec Config** | 2026-04-01 08:27 | `ask=off` + allowlist configured |
-| ACP Configuration | 2026-03-29 21:35 | Enabled acpx backend, Claude default |
-| Session Cleanup | 2026-03-29 21:20 | Archived 8+ sessions, fixed sessions.json |
+Use this to track sub-agents before they potentially vanish.
+
+| Sub-Agent | Task | Spawned | Status | Result Location |
+|-----------|------|---------|--------|-----------------|
+| *(none active)* | — | — | — | — |
+
+**Rule**: When spawning a sub-agent, add a row here immediately. When it completes, move to "Recent Completions" above.
+
+---
 
 ## Alerts
 
@@ -115,4 +145,4 @@ This section is the "save game" state. Read on every session start to resume wor
 
 ---
 
-*Last updated: 2026-04-04 12:49 by Nova ☄️*
+*Last updated: 2026-04-09 12:38 by Nova ☄️*
