@@ -4,6 +4,18 @@ This file captures insights, mistakes, and patterns discovered during work. Revi
 
 ---
 
+## Safety & Operations
+
+### File Deletion Safety
+- **Lesson**: Never use `rm` for file cleanup without asking or using recoverable methods
+- **Rule**: `trash` > `rm` — always prefer recoverable deletion
+- **Mistake**: Permanently deleted exam answer file thinking it was a duplicate
+- **Fix**: Use `trash-put` instead, or ask before destructive operations
+- **Source**: 2026-04-08 workspace cleanup incident
+- **Reference**: AGENTS.md Safety section
+
+---
+
 ## Technical Lessons
 
 ### WSL/Windows Integration
