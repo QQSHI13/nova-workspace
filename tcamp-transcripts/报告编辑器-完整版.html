@@ -137,9 +137,18 @@ th { background: #f5f5f5; }
     🚗 建议6:40出发，打车约¥15
     ✅ 已预订4人位，无需等位"
 ③ 添加到日历：周五 18:40 出发提醒</textarea>
-      <label>Step4: 事后总结（可选）</label>
-      <textarea id="sceneStep4" oninput="updatePreview()">聚餐结束，AI生成报告：
-"本次聚餐节省¥100，本月AI已帮你省¥375。检测到优酷会员仍建议取消（年省¥300），是否现在处理？"</textarea>
+      <label>Step4: 支付流程与资金流转</label>
+      <textarea id="sceneStep4" oninput="updatePreview()">支付链路：
+① 资金来源：AI小金库（本月聚餐预算剩余¥1200）
+② 支付方式：美团预付 → AI小金库自动扣款¥500
+③ 资金隔离：小金库与主账户隔离，限额¥3000，超额自动停用
+④ 交易记录：实时同步至微信账单，标记"AI执行-聚餐"
+⑤ AA收款：聚餐结束后，AI向3位朋友发起收款请求（每人¥125），收回资金返回小金库
+
+风控要点：
+- 金额¥500 &lt; 协商层阈值¥2500，但在预算范围内，AI可直接执行
+- GPS校验：消费地点与餐厅位置匹配
+- 异常监测：单日聚餐类消费未超预算50%，无异常</textarea>
     </div>
 
     <div class="section">
@@ -281,38 +290,38 @@ function updatePreview() {
     <p><strong>真正的不同不在于付钱更快，而在于谁拥有决策权，以及决策的依据是什么。</strong></p>
     
     <h2>四、画蓝图</h2>
-    <h3>双层架构设计</h3>
+    <h3>4.1 双层架构设计</h3>
     <p><strong>下层（安全执行层）</strong>：${fields.lowerLayer}</p>
     <p><strong>上层（决策交互层）</strong>：${fields.upperLayer}</p>
     <p>${fields.archDesc}</p>
     
-    <h3>4.1 核心协作场景：${sceneName}</h3>
+    <h3>4.2 用户设定的规则</h3>
+    <p><strong>资金分流规则</strong>：${fields.fundRule}</p>
+    <p><strong>执行阈值规则</strong>：</p>
+    <ul>${thresholdRules.map(r => `<li>${r}</li>`).join('')}</ul>
+    
+    <h3>4.3 核心协作场景：${sceneName}</h3>
     <p><strong>场景背景</strong>：${sceneBg}</p>
     
     <div class="step">
-      <strong>Step 1：AI全面扫描与优化</strong><br>
+      <strong>Step 1：AI全面扫描与优化（省钱）</strong><br>
       ${sceneStep1.replace(/\n/g, '<br>')}
     </div>
     
     <div class="step">
-      <strong>Step 2：AI协商确认</strong><br>
+      <strong>Step 2：AI协商确认（可控）</strong><br>
       ${sceneStep2.replace(/\n/g, '<br>')}
     </div>
     
     <div class="step">
-      <strong>Step 3：AI执行与同步</strong><br>
+      <strong>Step 3：AI执行与同步（省时）</strong><br>
       ${sceneStep3.replace(/\n/g, '<br>')}
     </div>
     
     <div class="step">
-      <strong>Step 4：事后总结</strong><br>
+      <strong>Step 4：支付流程与资金流转</strong><br>
       ${sceneStep4.replace(/\n/g, '<br>')}
     </div>
-    
-    <h3>4.3 用户设定的规则</h3>
-    <p><strong>资金分流规则</strong>：${fields.fundRule}</p>
-    <p><strong>执行阈值规则</strong>：</p>
-    <ul>${thresholdRules.map(r => `<li>${r}</li>`).join('')}</ul>
     
     <h2>五、守边界</h2>
     <h3>5.1 硬性规则</h3>
