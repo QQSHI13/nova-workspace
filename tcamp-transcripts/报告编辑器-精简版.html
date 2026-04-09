@@ -111,10 +111,8 @@ AI协商："推荐B餐厅500元（已用券80元），人均125比你预算省25
       <input type="text" id="rule2" value="大额强制手动确认：单笔超过2500元必须用户手动确认，AI无权自动执行" oninput="updatePreview()">
       <label>规则3</label>
       <input type="text" id="rule3" value="紧急制动按钮：用户可随时一键冻结AI账户，资金秒级退回，解冻需二次验证" oninput="updatePreview()">
-      <label>风控措施</label>
-      <textarea id="riskControl" oninput="updatePreview()">• 异常模式监测：非常规时间、异常地点或高频交易自动冻结
-• 地理位置校验：大额消费需匹配GPS位置
-• 周度锁定期：每周必须查看报告确认后方可解锁下周额度</textarea>
+      <label>安全说明</label>
+      <textarea id="riskControl" oninput="updatePreview()">所有AI决策和执行动作均接受下层安全系统的实时监测。下层AI比上层决策AI更保守、更稳健，专门负责识别异常模式（非常规时间、异常地点、高频交易）、校验地理位置、执行紧急制动，形成双重保险机制。</textarea>
     </div>
 
     <div class="section">
@@ -185,8 +183,7 @@ function updatePreview() {
     <div class="rule"><strong>规则2：</strong>${fields.rule2}</div>
     <div class="rule"><strong>规则3：</strong>${fields.rule3}</div>
     
-    <h3>风控措施</h3>
-    <p>${fields.riskControl.replace(/\n/g, '<br>')}</p>
+    <p><em>${fields.riskControl.replace(/\n/g, '<br>')}</em></p>
     
     <hr style="border:none;border-top:1px solid #ddd;margin:15px 0;">
     <p style="color:#666;font-size:10px;text-align:center;">字数统计中...</p>
