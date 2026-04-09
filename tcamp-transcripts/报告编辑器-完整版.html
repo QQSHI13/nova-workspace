@@ -101,42 +101,45 @@ th { background: #f5f5f5; }
     </div>
 
     <div class="section">
-      <div class="section-title">四、画蓝图 - 场景1</div>
-      <label>场景1名称</label>
-      <input type="text" id="scene1Name" value="深夜直播间危机" oninput="updatePreview()">
-      <label>场景1背景</label>
-      <textarea id="scene1Bg" oninput="updatePreview()">周五晚上11点，小李刷短视频时进入某品牌直播间，主播正在推销一款限量版机械键盘，原价¥1299，直播间专属价¥899，限量100个，还剩最后15分钟。</textarea>
-      <label>Step1: AI分析</label>
-      <textarea id="scene1Step1" oninput="updatePreview()">解析需求：机械键盘，¥899；检查用户状态：深夜23:00，用户今日屏幕使用时间已超10小时；检查小金库：本月"数码外设"预算剩余¥1200，但本月总支出已接近月度上限的90%；检查历史：用户过去3个月已有2次深夜冲动消费后悔记录；检查优惠：该键盘其他平台日常价¥950，直播间¥899确实是好价</textarea>
-      <label>Step2: AI协商对话</label>
-      <textarea id="scene1Step2" oninput="updatePreview()">"检测到你想购买机械键盘¥899。我需要提醒你几点：
-1. 现在是深夜23:00，你过去3个月有2次深夜消费后第二天后悔
-2. 本月总支出已达月度预算90%，再买这个会超支
-3. 虽然直播间价格确实优惠，但非限量款，明天官网同价
+      <div class="section-title">四、画蓝图 - 核心协作场景</div>
+      <label>场景名称</label>
+      <input type="text" id="sceneName" value="周五晚餐策划全托管" oninput="updatePreview()">
+      <label>场景背景</label>
+      <textarea id="sceneBg" oninput="updatePreview()">周五下午4点，小李在微信群里说"周末聚个餐？"3个朋友响应。小李对AI说："帮我安排今晚7点的聚餐，4个人，预算人均¥150，想吃火锅，记得用优惠。"</textarea>
+      <label>Step1: AI全面扫描与优化</label>
+      <textarea id="sceneStep1" oninput="updatePreview()">AI同时执行：
+① 打开美团/大众点评 → 搜索"火锅 4人套餐"
+② 启动订阅体检 → 发现小李的优酷会员已30天未使用（¥25/月）
+③ 获取优惠券 → 自动领取平台新客券¥30 + 店铺满减¥50
+④ 计算最优方案：
+   - A餐厅：¥680套餐，用券后¥600，人均¥150
+   - B餐厅：¥580套餐，用券后¥500，人均¥125（推荐，省¥100）</textarea>
+      <label>Step2: AI协商确认</label>
+      <textarea id="sceneStep2" oninput="updatePreview()">AI对话：
+"已为你找到2个方案：
 
-建议：设置12小时冷静期。如果明天中午12点后你还想要，我自动帮你下单，价格不变。这样你可以睡一觉再决定。"</textarea>
-      <label>Step3-5: 后续流程</label>
-      <textarea id="scene1End" oninput="updatePreview()">第二天中午12:30，AI主动询问，小李决定不购买。AI记录：用户对深夜消费建议接受度高，下次深夜消费时自动启用冷静期策略。</textarea>
-    </div>
+推荐方案：B餐厅 ¥500（原价¥580，已用券¥80）
+- 4人牛油火锅套餐，含12道菜
+- 距离你公司2公里，打车¥15
+- 人均¥125，比你预算省¥25/人
 
-    <div class="section">
-      <div class="section-title">四、画蓝图 - 场景2</div>
-      <label>场景2名称</label>
-      <input type="text" id="scene2Name" value="订阅服务大清理" oninput="updatePreview()">
-      <label>场景2背景</label>
-      <input type="text" id="scene2Bg" value="每月1号发薪日，AI自动执行"订阅体检"。" oninput="updatePreview()">
-      <label>AI扫描结果</label>
-      <textarea id="scene2Scan" oninput="updatePreview()">视频会员A：¥25/月，最近30天使用2次
-音乐会员B：¥15/月，最近30天使用28次
-网盘会员C：¥30/月，最近30天使用0次
-健身会员D：¥200/月，最近30天使用1次</textarea>
-      <label>AI优化建议</label>
-      <textarea id="scene2Suggest" oninput="updatePreview()">网盘会员C：30天未使用，建议取消，年省¥360
-健身会员D：使用率极低，建议改为次卡或取消，年省¥2400
-音乐会员B：使用率高，保留
-视频会员A：使用率中等，建议降级为非会员或寻找拼单
+同时发现：你的优酷会员30天未用，建议取消（年省¥300）。
 
-预计年节省：¥2760。确认执行优化方案吗？</textarea>
+确认执行：①订B餐厅 ②取消优酷会员？"
+
+小李："订B餐厅，优酷先不取消，告诉朋友们。"</textarea>
+      <label>Step3: AI执行与同步</label>
+      <textarea id="sceneStep3" oninput="updatePreview()">AI动作：
+① 下单：预订7点座位 + 预付套餐¥500
+② 通知朋友（微信群）：
+   "📍 今晚7点 B餐厅（地址+地图）
+    💰 人均¥125（已含优惠）
+    🚗 建议6:40出发，打车约¥15
+    ✅ 已预订4人位，无需等位"
+③ 添加到日历：周五 18:40 出发提醒</textarea>
+      <label>Step4: 事后总结（可选）</label>
+      <textarea id="sceneStep4" oninput="updatePreview()">聚餐结束，AI生成报告：
+"本次聚餐节省¥100，本月AI已帮你省¥375。检测到优酷会员仍建议取消（年省¥300），是否现在处理？"</textarea>
     </div>
 
     <div class="section">
@@ -212,11 +215,10 @@ th { background: #f5f5f5; }
 <script>
 function updatePreview() {
   const fields = {};
-  const fieldIds = ['userName', 'productName', 'productNameEn', 'positioning', 'backgroundDesc', 'background', 
+  const fieldIds = ['userName', 'productName', 'productNameEn', 'positioning', 'backgroundDesc', 'background',
     'userProfile', 'userTraits', 'pain1Question', 'pain1Content', 'pain2Question', 'pain2Content',
     'strategyDesc', 'diffTraditional', 'diffProduct', 'lowerLayer', 'upperLayer', 'archDesc',
-    'scene1Name', 'scene1Bg', 'scene1Step1', 'scene1Step2', 'scene1End', 
-    'scene2Name', 'scene2Bg', 'scene2Scan', 'scene2Suggest',
+    'sceneName', 'sceneBg', 'sceneStep1', 'sceneStep2', 'sceneStep3', 'sceneStep4',
     'fundRule', 'thresholdRule', 'uiSettings', 'uiChat', 'uiReport',
     'rule1Title', 'rule1Content', 'rule2Title', 'rule2Content', 'rule3Title', 'rule3Content',
     'riskControl', 'businessModel', 'conclusion'];
@@ -229,6 +231,14 @@ function updatePreview() {
   const traits = fields.userTraits.split('；').map(t => t.trim()).filter(t => t);
   const thresholdRules = fields.thresholdRule.split('\n').map(r => r.trim()).filter(r => r);
   const risks = fields.riskControl.split('\n').map(r => r.trim()).filter(r => r);
+  
+  // Get scene fields if they exist (new structure)
+  const sceneName = fields.sceneName || '周五晚餐策划全托管';
+  const sceneBg = fields.sceneBg || '';
+  const sceneStep1 = fields.sceneStep1 || '';
+  const sceneStep2 = fields.sceneStep2 || '';
+  const sceneStep3 = fields.sceneStep3 || '';
+  const sceneStep4 = fields.sceneStep4 || '';
   
   const html = `
     <h1 style="color:#222;border-bottom:2px solid #4CAF50;padding-bottom:10px;font-size:20px;">AI专属钱包产品方案报告</h1>
@@ -278,35 +288,27 @@ function updatePreview() {
     <p><strong>上层（决策交互层）</strong>：${fields.upperLayer}</p>
     <p>${fields.archDesc}</p>
     
-    <h3>4.1 协作场景：${fields.scene1Name}</h3>
-    <p><strong>场景背景</strong>：${fields.scene1Bg}</p>
+    <h3>4.1 核心协作场景：${sceneName}</h3>
+    <p><strong>场景背景</strong>：${sceneBg}</p>
     
     <div class="step">
-      <strong>Step 1：AI接收意图并分析</strong><br>
-      ${fields.scene1Step1.replace(/\n/g, '<br>')}
+      <strong>Step 1：AI全面扫描与优化</strong><br>
+      ${sceneStep1.replace(/\n/g, '<br>')}
     </div>
     
     <div class="step">
-      <strong>Step 2：AI启动协商（而非直接执行）</strong><br>
-      ${fields.scene1Step2.replace(/\n/g, '<br>')}
+      <strong>Step 2：AI协商确认</strong><br>
+      ${sceneStep2.replace(/\n/g, '<br>')}
     </div>
     
     <div class="step">
-      <strong>Step 3-5：后续流程</strong><br>
-      ${fields.scene1End}
-    </div>
-    
-    <h3>4.2 另一个场景：${fields.scene2Name}</h3>
-    <p><strong>场景背景</strong>：${fields.scene2Bg}</p>
-    
-    <div class="step">
-      <strong>Step 1：AI扫描所有订阅</strong><br>
-      ${fields.scene2Scan.replace(/\n/g, '<br>')}
+      <strong>Step 3：AI执行与同步</strong><br>
+      ${sceneStep3.replace(/\n/g, '<br>')}
     </div>
     
     <div class="step">
-      <strong>Step 2：AI生成优化建议</strong><br>
-      ${fields.scene2Suggest.replace(/\n/g, '<br>')}
+      <strong>Step 4：事后总结</strong><br>
+      ${sceneStep4.replace(/\n/g, '<br>')}
     </div>
     
     <h3>4.3 用户设定的规则</h3>
