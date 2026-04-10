@@ -65,7 +65,7 @@ input:focus, textarea:focus { border-color: #4CAF50; outline: none; }
       <div class="section-title">三、AI解决方案和核心功能</div>
       <label>解决方案概述</label>
       <textarea id="solution" oninput="updatePreview()">双层架构设计：
-• 后端（安全保障，命令执行）：负责资金托管、支付执行、异常监测，给前端提供信息和记录，是智付伙伴的核心。每月初由用户设定AI小金库额度，当月用完即停，其他人无权修改
+• 后端（安全保障，命令执行）：负责资金托管、支付执行、异常监测，给前端提供信息和记录，是智付伙伴的核心
 • 前端（智能决策，自动比价）：负责需求预判、优惠搜索、主动推荐，使用后端提供的数据和用户的请求，是智付伙伴的差异</textarea>
       <label>核心协作场景</label>
       <textarea id="scenario" oninput="updatePreview()">周五下午4点，小李刚结束一个长会，身心俱疲。手机震动，智付伙伴发来消息：
@@ -91,7 +91,7 @@ C. D焖锅：人均140，用券省40，评分4.7，距公司3km
     <div class="section">
       <div class="section-title">四、遵循的安全规则</div>
       <label>规则1</label>
-      <input type="text" id="rule1" value="AI只能操作小金库内现有资金，不可透支或借贷——即使AI被攻破，损失也有限可控" oninput="updatePreview()">
+      <input type="text" id="rule1" value="AI只能操作小金库内现有资金，不可透支或借贷。每月初由用户设定AI小金库额度，当月用完即停，其他人无权修改" oninput="updatePreview()">
       <label>规则2</label>
       <input type="text" id="rule2" value="大额强制手动确认：单笔超过2500元必须用户手动确认，AI无权自动执行" oninput="updatePreview()">
       <label>规则3</label>
