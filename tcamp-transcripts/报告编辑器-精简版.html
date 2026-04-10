@@ -48,7 +48,7 @@ input:focus, textarea:focus { border-color: #4CAF50; outline: none; }
     <div class="section">
       <div class="section-title">一、产品名字与介绍</div>
       <label>产品一句话介绍</label>
-      <textarea id="productIntro" oninput="updatePreview()">智付伙伴（PayMate AI）是一个消费执行助理。用户只需一句话描述需求，AI自动完成比价、找优惠、预订、支付全流程，仅在关键节点请求用户确认。商业模式：按实际支付金额收取0.5%平台服务费（如支付500元收取2.5元），用户只为"成功执行的服务"付费。</textarea>
+      <textarea id="productIntro" oninput="updatePreview()">智付伙伴（PayMate AI）是一个消费执行助理。与语音助手不同，它完成全流程而非仅回答；与外卖App不同，它主动发现需求而非等待指令。用户只需一句话，AI自动完成比价、找优惠、预订、支付全流程。商业模式：按实际支付金额收取0.5%平台服务费（如支付500元收取2.5元），用户只为"成功执行的服务"付费。</textarea>
       <label>核心定位</label>
       <input type="text" id="positioning" value="主动式消费执行助理" oninput="updatePreview()">
     </div>
@@ -58,7 +58,7 @@ input:focus, textarea:focus { border-color: #4CAF50; outline: none; }
       <label>目标用户画像</label>
       <input type="text" id="userProfile" value="初入职场、追求效率与生活品质的年轻白领（22-28岁）" oninput="updatePreview()">
       <label>痛点（时间与习惯）</label>
-      <textarea id="pain1" oninput="updatePreview()">时间黑洞与消费失控：每天都要花心思处理琐碎消费决策（午饭、咖啡、日用品），既浪费时间又容易冲动超支。收入足以覆盖消费，但缺乏科学的预算节奏和消费习惯，月底常发现钱花在了非必要处。</textarea>
+      <textarea id="pain1" oninput="updatePreview()">时间黑洞与消费失控：每天都要花心思处理琐碎消费决策（午饭、咖啡、日用品），既浪费时间又容易冲动超支。收入足以覆盖消费，但缺乏科学的预算节奏和消费习惯，每月底回看账单时，常惊讶于"这些钱都花哪了"的失控感。</textarea>
     </div>
 
     <div class="section">
@@ -83,7 +83,7 @@ C. D焖锅：人均140，用券省40，评分4.7，距公司3km
 
 晚上11点聚餐结束，智付伙伴发来消息："本周帮你搞定10个消费决策，省了205块和2小时。聚餐预算还剩170，挺宽裕的。下月1号给你做个财务体检，查查账单、清理没用的订阅、追追AA回款，顺便给下月预算提点建议。需要啥随时喊我。"</textarea>
       <label>产品界面草图描述</label>
-      <textarea id="uiSketch" oninput="updatePreview()">• 主界面：时间线形式展示今日已完成的主动服务（午餐已订/咖啡已补货/报销款已分流）
+      <textarea id="uiSketch" oninput="updatePreview()">• 主界面：时间线展示今日已完成服务（午餐已订/咖啡已补货），直观看到AI在干活
 • 对话中心：AI以对话形式发送建议和执行结果，用户可在同一界面快速反馈（确认、修改、延期），所有交互记录形成完整上下文
 • 财务日志：按日/周/月自动汇总的消费与执行记录，可导出或同步至记账软件</textarea>
     </div>
@@ -91,7 +91,7 @@ C. D焖锅：人均140，用券省40，评分4.7，距公司3km
     <div class="section">
       <div class="section-title">四、遵循的安全规则</div>
       <label>规则1</label>
-      <input type="text" id="rule1" value="AI只能操作小金库内现有资金，不可透支或借贷" oninput="updatePreview()">
+      <input type="text" id="rule1" value="AI只能操作小金库内现有资金，不可透支或借贷——即使AI被攻破，损失也有限可控" oninput="updatePreview()">
       <label>规则2</label>
       <input type="text" id="rule2" value="大额强制手动确认：单笔超过2500元必须用户手动确认，AI无权自动执行" oninput="updatePreview()">
       <label>规则3</label>
