@@ -57,8 +57,10 @@ input:focus, textarea:focus { border-color: #4CAF50; outline: none; }
       <div class="section-title">二、选择的人群与核心痛点</div>
       <label>目标用户画像</label>
       <input type="text" id="userProfile" value="初入职场、追求效率与生活品质的年轻白领（22-28岁）" oninput="updatePreview()">
-      <label>痛点（时间与习惯）</label>
-      <textarea id="pain1" oninput="updatePreview()">时间黑洞与消费失控：每天都要花心思处理琐碎消费决策（午饭、咖啡、日用品），既浪费时间又容易冲动超支。收入足以覆盖消费，但缺乏科学的预算节奏和消费习惯，每月底回看账单时，常惊讶于"这些钱都花哪了"的失控感。</textarea>
+      <label>痛点1（时间成本）</label>
+      <textarea id="pain1" oninput="updatePreview()">时间黑洞：每天都要花心思处理琐碎消费决策——午饭吃什么、咖啡点哪家、日用品何时补货。这些低价值决策占据大量认知资源，分散工作注意力。</textarea>
+      <label>痛点2（消费习惯）</label>
+      <textarea id="pain2" oninput="updatePreview()">消费失控：收入足以覆盖消费，但缺乏科学的预算节奏和消费习惯，容易冲动超支。每月底回看账单时，常惊讶于"这些钱都花哪了"的失控感。</textarea>
     </div>
 
     <div class="section">
@@ -118,7 +120,7 @@ C. D焖锅：人均140，用券省40，评分4.7，距公司3km
 function updatePreview() {
   const fields = {};
   const fieldIds = ['userName', 'productName', 'productNameEn', 'positioning', 'productIntro',
-    'userProfile', 'pain1', 'solution', 'scenario', 'uiSketch',
+    'userProfile', 'pain1', 'pain2', 'solution', 'scenario', 'uiSketch',
     'rule1', 'rule2', 'rule3', 'riskControl'];
   
   fieldIds.forEach(id => {
@@ -138,7 +140,12 @@ function updatePreview() {
     
     <h3>核心痛点</h3>
     <div class="step">
+      <strong>痛点1：时间成本</strong><br>
       ${fields.pain1.replace(/\n/g, '<br>')}
+    </div>
+    <div class="step">
+      <strong>痛点2：消费习惯</strong><br>
+      ${fields.pain2.replace(/\n/g, '<br>')}
     </div>
     
     <h2>三、解决方案和核心功能</h2>
