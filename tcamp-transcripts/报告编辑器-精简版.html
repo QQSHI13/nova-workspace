@@ -57,18 +57,16 @@ input:focus, textarea:focus { border-color: #4CAF50; outline: none; }
       <div class="section-title">二、选择的人群与核心痛点</div>
       <label>目标用户画像</label>
       <input type="text" id="userProfile" value="初入职场、追求效率与生活品质的年轻白领（22-28岁）" oninput="updatePreview()">
-      <label>痛点（希望产品解决什么）</label>
-      <textarea id="pain1" oninput="updatePreview()">时间黑洞：每天都要花心思处理必要但琐碎的消费决策——午饭吃什么、咖啡点哪家、日用品何时补货。这些任务占据大量认知资源，分散工作注意力。</textarea>
-      <label>痛点（时间成本困境）</label>
-      <textarea id="pain2" oninput="updatePreview()">有钱但缺时间：收入足以覆盖日常消费，但必须亲自花时间处理这些低价值决策——比价、凑单、确认订单。这些任务挤占了本该用于工作或休息的注意力，却无法通过"花钱"来外包。</textarea>
+      <label>痛点（时间与习惯）</label>
+      <textarea id="pain1" oninput="updatePreview()">时间黑洞与消费失控：每天都要花心思处理琐碎消费决策（午饭、咖啡、日用品），既浪费时间又容易冲动超支。收入足以覆盖消费，但缺乏科学的预算节奏和消费习惯，月底常发现钱花在了非必要处。</textarea>
     </div>
 
     <div class="section">
       <div class="section-title">三、AI解决方案和核心功能</div>
       <label>解决方案概述</label>
       <textarea id="solution" oninput="updatePreview()">双层架构设计：
-• 下层（安全执行层）：资金托管、定时任务执行、异常监测、操作日志记录
-• 上层（主动决策层）：习惯学习、需求预判、主动推荐、财务日志生成与同步</textarea>
+• 后端（安全执行层）：资金托管、定时任务执行、异常监测、操作日志记录、月度预算控制
+• 前端（交互决策层）：习惯学习、需求预判、主动推荐、财务日志生成与同步</textarea>
       <label>核心协作场景</label>
       <textarea id="scenario" oninput="updatePreview()">周五下午4点，小李刚结束一个长会，手机震动。智付伙伴发来消息：
 
@@ -120,7 +118,7 @@ C. D焖锅：人均140，用券省40，评分4.7，距公司3km
 function updatePreview() {
   const fields = {};
   const fieldIds = ['userName', 'productName', 'productNameEn', 'positioning', 'productIntro',
-    'userProfile', 'pain1', 'pain2', 'solution', 'scenario', 'uiSketch',
+    'userProfile', 'pain1', 'solution', 'scenario', 'uiSketch',
     'rule1', 'rule2', 'rule3', 'riskControl'];
   
   fieldIds.forEach(id => {
@@ -140,12 +138,7 @@ function updatePreview() {
     
     <h3>核心痛点</h3>
     <div class="step">
-      <strong>痛点1：希望AI解决什么</strong><br>
       ${fields.pain1.replace(/\n/g, '<br>')}
-    </div>
-    <div class="step">
-      <strong>痛点2：时间成本困境</strong><br>
-      ${fields.pain2.replace(/\n/g, '<br>')}
     </div>
     
     <h2>三、解决方案和核心功能</h2>

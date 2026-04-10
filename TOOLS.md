@@ -4,6 +4,21 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 
 ## Browser (Chrome on Windows + WSL2)
 
+**⚠️ ⚠️ ⚠️ CRITICAL: NEVER FOCUS OR SWITCH TABS ⚠️ ⚠️ ⚠️**
+
+**DO NOT use `action: "focus"` or switch tabs when user already has pages open!**
+- This interrupts the user's workflow
+- Can cause browser crashes or unexpected behavior
+- ALWAYS check existing tabs first with `browser tabs`
+- If a page is already open on the topic, read from there instead of opening new tabs
+
+**Preferred order for web content:**
+1. `web_fetch` (fastest, no browser impact)
+2. `web_search` (DuckDuckGo)
+3. Browser ONLY as last resort — and never focus/switch tabs
+
+---
+
 **Setup:**
 1. Chrome runs on Windows with main profile
 2. OpenClaw connects via Chrome MCP existing-session driver
