@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI专属钱包报告编辑器 - 精简版</title>
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f7fa; }
@@ -57,11 +56,11 @@ input:focus, textarea:focus { border-color: #4CAF50; outline: none; }
     <div class="section">
       <div class="section-title">二、选择的人群与核心痛点</div>
       <label>目标用户画像</label>
-      <input type="text" id="userProfile" value="初入职场、追求效率与生活品质的年轻白领（22-28岁）" oninput="updatePreview()">
+      <input type="text" id="userProfile" value="追求效率与生活品质的年轻白领（20-30岁）" oninput="updatePreview()">
       <label>痛点1（时间成本）</label>
       <textarea id="pain1" oninput="updatePreview()">时间黑洞：每天都要花心思处理琐碎消费决策——午饭吃什么、咖啡点哪家、日用品何时补货。经常因为繁忙而忘记各种待办琐事，事后才懊恼。这些低价值决策占据大量认知资源，分散工作注意力。</textarea>
       <label>痛点2（消费习惯）</label>
-      <textarea id="pain2" oninput="updatePreview()">消费失控：收入足以覆盖消费，但缺乏科学的预算节奏和消费习惯，容易冲动超支。每月底回看账单时，常惊讶于"这些钱都花哪了"的失控感。</textarea>
+      <textarea id="pain2" oninput="updatePreview()">消费失控：缺乏科学的预算节奏和消费习惯，容易冲动超支。每月底回看账单时，常惊讶于"这些钱都花哪了"的失控感。</textarea>
     </div>
 
     <div class="section">
@@ -118,8 +117,6 @@ C. D焖锅：人均140，用券省40，评分4.7，距公司3km
 <div class="word-count" id="wordCount">字数：0</div>
 
 <script>
-mermaid.initialize({ startOnLoad: true, theme: 'default' });
-
 function updatePreview() {
   const fields = {};
   const fieldIds = ['userName', 'productName', 'productNameEn', 'positioning', 'productIntro',
@@ -152,49 +149,6 @@ function updatePreview() {
     </div>
     
     <h2>三、解决方案和核心功能</h2>
-    <h3>系统架构图</h3>
-    <div class="mermaid">
-graph TB
-    subgraph 前端[前端 - 智能决策层]
-        A[需求预判] --> B[优惠搜索]
-        B --> C[主动推荐]
-        C --> D[用户确认]
-    end
-    
-    subgraph 后端[后端 - 安全保障层]
-        E[资金托管] --> F[支付执行]
-        F --> G[异常监测]
-        G --> H[安全审计]
-    end
-    
-    D -->|确认指令| F
-    E -->|资金信息| A
-    G -->|风险提示| C
-    
-    style 前端 fill:#e3f2fd,stroke:#1976d2
-    style 后端 fill:#ffebee,stroke:#c62828
-    </div>
-    
-    <h3>用户协作流程</h3>
-    <div class="mermaid">
-sequenceDiagram
-    participant 用户 as 小李
-    participant AI as 智付伙伴
-    participant 后端 as 后端系统
-    participant 商家 as 美团/商家
-    
-    用户->>AI: 群聊触发需求
-    AI->>后端: 请求预算检查
-    后端-->>AI: 余额充足
-    AI->>商家: 获取3个选项
-    商家-->>AI: 返回比价结果
-    AI->>用户: 推荐最优选项
-    用户->>AI: 一键确认
-    AI->>后端: 验证并执行支付
-    后端->>商家: 完成预订支付
-    AI->>用户: 同步记账+反馈
-    </div>
-    
     <h3>解决方案</h3>
     <p>${fields.solution.replace(/\n/g, '<br>')}</p>
     
