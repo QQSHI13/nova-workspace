@@ -18,9 +18,10 @@ cd ~/.openclaw/workspace/skills/wincontrol
 ./start.sh
 ```
 
-Or start manually:
+Or start manually with PowerShell 7:
 ```bash
-/mnt/c/Windows/System32/cmd.exe /c "python //wsl.localhost/Ubuntu/home/$USER/.openclaw/workspace/skills/wincontrol/server.py" &
+'/mnt/c/Program Files/PowerShell/7/pwsh.exe' -Command \
+  "python //wsl.localhost/Ubuntu/home/\$USER/.openclaw/workspace/skills/wincontrol/server.py" &
 
 # Verify
 curl http://localhost:8767/ping
@@ -175,7 +176,7 @@ Common distro paths:
 **Issue**: Python module errors
 - Manually install deps on Windows:
 ```bash
-/mnt/c/Windows/System32/cmd.exe /c "pip install pywin32 pillow mss"
+'/mnt/c/Program Files/PowerShell/7/pwsh.exe' -Command "pip install pywin32 pillow mss"
 ```
 
 **Issue**: Wrong distro name
@@ -225,8 +226,9 @@ QUALITY = 90      # 1-100
 
 Or manually:
 ```bash
-# Kill Python process on Windows
-/mnt/c/Windows/System32/cmd.exe /c "taskkill /F /FI \"IMAGENAME eq python.exe\" /FI \"WINDOWTITLE eq *wincontrol*\" 2>nul || taskkill /F /IM python.exe 2>nul"
+# Kill Python process on Windows using PowerShell 7
+'/mnt/c/Program Files/PowerShell/7/pwsh.exe' -Command \
+  "Get-Process python -ErrorAction SilentlyContinue | Where-Object {\$_.CommandLine -like '*wincontrol*'} | Stop-Process -Force"
 
 # Clean up frames
 rm -rf /tmp/wincontrol/*.jpg

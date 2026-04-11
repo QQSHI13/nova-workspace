@@ -1,5 +1,5 @@
 #!/bin/bash
-# Start WinControl Server from WSL (runs on Windows via CMD)
+# Start WinControl Server from WSL (runs on Windows via PowerShell 7)
 # Usage: ./start.sh
 
 cd "$(dirname "$0")"
@@ -24,9 +24,9 @@ if [ "$WSL_DISTRO" = "ubuntu" ]; then
     WSL_DISTRO="Ubuntu"
 fi
 
-# Start server using cmd.exe with forward-slash WSL path
-# Format: //wsl.localhost/<Distro>/path/to/file
-/mnt/c/Windows/System32/cmd.exe /c "python //wsl.localhost/$WSL_DISTRO/home/$USER/.openclaw/workspace/skills/wincontrol/server.py" &
+# Start server using PowerShell 7 with forward-slash WSL path
+PWSH='/mnt/c/Program Files/PowerShell/7/pwsh.exe'
+$PWSH -Command "python //wsl.localhost/$WSL_DISTRO/home/$USER/.openclaw/workspace/skills/wincontrol/server.py" &
 
 # Wait for startup
 echo "Waiting for server to start..."

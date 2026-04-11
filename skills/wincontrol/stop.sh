@@ -3,8 +3,9 @@
 
 echo "Stopping WinControl..."
 
-# Kill Python process on Windows (kills all python processes as fallback)
-/mnt/c/Windows/System32/cmd.exe /c "taskkill /F /FI \"IMAGENAME eq python.exe\" /FI \"WINDOWTITLE eq *wincontrol*\" 2>nul || taskkill /F /IM python.exe 2>nul" 2>/dev/null
+# Kill Python process on Windows using PowerShell 7
+PWSH='/mnt/c/Program Files/PowerShell/7/pwsh.exe'
+$PWSH -Command "Get-Process python -ErrorAction SilentlyContinue | Where-Object {\$_.CommandLine -like '*wincontrol*'} | Stop-Process -Force" 2>/dev/null
 
 # Clean up frames
 rm -rf /tmp/wincontrol/*.jpg 2>/dev/null
