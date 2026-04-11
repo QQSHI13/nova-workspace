@@ -102,7 +102,21 @@ browser({
 openclaw browser screenshot
 ```
 
-### SSH with Password (Backup Method)
+### WeChat Notifications
+
+**Target:** `o9cq805VLSkx1vwXg2ix5i-_1mZA@im.wechat`
+
+**Usage:**
+```javascript
+message({
+  action: "send",
+  channel: "openclaw-weixin",
+  target: "o9cq805VLSkx1vwXg2ix5i-_1mZA@im.wechat",
+  message: "Your message here"
+})
+```
+
+**Policy:** Relay ALL notifications (GitHub, cron reminders, alerts) via WeChat summary.
 
 **⚠️ WARNING:** Use SSH keys instead (`ssh-keygen` + `ssh-copy-id`). This is only for emergency/backup.
 

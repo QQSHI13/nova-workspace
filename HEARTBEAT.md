@@ -10,3 +10,4 @@
 2. **Review and update MEMORY.md** — Distill recent daily files into curated memory
 3. **Check GitHub notifications** — Use `gh api notifications` and process
 4. **Git commit and push workspace** — Stage, commit, and push all changes in `~/.openclaw/workspace`
+5. **Relay notifications to WeChat** — Summarize and send actionable GitHub notifications, cron reminders, and alerts
