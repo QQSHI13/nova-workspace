@@ -18,7 +18,7 @@ from PIL import Image
 # Config
 QUALITY = 90      # High quality for clear UI text
 ACTION_PORT = 8767
-FRAME_DIR = r'\\wsl$\Ubuntu\tmp\wincontrol'  # WSL path from Windows
+FRAME_DIR = r'\\wsl.localhost\Ubuntu\tmp\wincontrol'  # WSL path from Windows
 
 # Ensure frame directory exists
 os.makedirs(FRAME_DIR, exist_ok=True)

@@ -10,19 +10,43 @@ AI remote control for Windows desktop. Captures screen on-demand via POST reques
 
 ## Quick Start
 
+### Option 1: Manual Start (Recommended)
+
+This method works reliably with WSL2:
+
 ```bash
-# From WSL
+# 1. Copy server to Windows Desktop (avoids path issues)
+cp ~/.openclaw/workspace/skills/wincontrol/server.py /mnt/c/Users/$USER/Desktop/wincontrol_server.py
+
+# 2. Start the server (installs deps automatically)
+/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "pip install pywin32 pillow mss -q 2>&1 | Out-Null; python C:\Users\$env:USERNAME\Desktop\wincontrol_server.py"
+
+# 3. Verify it's running (in another terminal)
+curl http://localhost:8767/ping
+```
+
+### Option 2: Using start.sh
+
+```bash
 cd ~/.openclaw/workspace/skills/wincontrol
 ./start.sh
 ```
 
-Verify it's working:
-```bash
-curl http://localhost:8767/ping
+**Note:** `start.sh` may not work on all WSL2 setups due to PowerShell path detection issues.
 
-# Capture a screenshot (returns file path + screen info)
+## Verify Installation
+
+```bash
+# Health check
+curl http://localhost:8767/ping
+# Output: {"ok": true}
+
+# Capture a screenshot
 curl -X POST http://localhost:8767/capture
 # Output: {"ok": true, "path": "/tmp/wincontrol/frame_000001.jpg", "frame": 1, "screen": {"width": 1280, "height": 720}}
+
+# View the screenshot
+read /tmp/wincontrol/frame_000001.jpg
 ```
 
 ## File Structure
@@ -31,89 +55,46 @@ curl -X POST http://localhost:8767/capture
 skills/wincontrol/
 ├── SKILL.md          # This file
 ├── server.py         # Main server (runs on Windows)
-├── start.sh          # Start script (WSL)
+├── start.sh          # Start script (WSL - may need tweaking)
 └── stop.sh           # Stop script (WSL)
 ```
 
-## Usage
+## API Reference
 
-### Starting the Server
-
+### Capture Screen
 ```bash
-./start.sh
-```
-
-Output:
-```
-✅ WinControl started successfully!
-
-Actions API:    http://localhost:8767
-Frames:         /tmp/wincontrol/
-```
-
-### Capturing Screenshots
-
-```bash
-# Capture and get file path + screen dimensions
 curl -X POST http://localhost:8767/capture
-# Returns: {"ok": true, "path": "/tmp/wincontrol/frame_000001.jpg", "frame": 1, "screen": {"width": 1280, "height": 720}}
+```
+Returns: `{"ok": true, "path": "/tmp/wincontrol/frame_000001.jpg", "frame": 1, "screen": {"width": 1280, "height": 720}}`
 
-# View the captured frame
-read /tmp/wincontrol/frame_000001.jpg
+### Mouse Actions
+```bash
+# Click
+curl -X POST http://localhost:8767/click -d '{"x": 500, "y": 300}'
 
-# Or capture and view in one go
-FILE=$(curl -s -X POST http://localhost:8767/capture | python3 -c "import sys,json; print(json.load(sys.stdin)['path'])")
-read "$FILE"
+# Drag
+curl -X POST http://localhost:8767/drag -d '{"x1": 100, "y1": 200, "x2": 300, "y2": 400}'
+
+# Scroll
+curl -X POST http://localhost:8767/scroll -d '{"x": 500, "y": 300, "direction": "down", "amount": 3}'
 ```
 
-### API Endpoints
-
-#### Endpoints
-
-| Method | Path | Body | Description |
-|--------|------|------|-------------|
-| `POST` | `/capture` | (none) | Capture screen, returns `{ok, path, frame, screen}` |
-| `POST /click` | `{"x": 100, "y": 200, "button": "left"}` | Click at coordinates |
-| `POST /drag` | `{"x1": 100, "y1": 200, "x2": 300, "y2": 400}` | Drag from A to B |
-| `POST /scroll` | `{"x": 100, "y": 200, "direction": "down", "amount": 3}` | Scroll wheel |
-| `POST /type` | `{"text": "Hello World"}` | Type text |
-| `POST /key` | `{"key": "Enter"}` | Press special key |
-| `POST /combo` | `{"keys": ["Ctrl", "C"]}` | Key combination |
-
-### Example Commands
-
+### Keyboard Actions
 ```bash
-# Capture screenshot (includes screen dimensions)
-curl -X POST http://localhost:8767/capture
-
-# Click at position (500, 300)
-curl -X POST http://localhost:8767/click \
-  -H "Content-Type: application/json" \
-  -d '{"x": 500, "y": 300}'
-
 # Type text
-curl -X POST http://localhost:8767/type \
-  -d '{"text": "Hello from AI"}'
+curl -X POST http://localhost:8767/type -d '{"text": "Hello World"}'
 
-# Press Enter
-curl -X POST http://localhost:8767/key \
-  -d '{"key": "Enter"}'
+# Press special key
+curl -X POST http://localhost:8767/key -d '{"key": "Enter"}'
 
-# Copy (Ctrl+C)
-curl -X POST http://localhost:8767/combo \
-  -d '{"keys": ["Ctrl", "C"]}'
+# Key combination
+curl -X POST http://localhost:8767/combo -d '{"keys": ["Ctrl", "C"]}'
+```
 
-# Paste (Ctrl+V)
-curl -X POST http://localhost:8767/combo \
-  -d '{"keys": ["Ctrl", "V"]}'
-
-# Alt+Tab (switch window)
-curl -X POST http://localhost:8767/combo \
-  -d '{"keys": ["Alt", "Tab"]}'
-
-# Win+D (show desktop)
-curl -X POST http://localhost:8767/combo \
-  -d '{"keys": ["Win", "D"]}'
+### Other Endpoints
+```bash
+# List all endpoints
+curl http://localhost:8767/ping
 ```
 
 ## Special Keys Reference
@@ -133,29 +114,87 @@ Modifiers for `/combo` endpoint:
 - `Shift`
 - `Win`, `Windows`
 
-## WSL Guide
+## Common Workflows
+
+### Capture and View
+```bash
+FILE=$(curl -s -X POST http://localhost:8767/capture | python3 -c "import sys,json; print(json.load(sys.stdin)['path'])")
+read "$FILE"
+```
+
+### Click and Verify
+```bash
+# Click somewhere
+curl -X POST http://localhost:8767/click -d '{"x": 500, "y": 300}'
+sleep 0.5
+
+# Capture to see result
+curl -X POST http://localhost:8767/capture
+```
+
+### Open Notepad and Type
+```bash
+# Win+R to open Run
+curl -X POST http://localhost:8767/combo -d '{"keys": ["Win", "R"]}'
+sleep 0.5
+
+# Type notepad
+curl -X POST http://localhost:8767/type -d '{"text": "notepad"}'
+curl -X POST http://localhost:8767/key -d '{"key": "Enter"}'
+sleep 1
+
+# Type message
+curl -X POST http://localhost:8767/type -d '{"text": "Hello from WinControl!"}'
+```
+
+## WSL2 Configuration
 
 ### Prerequisites
-
 1. **WSL2 with Ubuntu** (or your preferred distro)
 2. **Python 3** on Windows side
-3. **PowerShell** access from WSL
+3. **Dependencies**: pywin32, pillow, mss (auto-installed)
 
-### Installation
+### Path Configuration
 
-1. The server uses Windows Python packages:
-   - `pywin32` - Windows API access
-   - `pillow` - Image processing
-   - `mss` - Screen capture
+For WSL2, update `server.py` if your distro name differs:
 
-2. These are auto-installed on first run via `start.sh`
+```python
+# Default for Ubuntu:
+FRAME_DIR = r'\\wsl.localhost\Ubuntu\tmp\wincontrol'
 
-### How It Works
+# For other distros, check with:
+# wsl -l -v  (in Windows PowerShell)
+```
+
+Common distro paths:
+- Ubuntu: `\\wsl.localhost\Ubuntu\tmp\wincontrol`
+- Debian: `\\wsl.localhost\Debian\tmp\wincontrol`
+
+### Troubleshooting
+
+**Issue**: `powershell.exe not found`
+- Use full path: `/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe`
+
+**Issue**: Server starts but curl fails
+- Check if port 8767 is in use: `lsof -i :8767`
+- Kill existing process: `kill <PID>`
+
+**Issue**: Frames not appearing in `/tmp/wincontrol/`
+- Ensure directory exists: `mkdir -p /tmp/wincontrol`
+- Check WSL distro name in `server.py` matches your setup
+
+**Issue**: Python module errors
+- Manually install deps:
+```bash
+/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "pip install pywin32 pillow mss"
+```
+
+## How It Works
 
 ```
 ┌─────────────┐     ┌──────────────┐     ┌─────────────┐
 │   WSL       │────▶│   Windows    │────▶│  /tmp/      │
-│  start.sh   │     │  server.py   │     │  wincontrol/│
+│   (curl)    │     │  server.py   │     │  wincontrol/│
 └─────────────┘     └──────────────┘     └─────────────┘
       │                    │                    │
       │              ┌─────┴─────┐              │
@@ -167,33 +206,34 @@ Modifiers for `/combo` endpoint:
                    (WSL accesses /tmp directly)
 ```
 
-The server runs on Windows but writes frames to `\\wsl$\Ubuntu\tmp\wincontrol` (Windows path) which maps to `/tmp/wincontrol/` in WSL.
+The server runs on Windows Python but writes frames to `\wsl.localhost\\<Distro>\tmp\wincontrol` which maps to `/tmp/wincontrol/` in WSL.
 
-### Troubleshooting
+## Frame Management
 
-**Issue**: `powershell.exe not found`
-- Ensure WSL interop is enabled in `/etc/wsl.conf`:
-```ini
-[interop]
-enabled = true
-appendWindowsPath = true
-```
+- **Capture**: On-demand via `POST /capture`
+- **Quality**: 90% JPEG for clear text/UI
+- **Format**: `frame_000001.jpg`, `frame_000002.jpg`, etc.
+- **Location**: `/tmp/wincontrol/`
+- **No auto-cleanup**: Frames persist until manually deleted
 
-**Issue**: Frames not appearing in `/tmp/wincontrol/`
-- Check WSL distro name: `wsl -l -v` in Windows PowerShell
-- The server uses `Ubuntu` by default. If yours is different, edit `server.py`:
+To change quality, edit `server.py`:
 ```python
-FRAME_DIR = r'\\wsl$\YourDistroName\tmp\wincontrol'
+QUALITY = 90      # 1-100
 ```
 
-**Issue**: Permission denied when accessing frames
-- Ensure the directory exists before starting: `mkdir -p /tmp/wincontrol`
+## Stopping the Server
 
-**Issue**: Port 8767 already in use
 ```bash
-# Find and kill the process
-lsof -i :8767
-kill <PID>
+./stop.sh
+```
+
+Or manually:
+```bash
+# Kill Python process on Windows
+/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "Get-Process python | Where-Object {$_.CommandLine -like '*wincontrol*'} | Stop-Process -Force"
+
+# Clean up frames
+rm -rf /tmp/wincontrol/*.jpg
 ```
 
 ## Python Client Example
@@ -221,51 +261,15 @@ def press(key):
 def combo(keys):
     requests.post(f"{API}/combo", json={"keys": keys})
 
-# Example: Click, capture, and see result
-click(500, 300)
-time.sleep(0.5)
-frame_path = capture()
-print(f"Screenshot saved to: {frame_path}")
-
 # Example workflow
-def open_notepad():
-    combo(["Win", "R"])  # Open Run dialog
-    time.sleep(0.5)
-    type_text("notepad")
-    press("Enter")
-    time.sleep(1)
-    type_text("Hello from WinControl!")
-
 if __name__ == "__main__":
-    open_notepad()
-```
-
-## Frame Management
-
-- **Capture**: On-demand via `POST /capture`
-- **Quality**: 90% JPEG for clear text/UI
-- **Format**: `frame_000001.jpg`, `frame_000002.jpg`, etc.
-- **Location**: `/tmp/wincontrol/`
-- **No auto-cleanup**: Frames persist until manually deleted
-
-To change quality, edit `server.py`:
-```python
-QUALITY = 90      # 1-100
-```
-
-## Stopping the Server
-
-```bash
-./stop.sh
-```
-
-Or manually:
-```bash
-# Kill Python process on Windows
-powershell.exe -Command "Get-Process python | Where-Object {$_.CommandLine -like '*server.py*'} | Stop-Process -Force"
-
-# Clean up frames
-rm -rf /tmp/wincontrol/*.jpg
+    # Click at position
+    click(500, 300)
+    time.sleep(0.5)
+    
+    # Capture result
+    frame_path = capture()
+    print(f"Screenshot saved to: {frame_path}")
 ```
 
 ## Security Notes
@@ -279,14 +283,14 @@ rm -rf /tmp/wincontrol/*.jpg
 
 ```javascript
 // Capture and view
-const result = exec("curl -s -X POST http://localhost:8767/capture");
+const result = await exec("curl -s -X POST http://localhost:8767/capture");
 const data = JSON.parse(result.stdout);
-read(data.path);
+await read(data.path);
 
 // Or take action then capture
-exec("curl -X POST http://localhost:8767/click -d '{\"x\":500,\"y\":300}'");
-exec("sleep 0.5");
-const frame = exec("curl -s -X POST http://localhost:8767/capture");
+await exec("curl -X POST http://localhost:8767/click -d '{\"x\":500,\"y\":300}'");
+await exec("sleep 0.5");
+const frame = await exec("curl -s -X POST http://localhost:8767/capture");
 ```
 
 ## License
