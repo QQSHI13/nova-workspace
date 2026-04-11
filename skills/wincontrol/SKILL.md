@@ -10,29 +10,21 @@ AI remote control for Windows desktop. Captures screen on-demand via POST reques
 
 ## Quick Start
 
-### Option 1: Manual Start (Recommended)
-
-This method works reliably with WSL2:
+The server runs on Windows Python but can access WSL files directly using forward-slash paths:
 
 ```bash
-# 1. Copy server to Windows Desktop (avoids path issues)
-cp ~/.openclaw/workspace/skills/wincontrol/server.py /mnt/c/Users/$USER/Desktop/wincontrol_server.py
-
-# 2. Start the server (installs deps automatically)
-/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "pip install pywin32 pillow mss -q 2>&1 | Out-Null; python C:\Users\$env:USERNAME\Desktop\wincontrol_server.py"
-
-# 3. Verify it's running (in another terminal)
-curl http://localhost:8767/ping
-```
-
-### Option 2: Using start.sh
-
-```bash
+# From WSL
 cd ~/.openclaw/workspace/skills/wincontrol
 ./start.sh
 ```
 
-**Note:** `start.sh` may not work on all WSL2 setups due to PowerShell path detection issues.
+Or start manually:
+```bash
+/mnt/c/Windows/System32/cmd.exe /c "python //wsl.localhost/Ubuntu/home/$USER/.openclaw/workspace/skills/wincontrol/server.py" &
+
+# Verify
+curl http://localhost:8767/ping
+```
 
 ## Verify Installation
 
@@ -172,9 +164,6 @@ Common distro paths:
 
 ### Troubleshooting
 
-**Issue**: `powershell.exe not found`
-- Use full path: `/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe`
-
 **Issue**: Server starts but curl fails
 - Check if port 8767 is in use: `lsof -i :8767`
 - Kill existing process: `kill <PID>`
@@ -184,9 +173,16 @@ Common distro paths:
 - Check WSL distro name in `server.py` matches your setup
 
 **Issue**: Python module errors
-- Manually install deps:
+- Manually install deps on Windows:
 ```bash
-/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "pip install pywin32 pillow mss"
+/mnt/c/Windows/System32/cmd.exe /c "pip install pywin32 pillow mss"
+```
+
+**Issue**: Wrong distro name
+- Update `server.py` with your distro name:
+```python
+# Check your distro: grep ID= /etc/os-release
+FRAME_DIR = r'\\wsl.localhost\Ubuntu\tmp\wincontrol'  # or Debian, etc.
 ```
 
 ## How It Works
@@ -230,7 +226,7 @@ QUALITY = 90      # 1-100
 Or manually:
 ```bash
 # Kill Python process on Windows
-/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "Get-Process python | Where-Object {$_.CommandLine -like '*wincontrol*'} | Stop-Process -Force"
+/mnt/c/Windows/System32/cmd.exe /c "taskkill /F /FI \"IMAGENAME eq python.exe\" /FI \"WINDOWTITLE eq *wincontrol*\" 2>nul || taskkill /F /IM python.exe 2>nul"
 
 # Clean up frames
 rm -rf /tmp/wincontrol/*.jpg
