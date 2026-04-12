@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#58a6ff">
+    <link rel="manifest" href="manifest.json">
     <title>DrawNotes - Fast Drawing Notes</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -470,6 +472,15 @@
         
         // Initialize
         loadNotes();
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js', { scope: './' }).then((registration) => {
+                console.log('SW registered:', registration.scope);
+            }).catch((error) => {
+                console.error('SW registration failed:', error);
+            });
+        }
     </script>
 </body>
 </html>

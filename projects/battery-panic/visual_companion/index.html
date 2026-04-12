@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4ecca3">
+    <link rel="manifest" href="manifest.json">
     <title>Battery Panic - Pixel Art Styles</title>
     <style>
         * {
@@ -384,5 +386,14 @@
         <p><strong>Which style speaks to you?</strong></p>
         <p>Reply with A, B, C, or D to choose your pixel art direction.</p>
     </div>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js', { scope: './' }).then((registration) => {
+                console.log('SW registered:', registration.scope);
+            }).catch((error) => {
+                console.error('SW registration failed:', error);
+            });
+        }
+    </script>
 </body>
 </html>
