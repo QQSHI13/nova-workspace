@@ -1,0 +1,33 @@
+[submodule "projects/M5Timer"]
+	path = projects/M5Timer
+	url = git@github.com:QQSHI13/M5Timer.git
+[submodule "projects/QQSHI13"]
+	path = projects/QQSHI13
+	url = git@github.com:QQSHI13/QQSHI13.git
+[submodule "projects/QuickNotes"]
+	path = projects/QuickNotes
+	url = git@github.com:QQSHI13/quick-notes.git
+[submodule "projects/atoms3-rainbow"]
+	path = projects/atoms3-rainbow
+	url = https://github.com/QQSHI13/atoms3-rainbow.git
+[submodule "projects/collaboard"]
+	path = projects/collaboard
+	url = https://github.com/QQSHI13/collaboard.git
+[submodule "projects/droptransfer"]
+	path = projects/droptransfer
+	url = git@github.com:QQSHI13/droptransfer.git
+[submodule "projects/flow"]
+	path = projects/flow
+	url = https://github.com/QQSHI13/flow.git
+[submodule "projects/lifelab"]
+	path = projects/lifelab
+	url = https://github.com/QQSHI13/lifelab.git
+[submodule "projects/homepage"]
+	path = projects/homepage
+	url = git@github.com:QQSHI13/qqshi13.github.io.git
+[submodule "projects/notes"]
+	path = projects/notes
+	url = git@github.com:QQSHI13/notes.git
+[submodule "projects/tools-suite"]
+	path = projects/tools-suite
+	url = git@github.com:QQSHI13/tools-suite.git
