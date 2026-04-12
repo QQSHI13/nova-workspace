@@ -20,6 +20,10 @@
     "playwright-scraper-skill": {
       "version": "1.2.0",
       "installedAt": 1774013524999
+    },
+    "wincontrol": {
+      "version": "1.4.1",
+      "installedAt": 1775953019299
     }
   }
 }

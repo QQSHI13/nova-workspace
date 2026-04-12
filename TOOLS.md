@@ -267,7 +267,9 @@ openclaw cron update <job-id> --patch '{"sessionKey":"agent:main:main"}'
 
 Full desktop control for AI automation. Display and actions are separated for clean operation.
 
-**Location:** `projects/win-control/`
+**Location:** `skills/wincontrol/` (NOT projects/)
+
+**Note:** Server runs on Windows Python, workspace is in WSL. Path compatibility issues exist — needs manual start from Windows side or WSL path fixes.
 
 **Architecture:**
 - **Port 8766**: Display (view desktop in browser)
