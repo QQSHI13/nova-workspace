@@ -21,22 +21,17 @@ Active repositories:
 |---------|-------------|--------|
 | `QQSHI13/` | GitHub profile README | ✅ Active |
 | `QQSHI13.github.io/` | Main GitHub Pages site | ✅ Active |
+| `atoms3-rainbow/` | RGB LED demo for AtomS3 Lite | ✅ Complete |
 | `battery-panic/` | "1%" game project | 🔄 In Progress |
 | `collaboard/` | Collaborative whiteboard | ✅ Active |
 | `droptransfer/` | P2P file transfer | ✅ Active |
 | `flow/` | Pomodoro timer + clock | ✅ Active |
 | `lifelab/` | Conway's Game of Life | ✅ Active |
 | `M5Timer/` | Hardware Pomodoro timer | ✅ **Complete** |
-| `nova-site/` | Nova's personal site | ✅ Active |
+| `notes/` | Personal notes repo | ✅ Active |
+| `QuickNotes/` | Windows Command Palette extension | ✅ **Published** |
+| `skylight-mod/` | Minecraft Fabric photography mod | 🔄 In Progress |
 | `tools-suite/` | Unified web tools collection | ✅ Active |
-| `weixia-sdk/` | TypeScript SDK for Weixia | 🔄 In Progress |
-| `weixia-sdk-python/` | Python SDK for Weixia | 🔄 In Progress |
-
-**Archived/Merged:**
-- `homepage/` → Legacy (archived)
-- `quick-notes/` → Abandoned (Tauri version)
-- `time/` → Merged into flow
-- `esp32-button/` → Evolved into M5Timer
 
 ### Memory (`/memory/`)
 

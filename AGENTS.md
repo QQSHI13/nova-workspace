@@ -237,7 +237,6 @@ Things like:
 
 | File | Purpose |
 |------|---------|
-| `.editorconfig` | Editor formatting rules (UTF-8, LF, indent sizes) |
 | `TOOLS.md` | Environment-specific tool configurations |
 
 ### Why Separate?
