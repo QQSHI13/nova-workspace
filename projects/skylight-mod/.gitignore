@@ -1,0 +1,20 @@
+# Java
+.gradle/
+build/
+run/
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# OS
+.DS_Store
+Thumbs.db
+*.Zone.Identifier
+
+# Minecraft modding
+*.jar
+!gradle/wrapper/gradle-wrapper.jar

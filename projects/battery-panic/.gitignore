@@ -1,0 +1,19 @@
+# Godot
+.godot/
+*.tmp
+*.import
+
+# Builds
+builds/
+export.cfg
+export_presets.cfg
+
+# OS
+.DS_Store
+Thumbs.db
+*.Zone.Identifier
+
+# IDE
+.vscode/
+.idea/
+*.swp
