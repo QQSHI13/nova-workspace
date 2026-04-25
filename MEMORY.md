@@ -153,3 +153,17 @@
   - 笔试已于昨日完成（45题，提前36分钟）
 
 *Last updated: 2026-04-11 18:30 by Nova ☄️*
+
+## Promoted From Short-Term Memory (2026-04-24)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-04-19.md:35:35 -->
+- Full day of fixing homepage issues and standardizing PWA service workers across all web projects. [score=0.822 recalls=0 avg=0.620 source=memory/2026-04-19.md:35-35]
+<!-- openclaw-memory-promotion:memory:memory/2026-04-19.md:49:49 -->
+- Updated all web projects to use consistent network-first strategy: [score=0.822 recalls=0 avg=0.620 source=memory/2026-04-19.md:49-49]
+
+## Promoted From Short-Term Memory (2026-04-25)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-04-20.md:411:411 -->
+- **System Configuration Updates:** [score=0.879 recalls=0 avg=0.620 source=memory/2026-04-20.md:411-411]
+<!-- openclaw-memory-promotion:memory:memory/2026-04-20.md:418:418 -->
+- **Kimi Tools Verified Working:** [score=0.879 recalls=0 avg=0.620 source=memory/2026-04-20.md:418-418]

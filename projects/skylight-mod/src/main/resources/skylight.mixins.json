@@ -10,8 +10,13 @@
   ],
   "client": [
     "ClientJoinMixin",
+    "ClientWorldMixin",
     "InGameHudMixin",
-    "SoundSystemMixin"
+    "SoundSystemMixin",
+    "CameraMixin",
+    "GameRendererMixin",
+    "TimePauseMixin",
+    "MouseMixin"
   ],
   "injectors": {
     "defaultRequire": 1

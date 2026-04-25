@@ -118,9 +118,32 @@ message({
 
 **Policy:** Relay ALL notifications (GitHub, cron reminders, alerts) via WeChat summary.
 
-**⚠️ WARNING:** Use SSH keys instead (`ssh-keygen` + `ssh-copy-id`). This is only for emergency/backup.
+## SSH into Windows ✅ (Configured 2026-04-25)
 
-**Steps:**
+**Status**: Key-based auth working, PTY supported
+
+```bash
+# From WSL
+ssh Lenovo@127.0.0.1          # Interactive shell
+ssh Lenovo@127.0.0.1 "whoami"   # One-shot command
+ssh -t Lenovo@127.0.0.1        # Force PTY allocation
+```
+
+**Key location**: `~/.ssh/id_ed25519.pub` (copied to Windows authorized_keys)
+**Config**: `C:\ProgramData\ssh\sshd_config`
+**Fix applied**: Commented out admin-only key requirement so regular `~/.ssh/authorized_keys` works
+
+**Usage for Windows builds**:
+```bash
+# Build a C# project via SSH
+ssh Lenovo@127.0.0.1 "cd C:\\Users\\Lenovo\\Desktop\\QuickNotes-backup-* && dotnet build"
+```
+
+---
+
+## SSH into Windows (Legacy Manual Setup)
+
+**Setup:**
 1. Start SSH with PTY:
    ```javascript
    exec({ command: "ssh user@host", pty: true })
@@ -131,33 +154,23 @@ message({
    process({ action: "write", sessionId: "<session-id>", data: "password\n" })
    ```
 
-3. Interact with the session via `process poll` and `process write`
-
-4. **IMPORTANT:** Clean history afterwards:
-   ```bash
-   history -c && > ~/.bash_history
+3. Poll for output:
+   ```javascript
+   process({ action: "poll", sessionId: "<session-id>" })
    ```
 
-**Example (192.168.1.140):**
-```javascript
-// Step 1: Connect
-exec({ command: "ssh lenovo@192.168.1.140", pty: true })
+4. Execute commands:
+   ```javascript
+   process({ action: "write", sessionId: "<session-id>", data: "whoami\n" })
+   ```
 
-// Step 2: Wait for password prompt, then send password
-process({ action: "write", sessionId: "mellow-daisy", data: "Chrace1985Sun!\n" })
+5. Exit:
+   ```javascript
+   process({ action: "write", sessionId: "<session-id>", data: "exit\n" })
+   process({ action: "kill", sessionId: "<session-id>" })
+   ```
 
-// Step 3: Poll for output
-process({ action: "poll", sessionId: "mellow-daisy" })
-
-// Step 4: Execute commands
-process({ action: "write", sessionId: "mellow-daisy", data: "whoami\n" })
-
-// Step 5: Exit
-process({ action: "write", sessionId: "mellow-daisy", data: "exit\n" })
-
-// Step 6: Kill session
-process({ action: "kill", sessionId: "mellow-daisy" })
-```
+**Note:** Use SSH keys instead (`ssh-keygen` + `ssh-copy-id`). This is only for emergency/backup.
 
 ## Why Separate?
 
