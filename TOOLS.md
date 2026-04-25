@@ -131,7 +131,7 @@ ssh -t Lenovo@127.0.0.1        # Force PTY allocation
 
 **Key location**: `~/.ssh/id_ed25519.pub` (copied to Windows authorized_keys)
 **Config**: `C:\ProgramData\ssh\sshd_config`
-**Fix applied**: Commented out admin-only key requirement so regular `~/.ssh/authorized_keys` works
+**Note**: Regular `~/.ssh/authorized_keys` works for non-admin users; admin users also need `C:\ProgramData\ssh\administrators_authorized_keys`
 
 **Usage for Windows builds**:
 ```bash

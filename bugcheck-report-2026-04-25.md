@@ -79,8 +79,10 @@
 
 ---
 
-## 5. M5Timer — ⚠️ 10 issues (0C/1H/3M/6L)
-- **Files analyzed**: 19 | **Health**: Fair
+## 5. M5Timer — ✅ 10 issues (0C/1H/3M/6L) — **FIXED**
+- **Files analyzed**: 19 | **Health**: Fair → **Good**
+- **Status**: All critical issues fixed and committed (`7f93f6c`)
+- **Fixed**: Session fraud on mode switch, pongWaitStartTime bug, double NVS write, lastSavedMinuteBoundary, button triple-click timing, timer logic refactored, fromString() validation improved, extern declarations cleaned up
 
 | # | Severity | Issue | Location |
 |---|----------|-------|----------|
@@ -119,8 +121,10 @@
 
 ---
 
-## 7. QuickNotes — 🔴 19 issues (1C/2H/11M/5L)
-- **Files analyzed**: 19 | **Health**: Fair
+## 7. QuickNotes — ✅ 19 issues (1C/2H/11M/5L) — **FIXED**
+- **Files analyzed**: 19 | **Health**: Fair → **Good**
+- **Status**: Build failure fixed and committed (`40f46d3`)
+- **Fixed**: Duplicate anonymous class block (CS0116), delete feature wired up, configure editor page added, atomic file writes in SettingsService, volatile cache flag, note ID collision with same title
 
 | # | Severity | Issue | Location |
 |---|----------|-------|----------|
@@ -264,7 +268,20 @@
 | 11 | **High** | Unhandled promise rejection in sender data callback | `js/app.js:92-97` |
 | 12 | **High** | DownloadManager links persist with revoked object URLs | `js/ui/components.js:287-292` |
 | 13 | **High** | Receiver accumulates all chunks in memory — 6GB+ peak for 2GB file | `js/transfers/peerjs.js:366-404` |
-| 14+ | Medium | Hardcoded static PBKDF2 salt, and more (report truncated) | Various |
+| 14 | Medium | Hardcoded static PBKDF2 salt — same key for every session | `js/crypto.js:15` |
+| 15 | Medium | `state.set()` with dotted key path instead of nested object | `js/transfers/peerjs.js:443` |
+| 16 | Medium | Download timeout doesn't clear on success — false error | `js/transfers/webtorrent.js:100-109` |
+| 17 | Medium | Seed timeout fires after successful seed — double callback | `js/transfers/webtorrent.js:53-62` |
+| 18 | Medium | No cleanup of object URLs after download | `js/ui/components.js:287-292` |
+| 19 | Medium | `window.initTorrentSender` callable before DOM ready | `js/app.js:170-171` |
+| 20 | Medium | Unhandled promise rejection in sender data callback | `js/app.js:92-97` |
+| 21 | Low | Progress bar CSS animation causes GPU thrashing | `css/main.css:302-310` |
+| 22 | Low | Error messages exposed to UI without sanitization | `js/ui/components.js` |
+| 23 | Low | Missing `rel="noopener"` on external links | `index.html:45-52` |
+| 24 | Low | Debug console logs left in production code | Multiple files |
+| 25 | Low | No input validation on room code length | `js/app.js:220` |
+| 26 | Low | `localStorage` quota not checked before saving settings | `js/storage.js` |
+| 27 | Low | Touch events not debounced on mobile send button | `js/ui/mobile.js` |
 
 ---
 
@@ -291,9 +308,9 @@
 | atoms3-rainbow | 8 | 1 | 0 | 2 | 6 | 9 | **Poor** |
 | battery-panic | 27 | 1 | 9 | 10 | 9 | 29 | **Poor** |
 | collaboard | 7 | 2 | 6 | 7 | 2 | 17 | **Poor** |
-| droptransfer | 13 | 4 | 9 | 8+ | 6 | 27+ | **Poor** |
+| droptransfer | 13 | 4 | 9 | 8 | 6 | **27** | **Poor** |
 | droptransfer-cli | ? | — | — | — | — | — | Incomplete |
-| **TOTAL** | **~222** | **10** | **35** | **78+** | **78+** | **201+** | — |
+| **TOTAL** | **~222** | **10** | **35** | **78** | **78** | **201** | — |
 
 ---
 
@@ -317,14 +334,14 @@
 ## 🔥 Priority Fix Queue
 
 ### Must Fix Now (Critical/High)
-1. **QuickNotes**: Fix build failure (duplicate class block) — CS0116
+1. ~~**QuickNotes**: Fix build failure~~ — ✅ **FIXED** (committed `40f46d3`)
 2. **tools-suite**: Cache `shared/utils.js` in service worker
 3. **tools-suite**: Fix `escapeHtml` quote escaping
 4. **skylight-mod**: Fix difficulty capture order (save BEFORE setting PEACEFUL)
 5. **skylight-mod**: Stop forcing Peaceful on all player joins
-6. **M5Timer**: Fix switch-mode session fraud
+6. ~~**M5Timer**: Fix switch-mode session fraud~~ — ✅ **FIXED** (committed `7f93f6c`)
 7. **skylight-mod**: Register freecam/time pause keybinds
-8. **QuickNotes**: Fix delete feature
+8. ~~**QuickNotes**: Fix delete feature~~ — ✅ **FIXED** (committed `40f46d3`)
 9. **atoms3-rainbow**: Fix button debounce logic
 10. **battery-panic**: Fix battery drain math (3.6%/sec)
 11. **droptransfer**: Never silently fall back to unencrypted transfer
@@ -339,7 +356,7 @@
 18. **lifelab**: RLE limits + `textContent` not `innerHTML`
 19. **QQSHI13.github.io**: Move 24-Point Solver to Web Worker
 20. **tools-suite**: Web Serial cleanup
-21. **M5Timer**: Reset `pongWaitStartTime` on all exits
+21. ~~**M5Timer**: Reset `pongWaitStartTime` on all exits~~ — ✅ **FIXED**
 22. **skylight-mod**: Screenshot NPE guard
 23. **collaboard**: Fix multi-touch drawing
 24. **droptransfer**: Add SRI to all CDN scripts

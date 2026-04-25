@@ -7,10 +7,10 @@
 ## Phase 1: Stabilize Old Projects 🩹
 *Fix critical/high bugs in already-shipped projects. No new features.*
 
-### 1.1 QuickNotes — BUILD FAILURE (Critical)
-- [ ] Remove duplicate anonymous class block (CS0116)
-- [ ] Fix delete feature (wire up `DeleteNoteCommand`)
-- [ ] Fix configure editor (show `EditorConfigurationPage`)
+### 1.1 QuickNotes — BUILD FAILURE (Critical) ✅ DONE
+- [x] Remove duplicate anonymous class block (CS0116)
+- [x] Fix delete feature (wire up `DeleteNoteCommand`)
+- [x] Fix configure editor (show `EditorConfigurationPage`)
 
 ### 1.2 tools-suite — Offline Broken + XSS
 - [ ] Cache `shared/utils.js` in root service worker
@@ -24,10 +24,10 @@
 - [ ] Add CSP meta tag
 - [ ] Fix manifest `start_url`
 
-### 1.4 M5Timer — Session Fraud
-- [ ] Fix switch-mode timeout path (don't increment `completedWorkSessions`)
-- [ ] Reset `pongWaitStartTime` on all SYNC exits
-- [ ] Remove redundant NVS write on expiry
+### 1.4 M5Timer — Session Fraud ✅ DONE
+- [x] Fix switch-mode timeout path (don't increment `completedWorkSessions`)
+- [x] Reset `pongWaitStartTime` on all SYNC exits
+- [x] Remove redundant NVS write on expiry
 
 ### 1.5 lifelab — XSS + Mobile
 - [ ] Replace `innerHTML` with `textContent` for RLE status
