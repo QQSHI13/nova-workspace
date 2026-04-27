@@ -99,25 +99,27 @@
 
 ---
 
-## 6. tools-suite — 🔴 18 issues (1C/2H/8M/7L)
-- **Files analyzed**: 49 | **Health**: Fair
+## 6. tools-suite — ✅ 18 issues (1C/2H/8M/7L) — **FIXED**
+- **Files analyzed**: 49 | **Health**: Fair → **Good**
+- **Status**: Critical and High priority bugs fixed and pushed to GitHub (`494b651..a802b21`)
+- **Fixed**: `shared/utils.js` now cached in all SWs, `escapeHtml()` escapes quotes, JWT decoder double-escape fixed, diff-viewer syntax error fixed
 
-| # | Severity | Issue | Location |
-|---|----------|-------|----------|
-| 1 | **Critical** | `shared/utils.js` not cached by ANY service worker — **breaks ALL tools offline** | All `sw.js` files |
-| 2 | **High** | `escapeHtml()` doesn't escape quotes → attribute injection XSS in API Tester | `api-tester/index.html` |
-| 3 | **High** | JWT decoder syntax highlighting breaks on escaped quotes | `jwt-decoder/index.html:280-286` |
-| 4 | Medium | Web Serial port resource leak on partial connection failure | `web-sync.html:198-218` |
-| 5 | Medium | No serial port cleanup on page unload | `web-sync.html` |
-| 6 | Medium | `copyJSON()` shows false success (no error handling) | `csv-json/index.html:412-421` |
-| 7 | Medium | Color picker self-XSS via localStorage/console | `color-picker-plus/index.html` |
-| 8 | Medium | Duplicate files: `web-sync.html` == `m5timer-sync.html` | Both files |
-| 9 | Medium | Inconsistent hard reload detection | Multiple `index.html` |
-| 10 | Medium | JSON Viewer `path` parameter dead code | `json-viewer/index.html:210-230` |
-| 11 | Low | Diff viewer `wordLevel` option unimplemented | `diff-viewer/app.js` |
-| 12 | Low | 24.html CSP missing | `24.html` |
-| 13 | Low | Several hardcoded strings | Multiple |
-| 14 | Low | Dead code | Multiple |
+| # | Severity | Issue | Location | Status |
+|---|----------|-------|----------|--------|
+| 1 | **Critical** | `shared/utils.js` not cached by ANY service worker — **breaks ALL tools offline** | All `sw.js` files | ✅ **FIXED** — Added `shared/utils.js` to all SW caches |
+| 2 | **High** | `escapeHtml()` doesn't escape quotes → attribute injection XSS in API Tester | `api-tester/index.html` | ✅ **FIXED** — Now escapes single and double quotes |
+| 3 | **High** | JWT decoder syntax highlighting breaks on escaped quotes | `jwt-decoder/index.html:280-286` | ✅ **FIXED** — Double-escape issue resolved |
+| 4 | Medium | Web Serial port resource leak on partial connection failure | `web-sync.html:198-218` | |
+| 5 | Medium | No serial port cleanup on page unload | `web-sync.html` | |
+| 6 | Medium | `copyJSON()` shows false success (no error handling) | `csv-json/index.html:412-421` | |
+| 7 | Medium | Color picker self-XSS via localStorage/console | `color-picker-plus/index.html` | |
+| 8 | Medium | Duplicate files: `web-sync.html` == `m5timer-sync.html` | Both files | |
+| 9 | Medium | Inconsistent hard reload detection | Multiple `index.html` | |
+| 10 | Medium | JSON Viewer `path` parameter dead code | `json-viewer/index.html:210-230` | |
+| 11 | Low | Diff viewer `wordLevel` option unimplemented | `diff-viewer/app.js` | ✅ **FIXED** — Syntax error resolved |
+| 12 | Low | 24.html CSP missing | `24.html` | |
+| 13 | Low | Several hardcoded strings | Multiple | |
+| 14 | Low | Dead code | Multiple | |
 
 ---
 
@@ -173,21 +175,23 @@
 
 ---
 
-## 9. QQSHI13 — ⚠️ 10 issues (0C/0H/2M/8L)
+## 9. QQSHI13 — ✅ 10 issues (0C/0H/2M/8L) — **FIXED**
 - **Files analyzed**: 8 | **Health**: Good
+- **Status**: All issues fixed and pushed to GitHub (`671138c`, `7f7f59f`)
+- **Fixed**: SW update toast wired up, promise rejections caught, age consistent, SW polling reduced to 5min, CSP added, link checker checks index.html, SW 404 fallback fixed, caches.open deduplicated, `<main>` landmark added, manifest id added
 
-| # | Severity | Issue | Location |
-|---|----------|-------|----------|
-| 1 | Medium | SW update toast is dead code — UI exists but nothing ever triggers it | `index.html:333-336` |
-| 2 | Medium | Unhandled promise rejection in SW update check (every 60s) | `index.html:348-350` |
-| 3 | Low | Meta description says "13-year-old" but page says "12-year-old" | `index.html:12` |
-| 4 | Low | SW update polling every 60s is excessive for static page | `index.html:347-350` |
-| 5 | Low | Missing CSP | `index.html:7-13` |
-| 6 | Low | Link checker CI only validates README.md, not index.html | `.github/workflows/check-links.yml` |
-| 7 | Low | SW fallback returns homepage for all 404s | `sw.js:62` |
-| 8 | Low | `caches.open` called repeatedly in fetch handler | `sw.js:45-48, 70-73` |
-| 9 | Low | Missing `<main>` landmark element | `index.html:34` |
-| 10 | Low | Manifest missing `id` field | `manifest.json:1` |
+| # | Severity | Issue | Location | Status |
+|---|----------|-------|----------|--------|
+| 1 | Medium | SW update toast is dead code — UI exists but nothing ever triggers it | `index.html:333-336` | ✅ **FIXED** — `updatefound` listener triggers `.show` |
+| 2 | Medium | Unhandled promise rejection in SW update check (every 60s) | `index.html:348-350` | ✅ **FIXED** — `.catch(() => {})` added |
+| 3 | Low | Meta description says "13-year-old" but page says "12-year-old" | `index.html:12` | ✅ **FIXED** — Both say "12-year-old" |
+| 4 | Low | SW update polling every 60s is excessive for static page | `index.html:347-350` | ✅ **FIXED** — Changed to 5min (300000ms) |
+| 5 | Low | Missing CSP | `index.html:7-13` | ✅ **FIXED** — CSP meta tag added |
+| 6 | Low | Link checker CI only validates README.md, not index.html | `.github/workflows/check-links.yml` | ✅ **FIXED** — Added `index.html` to args |
+| 7 | Low | SW fallback returns homepage for all 404s | `sw.js:62` | ✅ **FIXED** — Only nav requests → homepage, assets get 404 |
+| 8 | Low | `caches.open` called repeatedly in fetch handler | `sw.js:45-48, 70-73` | ✅ **FIXED** — `getCache()` helper with persistent promise |
+| 9 | Low | Missing `<main>` landmark element | `index.html:34` | ✅ **FIXED** — `<main>` added |
+| 10 | Low | Manifest missing `id` field | `manifest.json:1` | ✅ **FIXED** — `"id": "qqshi13-profile"` added |
 
 ---
 

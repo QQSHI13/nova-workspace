@@ -167,3 +167,15 @@
 - **System Configuration Updates:** [score=0.879 recalls=0 avg=0.620 source=memory/2026-04-20.md:411-411]
 <!-- openclaw-memory-promotion:memory:memory/2026-04-20.md:418:418 -->
 - **Kimi Tools Verified Working:** [score=0.879 recalls=0 avg=0.620 source=memory/2026-04-20.md:418-418]
+
+## Promoted From Short-Term Memory (2026-04-26)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-04-20.md:423:423 -->
+- All Kimi integrations operational. Gateway restarted to apply changes. [score=0.874 recalls=0 avg=0.620 source=memory/2026-04-20.md:423-423]
+<!-- openclaw-memory-promotion:memory:memory/2026-04-19.md:56:56 -->
+- All now use: Network-first for HTML pages, cache-first for assets, with proper offline fallbacks. [score=0.855 recalls=0 avg=0.620 source=memory/2026-04-19.md:56-56]
+
+## Promoted From Short-Term Memory (2026-04-27)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-04-20.md:404:406 -->
+- - Candidate: Possible Lasting Truths: 12:24-12:51 - Session Recovery: AI专属钱包大作业: **Date**: 2026-04-06 (Monday evening); **Provider**: control-ui [confidence=0.58 evidence=memory/2026-04-08.md:8-9]; 12:24-12:51 - Session Recovery: AI专属钱包大作业: **Recovered Session**: `~/.openclaw/agents/main/sess - confidence: 0.62 - evidence: memory/2026-04-19.md:28-30 [score=0.875 recalls=0 avg=0.620 source=memory/2026-04-20.md:188-190]
