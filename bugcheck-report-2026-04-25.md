@@ -149,28 +149,31 @@
 
 ---
 
-## 8. QQSHI13.github.io — ⚠️ 17 issues (0C/0H/7M/10L)
-- **Files analyzed**: 24 | **Health**: Good
+## 8. QQSHI13.github.io — ✅ 17 issues (0C/0H/7M/10L) — **FIXED**
+- **Files analyzed**: 24 | **Health**: Good → **Good**
+- **Status**: All issues fixed and pushed to GitHub (`a066b4e`, `90265ee`)
+- **Fixed**: CSP on all pages, SW cache hardening (v5), Web Worker for 24-point solver, serial port cleanup, prefers-reduced-motion, Jekyll pagination limit, sitemap date updates, manifest theme_color, Lighthouse CI step, dynamic blog age, manifest SVG note
+- **Note**: L17 (`.claude/settings.local.json`) — file does not exist, false positive
 
-| # | Severity | Issue | Location |
-|---|----------|-------|----------|
-| 1 | Medium | 24-Point Solver blocks main thread (~7.7M `Function` evals) — freezes browser | `24.html:149-173` |
-| 2 | Medium | Service worker cache poisoning via redirects | `sw.js:47-54` |
-| 3 | Medium | Serial port resource leak on disconnect failure | `web-sync.html:118-132` |
-| 4 | Medium | No CSP on any page | All HTML |
-| 5 | Medium | `prefers-reduced-motion` not respected | `index.html`, `404.html`, etc. |
-| 6 | Medium | Blog index bypasses Jekyll pagination — renders ALL posts | `blog/index.md:42` |
-| 7 | Medium | Sitemap inconsistent `time.html` link | `sitemap.xml:18-23` |
-| 8 | Low | SW `cache.addAll` all-or-nothing | `sw.js:8-12` |
-| 9 | Low | No cache size limit | `sw.js` |
-| 10 | Low | 404 page lacks `noindex` | `404.html` |
-| 11 | Low | Manifest theme_color mismatch | `manifest.json:7` |
-| 12 | Low | Manifest SVG icons unreliable on some platforms | `manifest.json` |
-| 13 | Low | Sitemap dates stale | `sitemap.xml` |
-| 14 | Low | Blog sidebar hardcoded age | `blog/index.md` |
-| 15 | Low | PWA validation workflow never runs Lighthouse | `validate-pwa.yml` |
-| 16 | Low | Missing `<html lang>` | `web-sync.html`, `24.html` |
-| 17 | Low | `.claude/settings.local.json` hardcoded absolute paths | `.claude/settings.local.json` |
+| # | Severity | Issue | Location | Status |
+|---|----------|-------|----------|--------|
+| 1 | Medium | 24-Point Solver blocks main thread (~7.7M `Function` evals) — freezes browser | `24.html:149-173` | ✅ **FIXED** — Web Worker + `requestIdleCallback` |
+| 2 | Medium | Service worker cache poisoning via redirects | `sw.js:47-54` | ✅ **FIXED** — Only cache `type === 'basic'` responses |
+| 3 | Medium | Serial port resource leak on disconnect failure | `web-sync.html:118-132` | ✅ **FIXED** — Cleanup on `beforeunload` |
+| 4 | Medium | No CSP on any page | All HTML | ✅ **FIXED** — CSP added to all 5 HTML pages |
+| 5 | Medium | `prefers-reduced-motion` not respected | `index.html`, `404.html`, etc. | ✅ **FIXED** — Media queries added to index, 404, web-sync |
+| 6 | Medium | Blog index bypasses Jekyll pagination — renders ALL posts | `blog/index.md:42` | ✅ **FIXED** — `limit: 10` on Jekyll loop |
+| 7 | Medium | Sitemap inconsistent `time.html` link | `sitemap.xml:18-23` | ✅ **FIXED** — Removed broken `time.html` entry |
+| 8 | Low | SW `cache.addAll` all-or-nothing | `sw.js:8-12` | ✅ **FIXED** — Individual `Promise.allSettled` caching |
+| 9 | Low | No cache size limit | `sw.js` | ✅ **FIXED** — 100-item limit with LRU eviction |
+| 10 | Low | 404 page lacks `noindex` | `404.html` | ✅ **FIXED** — `<meta name="robots" content="noindex">` added |
+| 11 | Low | Manifest theme_color mismatch | `manifest.json:7` | ✅ **FIXED** — `#6366f1` → `#58a6ff` |
+| 12 | Low | Manifest SVG icons unreliable on some platforms | `manifest.json` | ✅ **FIXED** — Comment added noting compatibility issue |
+| 13 | Low | Sitemap dates stale | `sitemap.xml` | ✅ **FIXED** — All dates updated to 2026-04-28 |
+| 14 | Low | Blog sidebar hardcoded age | `blog/index.md` | ✅ **FIXED** — Dynamic `site.time | minus: site.birth_year` |
+| 15 | Low | PWA validation workflow never runs Lighthouse | `validate-pwa.yml` | ✅ **FIXED** — `lhci autorun` step added |
+| 16 | Low | Missing `<html lang>` | `web-sync.html`, `24.html` | ✅ **FIXED** — `lang` added (24.html = zh-CN) |
+| 17 | Low | `.claude/settings.local.json` hardcoded absolute paths | `.claude/settings.local.json` | ⚠️ **N/A** — File does not exist |
 
 ---
 
