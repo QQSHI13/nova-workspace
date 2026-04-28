@@ -79,10 +79,9 @@
 
 ---
 
-## 5. M5Timer — ✅ 10 issues (0C/1H/3M/6L) — **FIXED**
-- **Files analyzed**: 19 | **Health**: Fair → **Good**
-- **Status**: All critical issues fixed and committed (`7f93f6c`)
-- **Fixed**: Session fraud on mode switch, pongWaitStartTime bug, double NVS write, lastSavedMinuteBoundary, button triple-click timing, timer logic refactored, fromString() validation improved, extern declarations cleaned up
+## 5. M5Timer — 🔴 10 issues (0C/1H/3M/6L)
+- **Files analyzed**: 19 | **Health**: Fair
+- **Status**: NOT FIXED — Issues identified but not yet addressed
 
 | # | Severity | Issue | Location |
 |---|----------|-------|----------|
