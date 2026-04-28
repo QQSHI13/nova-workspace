@@ -303,20 +303,20 @@
 | Project | Files | Critical | High | Medium | Low | Total | Health |
 |---------|-------|----------|------|--------|-----|-------|--------|
 | notes | 2 | 0 | 0 | 0 | 0 | 0 | N/A |
-| flow | 9 | 0 | 0 | 4 | 9 | 13 | Good |
-| lifelab | 13 | 0 | 0 | 7 | 5 | 12 | Good |
-| skylight-mod | 24 | 0 | 4 | 8 | 6 | 18 | Fair |
-| M5Timer | 19 | 0 | 1 | 3 | 6 | 10 | Fair |
-| tools-suite | 49 | 1 | 2 | 8 | 7 | 18 | Fair |
-| QuickNotes | 19 | 1 | 2 | 11 | 5 | 19 | Fair |
-| QQSHI13.github.io | 24 | 0 | 0 | 7 | 10 | 17 | Good |
-| QQSHI13 | 8 | 0 | 0 | 2 | 8 | 10 | Good |
-| atoms3-rainbow | 8 | 1 | 0 | 2 | 6 | 9 | **Poor** |
-| battery-panic | 27 | 1 | 9 | 10 | 9 | 29 | **Poor** |
-| collaboard | 7 | 2 | 6 | 7 | 2 | 17 | **Poor** |
-| droptransfer | 13 | 4 | 9 | 8 | 6 | **27** | **Poor** |
+| **flow** | 9 | 0 | 0 | 4 | 9 | **13** | Good |
+| **lifelab** | 13 | 0 | 0 | 7 | 5 | **12** | Good |
+| **skylight-mod** | 24 | 0 | 4 | 8 | 6 | **18** | Fair |
+| **M5Timer** | 19 | 0 | 1 | 3 | 6 | **10** | Fair |
+| **tools-suite** | 49 | 1 | 2 | 8 | 7 | **18** | Fair |
+| **QuickNotes** | 19 | 1 | 2 | 11 | 5 | **19** | Fair |
+| QQSHI13.github.io | 24 | 0 | 0 | 0 | 0 | **0** | ✅ **FIXED** |
+| QQSHI13 | 8 | 0 | 0 | 0 | 0 | **0** | ✅ **FIXED** |
+| **atoms3-rainbow** | 8 | 1 | 0 | 2 | 6 | **9** | **Poor** |
+| **battery-panic** | 27 | 1 | 9 | 10 | 9 | **29** | **Poor** |
+| **collaboard** | 7 | 2 | 6 | 7 | 2 | **17** | **Poor** |
+| **droptransfer** | 13 | 4 | 9 | 8 | 6 | **27** | **Poor** |
 | droptransfer-cli | ? | — | — | — | — | — | Incomplete |
-| **TOTAL** | **~222** | **10** | **35** | **78** | **78** | **201** | — |
+| **TOTAL** | **~222** | **10** | **35** | **78** | **78** | **~184** | — |
 
 ---
 
@@ -341,11 +341,11 @@
 
 ### Must Fix Now (Critical/High)
 1. ~~**QuickNotes**: Fix build failure~~ — ✅ **FIXED** (committed `40f46d3`)
-2. **tools-suite**: Cache `shared/utils.js` in service worker
-3. **tools-suite**: Fix `escapeHtml` quote escaping
+2. ~~**tools-suite**: Cache `shared/utils.js` in service worker~~ — ✅ **FIXED** (`494b651..a802b21`)
+3. ~~**tools-suite**: Fix `escapeHtml` quote escaping~~ — ✅ **FIXED** (`494b651..a802b21`)
 4. **skylight-mod**: Fix difficulty capture order (save BEFORE setting PEACEFUL)
 5. **skylight-mod**: Stop forcing Peaceful on all player joins
-6. ~~**M5Timer**: Fix switch-mode session fraud~~ — ✅ **FIXED** (committed `7f93f6c`)
+6. **M5Timer**: Fix switch-mode session fraud — ❌ **NOT FIXED**
 7. **skylight-mod**: Register freecam/time pause keybinds
 8. ~~**QuickNotes**: Fix delete feature~~ — ✅ **FIXED** (committed `40f46d3`)
 9. **atoms3-rainbow**: Fix button debounce logic
@@ -360,13 +360,13 @@
 ### Should Fix Soon (Medium)
 17. **flow**: `??` instead of `||` for `timeLeft`
 18. **lifelab**: RLE limits + `textContent` not `innerHTML`
-19. **QQSHI13.github.io**: Move 24-Point Solver to Web Worker
+19. ~~**QQSHI13.github.io**: Move 24-Point Solver to Web Worker~~ — ✅ **FIXED** (`a066b4e`)
 20. **tools-suite**: Web Serial cleanup
-21. ~~**M5Timer**: Reset `pongWaitStartTime` on all exits~~ — ✅ **FIXED**
+21. **M5Timer**: Reset `pongWaitStartTime` on all exits — ❌ **NOT FIXED**
 22. **skylight-mod**: Screenshot NPE guard
 23. **collaboard**: Fix multi-touch drawing
 24. **droptransfer**: Add SRI to all CDN scripts
 
 ---
 
-*Report compiled by Nova ☄️ — 2026-04-25*
+*Report compiled by Nova ☄️ — 2026-04-25 | Last updated: 2026-04-28*
